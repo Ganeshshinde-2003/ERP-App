@@ -39,7 +39,7 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
         else
           {
             showSnackBar(
-              content: "Enter Username ID",
+              content: "Enter User ID",
               context: context,
             )
           }
