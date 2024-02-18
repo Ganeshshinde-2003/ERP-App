@@ -17,20 +17,23 @@ class QueryContactInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: pad),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(headText, style: AppTextStyles.heading2),
-          GestureDetector(
-            onTap: onTapContactAdmin,
-            child: Text(
-              discText,
-              style: AppTextStyles.highlightedText,
+    return GestureDetector(
+      onTap: onTapContactAdmin,
+      child: Padding(
+        padding: EdgeInsets.only(top: pad),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(headText, style: AppTextStyles.heading2),
+            GestureDetector(
+              onTap: onTapContactAdmin,
+              child: Text(
+                discText,
+                style: AppTextStyles.highlightedText,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

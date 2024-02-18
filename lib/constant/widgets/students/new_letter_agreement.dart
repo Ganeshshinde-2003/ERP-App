@@ -1,6 +1,7 @@
 import 'package:erp_app/features/common/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 class NewsletterAgreementWidget extends StatelessWidget {
   final bool newsletterAgreed;
@@ -65,8 +66,14 @@ class SignInButtonWidget extends StatelessWidget {
               onPressed: () async {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
-                    builder: (_) => const LoginPageScreen(role: "Student"),
+                  PageTransition(
+                    type: PageTransitionType.fade,
+                    alignment: Alignment.lerp(
+                      Alignment.centerLeft,
+                      Alignment.centerLeft,
+                      0.5,
+                    ),
+                    child: const LoginPageScreen(role: "Student"),
                   ),
                 );
               },

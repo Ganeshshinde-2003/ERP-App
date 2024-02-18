@@ -3,6 +3,7 @@ import 'package:erp_app/constant/widgets/custom_button.dart';
 import 'package:erp_app/constant/widgets/head_disc_widget.dart';
 import 'package:erp_app/constant/widgets/input_field.dart';
 import 'package:erp_app/constant/widgets/query_contact.dart';
+import 'package:erp_app/constant/widgets/snack_bar.dart';
 import 'package:flutter/material.dart';
 
 class LoginPageScreen extends StatefulWidget {
@@ -16,6 +17,33 @@ class LoginPageScreen extends StatefulWidget {
 class _LoginPageScreenState extends State<LoginPageScreen> {
   TextEditingController idController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  void singupHandle() => {
+        if (idController.text.trim().isNotEmpty)
+          {
+            if (passwordController.text.trim().isNotEmpty)
+              {
+                showSnackBar(
+                  content: "You have Entered All Deatils",
+                  context: context,
+                )
+              }
+            else
+              {
+                showSnackBar(
+                  content: "Enter Password",
+                  context: context,
+                )
+              }
+          }
+        else
+          {
+            showSnackBar(
+              content: "Enter Username ID",
+              context: context,
+            )
+          }
+      };
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +89,7 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
             Center(
               child: CustomButtonWidget(
                 buttonText: "Sign in",
-                onPressed: () => {},
+                onPressed: singupHandle,
                 isLoading: false,
               ),
             ),

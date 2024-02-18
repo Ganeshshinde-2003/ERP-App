@@ -15,20 +15,23 @@ class CustomButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 50,
-      width: 200,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25), color: Colors.black),
-      child: Padding(
-        padding:
-            const EdgeInsets.only(left: 35, right: 35, top: 10, bottom: 10),
-        child: isLoading
-            ? const Center(
-                child: CircularProgressIndicator(color: Colors.white))
-            : Center(
-                child: Text(buttonText, style: AppTextStyles.buttonText),
-              ),
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        height: 50,
+        width: 200,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25), color: Colors.black),
+        child: Padding(
+          padding:
+              const EdgeInsets.only(left: 35, right: 35, top: 10, bottom: 10),
+          child: isLoading
+              ? const Center(
+                  child: CircularProgressIndicator(color: Colors.white))
+              : Center(
+                  child: Text(buttonText, style: AppTextStyles.buttonText),
+                ),
+        ),
       ),
     );
   }
