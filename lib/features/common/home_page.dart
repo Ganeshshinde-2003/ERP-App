@@ -35,9 +35,12 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 ? ShimmerEffectWidget(
                     deviceWidth: deviceWidth,
                     deviceHeight: deviceHeight,
-                    isLoading: isLoading)
+                    isLoading: isLoading,
+                  )
                 : CustomCarouselSlider(
-                    deviceWidth: deviceWidth, deviceHeight: deviceHeight),
+                    deviceWidth: deviceWidth,
+                    deviceHeight: deviceHeight,
+                  ),
             SizedBox(
               height: deviceHeight * 0.275,
               width: deviceWidth,
