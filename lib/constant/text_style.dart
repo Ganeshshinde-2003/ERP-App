@@ -17,6 +17,7 @@ class AppTextStyles {
 
   static TextStyle get bodyText => GoogleFonts.nunito(
         fontSize: 16.0,
+        fontWeight: FontWeight.w500,
         color: Colors.black,
       );
 
@@ -28,6 +29,11 @@ class AppTextStyles {
   static TextStyle get buttonText => GoogleFonts.poppins(
         color: Colors.white,
         fontSize: 17,
+        fontWeight: FontWeight.w500,
+      );
+  static TextStyle get sliderText => GoogleFonts.poppins(
+        color: Colors.black,
+        fontSize: 10,
         fontWeight: FontWeight.w500,
       );
 }

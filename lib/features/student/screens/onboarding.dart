@@ -1,3 +1,4 @@
+import 'package:erp_app/constant/data/student_onboarding.dart';
 import 'package:erp_app/constant/widgets/students/new_letter_agreement.dart';
 import 'package:erp_app/constant/widgets/students/onboarding_view.dart';
 import 'package:flutter/material.dart';
@@ -23,32 +24,9 @@ class _StudentOnBoaringScreenState extends State<StudentOnBoaringScreen> {
     });
   }
 
-  List<String> heading = [
-    'Track Attendance',
-    'Track Van Anytime',
-    'AI Doubt Solving',
-    'Resources',
-    'And Other Features'
-  ];
-
-  List<String> headingdetails = [
-    'Real Time Attendance of your Child',
-    'See Where is van in real time map',
-    '24 hour AI doubt Solving for enhanced learning',
-    'All type of resources for complete learning',
-    'Many more features on your fingetips'
-  ];
-
-  final List<String> onboardingItems = [
-    'assets/on_track_attendance.png',
-    'assets/on_track_van.png',
-    'assets/on_ai.png',
-    'assets/on_resources.png',
-    'assets/on_other_features.png',
-  ];
-
   @override
   Widget build(BuildContext context) {
+    StudentOnBoardingData studentOnBoardingData = StudentOnBoardingData();
     var deviceWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -66,11 +44,21 @@ class _StudentOnBoaringScreenState extends State<StudentOnBoaringScreen> {
                   });
                 },
                 children: [
-                  OnboardingItem(imagePath: onboardingItems[0]),
-                  OnboardingItem(imagePath: onboardingItems[1]),
-                  OnboardingItem(imagePath: onboardingItems[2]),
-                  OnboardingItem(imagePath: onboardingItems[3]),
-                  OnboardingItem(imagePath: onboardingItems[4]),
+                  OnboardingItem(
+                    imagePath: studentOnBoardingData.onboardingItems[0],
+                  ),
+                  OnboardingItem(
+                    imagePath: studentOnBoardingData.onboardingItems[1],
+                  ),
+                  OnboardingItem(
+                    imagePath: studentOnBoardingData.onboardingItems[2],
+                  ),
+                  OnboardingItem(
+                    imagePath: studentOnBoardingData.onboardingItems[3],
+                  ),
+                  OnboardingItem(
+                    imagePath: studentOnBoardingData.onboardingItems[4],
+                  ),
                 ],
               ),
             ),
@@ -81,7 +69,7 @@ class _StudentOnBoaringScreenState extends State<StudentOnBoaringScreen> {
                 child: Column(
                   children: [
                     Text(
-                      heading[currentIndex],
+                      studentOnBoardingData.heading[currentIndex],
                       style: GoogleFonts.poppins(
                         fontSize: 22,
                         letterSpacing: 2,
@@ -95,7 +83,7 @@ class _StudentOnBoaringScreenState extends State<StudentOnBoaringScreen> {
                         top: 15,
                       ),
                       child: Text(
-                        headingdetails[currentIndex],
+                        studentOnBoardingData.headingdetails[currentIndex],
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
                             fontSize: 15,

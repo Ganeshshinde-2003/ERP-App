@@ -4,46 +4,52 @@ import 'package:erp_app/constant/widgets/head_disc_widget.dart';
 import 'package:erp_app/constant/widgets/input_field.dart';
 import 'package:erp_app/constant/widgets/query_contact.dart';
 import 'package:erp_app/constant/widgets/snack_bar.dart';
+import 'package:erp_app/features/student/controller/auth_controller.dart';
+import 'package:erp_app/features/teacher/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginPageScreen extends StatefulWidget {
+class LoginPageScreen extends ConsumerStatefulWidget {
   final String role;
   const LoginPageScreen({super.key, required this.role});
 
   @override
-  State<LoginPageScreen> createState() => _LoginPageScreenState();
+  ConsumerState<LoginPageScreen> createState() => _LoginPageScreenState();
 }
 
-class _LoginPageScreenState extends State<LoginPageScreen> {
+class _LoginPageScreenState extends ConsumerState<LoginPageScreen> {
   TextEditingController idController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  void singupHandle() => {
-        if (idController.text.trim().isNotEmpty)
-          {
-            if (passwordController.text.trim().isNotEmpty)
-              {
-                showSnackBar(
-                  content: "You have Entered All Deatils",
-                  context: context,
-                )
-              }
-            else
-              {
-                showSnackBar(
-                  content: "Enter Password",
-                  context: context,
-                )
-              }
-          }
-        else
-          {
-            showSnackBar(
-              content: "Enter User ID",
-              context: context,
-            )
-          }
-      };
+  void loginWithUserNameandPassword(String userId, String password) {
+    widget.role == "Student"
+        ? ref
+            .read(loginStudentControllerProvider)
+            .loginStudentWithUserNamePassword(context, userId, password)
+        : ref
+            .read(loginTeahcerControllerProvider)
+            .loginTeacherWithUserNamePassword(context, userId, password);
+  }
+
+  void singupHandle() {
+    String userId = idController.text.trim();
+    String password = passwordController.text.trim();
+    if (userId.isNotEmpty) {
+      if (password.isNotEmpty) {
+        loginWithUserNameandPassword(userId, password);
+      } else {
+        showSnackBar(
+          content: "Enter Password",
+          context: context,
+        );
+      }
+    } else {
+      showSnackBar(
+        content: "Enter User ID",
+        context: context,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
