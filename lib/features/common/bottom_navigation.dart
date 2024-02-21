@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 import 'package:erp_app/constant/widgets/app_bar.dart';
 import 'package:erp_app/features/common/home_page.dart';
+import 'package:erp_app/features/teacher/screens/notice_page.dart';
+import 'package:erp_app/features/teacher/screens/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,8 +20,8 @@ class _FrameState extends State<Frame> {
 
   final List<Widget> _pages = [
     const HomePageScreen(),
-    const Text("NoticePage"),
-    const Text("ProfilePage"),
+    const NoticePageScreen(),
+    const ProfilePageScreen(),
   ];
 
   void _navigateBottomBar(int index) {
