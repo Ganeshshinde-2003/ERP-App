@@ -17,7 +17,10 @@ class LoginStudentController {
   });
 
   void loginStudentWithUserNamePassword(
-      BuildContext context, String userId, String password) {
+    BuildContext context,
+    String userId,
+    String password,
+  ) {
     loginStudent.loginStudentWithUsername(
       userId: userId,
       password: password,
