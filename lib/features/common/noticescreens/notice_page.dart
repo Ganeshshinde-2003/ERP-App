@@ -1,5 +1,5 @@
 import 'package:erp_app/constant/widgets/teacher/notice_list.dart';
-import 'package:erp_app/features/teacher/screens/notice_details.dart';
+import 'package:erp_app/features/common/noticescreens/notice_details.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -11,16 +11,15 @@ class NoticePageScreen extends StatefulWidget {
 }
 
 class _NoticePageScreenState extends State<NoticePageScreen> {
-  // Dummy data
   final List<Notice> notices = [
     Notice(
-      subject: 'Important Notice 1',
+      subject: 'Important Notice fdsafdsafdsaf1',
       desc: 'This is the description for notice 1.',
       date: '2022-01-01',
       time: '10:00 AM',
     ),
     Notice(
-      subject: 'Important Notice 2',
+      subject: 'Important Notice 2fdasfdafdasf',
       desc: 'This is the description for notice 2.',
       date: '2022-02-01',
       time: '12:00 PM',

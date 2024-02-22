@@ -3,7 +3,9 @@ import 'package:erp_app/constant/widgets/animated_logo.dart';
 import 'package:erp_app/constant/widgets/teacher/divider_widget.dart';
 import 'package:erp_app/constant/widgets/teacher/profile_widget.dart';
 import 'package:erp_app/constant/widgets/teacher/teacher_button.dart';
+import 'package:erp_app/features/common/landing_page.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class ProfilePageScreen extends StatefulWidget {
   const ProfilePageScreen({super.key});
@@ -49,7 +51,20 @@ class _ProfilePageScreenState extends State<ProfilePageScreen> {
           ReusableContactAdminWidget(
             buttonText: "Logout",
             imagePath: "assets/logout.png",
-            onPressed: () => {},
+            onPressed: () => {
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.fade,
+                  alignment: Alignment.lerp(
+                    Alignment.centerLeft,
+                    Alignment.centerLeft,
+                    0.5,
+                  ),
+                  child: const LandingPage(),
+                ),
+              )
+            },
           ),
           const DividerWidget(),
           const Spacer(), // Spacer takes remaining space

@@ -20,7 +20,9 @@ class LoginTeacher {
           Alignment.centerLeft,
           0.5,
         ),
-        child: const Frame(),
+        child: const Frame(
+          role: "Teacher",
+        ),
       ),
     );
   }

@@ -1,14 +1,16 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:erp_app/constant/widgets/app_bar.dart';
-import 'package:erp_app/features/common/home_page.dart';
-import 'package:erp_app/features/teacher/screens/notice_page.dart';
+import 'package:erp_app/features/student/screens/home_page.dart';
+import 'package:erp_app/features/teacher/screens/home_page.dart';
+import 'package:erp_app/features/common/noticescreens/notice_page.dart';
 import 'package:erp_app/features/teacher/screens/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Frame extends StatefulWidget {
-  const Frame({Key? key}) : super(key: key);
+  final String role;
+  const Frame({Key? key, required this.role}) : super(key: key);
 
   @override
   State<Frame> createState() => _FrameState();
@@ -18,8 +20,14 @@ class _FrameState extends State<Frame> {
   int _selectedIndex = 0;
   final PageController _pageController = PageController();
 
-  final List<Widget> _pages = [
+  final List<Widget> _teacherPages = [
     const HomePageScreen(),
+    const NoticePageScreen(),
+    const ProfilePageScreen(),
+  ];
+
+  final List<Widget> _studentPages = [
+    const StudentHomePageScreen(),
     const NoticePageScreen(),
     const ProfilePageScreen(),
   ];
@@ -112,7 +120,7 @@ class _FrameState extends State<Frame> {
         body: PageView(
           controller: _pageController,
           physics: const NeverScrollableScrollPhysics(),
-          children: _pages,
+          children: widget.role == "Teacher" ? _teacherPages : _studentPages,
         ),
         bottomNavigationBar: CustomBottomNavigationBar(
           selectedIndex: _selectedIndex,
