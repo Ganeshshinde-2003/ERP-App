@@ -22,4 +22,29 @@ class StudentOnBoardingData {
         'assets/on_resources.png',
         'assets/on_other_features.png',
       ];
+
+  List<String> get weekdays => [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday',
+      ];
+
+  List<String> get months => [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+      ];
 }
