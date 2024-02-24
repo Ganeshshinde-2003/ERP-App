@@ -62,20 +62,23 @@ class _FrameState extends State<Frame> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(false); // Close the dialog
+                Navigator.of(context).pop(false);
               },
               child: Container(
                 decoration: BoxDecoration(
-                    color: Colors.grey, borderRadius: BorderRadius.circular(8)),
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.circular(8),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.only(
                       left: 10, right: 10, top: 2, bottom: 2),
                   child: Text(
                     'No',
                     style: GoogleFonts.nunito(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700),
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),
@@ -86,11 +89,16 @@ class _FrameState extends State<Frame> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                    color: Colors.red.shade400,
-                    borderRadius: BorderRadius.circular(8)),
+                  color: Colors.red.shade400,
+                  borderRadius: BorderRadius.circular(8),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      left: 10, right: 10, top: 2, bottom: 2),
+                    left: 10,
+                    right: 10,
+                    top: 2,
+                    bottom: 2,
+                  ),
                   child: Text(
                     'Yes',
                     style: GoogleFonts.nunito(

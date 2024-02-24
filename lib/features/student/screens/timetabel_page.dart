@@ -100,7 +100,7 @@ class _StudentTimeTablePageScreenState extends State<StudentTimeTablePageScreen>
                           height: MediaQuery.of(context).size.height * 0.8,
                           width: MediaQuery.of(context).size.width * 0.9,
                           child: !isData
-                              ? NoDataFound(deviceHeight)
+                              ? NoDataFound(deviceHeight, "assets/no_data.json")
                               : const PeriodsListWidget(),
                         )
                 ],

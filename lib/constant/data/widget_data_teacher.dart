@@ -1,113 +1,174 @@
 import 'package:erp_app/constant/widgets/students/menu_widget.dart';
 import 'package:erp_app/constant/widgets/students/small_dashboard.dart';
+import 'package:erp_app/features/teacher/screens/put_attendance.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:page_transition/page_transition.dart';
 
 class WidgetData {
   late double deviceHeight;
   late double deviceWidth;
+  late BuildContext context;
 
-  WidgetData(BuildContext context) {
-    deviceHeight = MediaQuery.of(context).size.height;
-    deviceWidth = MediaQuery.of(context).size.width;
+  WidgetData(this.context)
+      : deviceHeight = MediaQuery.of(context).size.height,
+        deviceWidth = MediaQuery.of(context).size.width;
+
+  void openPage(Widget page) {
+    Navigator.push(
+      context,
+      PageTransition(
+        child: page,
+        type: PageTransitionType.fade,
+        alignment: Alignment.lerp(
+          Alignment.centerLeft,
+          Alignment.centerLeft,
+          0.5,
+        ),
+      ),
+    );
   }
 
   List<Widget> get menuItems => [
-        SmallDashboard(
-          'assets/small-dashboard-abstract5.png',
-          'assets/attendance.png',
-          deviceHeight,
-          'Put Attendance',
+        GestureDetector(
+          onTap: () => openPage(const TeacherPutAttendance()),
+          child: SmallDashboard(
+            'assets/small-dashboard-abstract5.png',
+            'assets/attendance.png',
+            deviceHeight,
+            'Put Attendance',
+          ),
         ),
-        SmallDashboard(
-          'assets/small-dashboard-abstract2.png',
-          'assets/schedule.png',
-          deviceHeight,
-          "Today's Classes",
+        GestureDetector(
+          onTap: () => openPage(const TeacherPutAttendance()),
+          child: SmallDashboard(
+            'assets/small-dashboard-abstract2.png',
+            'assets/schedule.png',
+            deviceHeight,
+            "Today's Classes",
+          ),
         ),
-        SmallDashboard(
-          'assets/small-dashboard-abstract4.png',
-          'assets/attendance.png',
-          deviceHeight,
-          'My Attendance',
+        GestureDetector(
+          onTap: () => openPage(const TeacherPutAttendance()),
+          child: SmallDashboard(
+            'assets/small-dashboard-abstract4.png',
+            'assets/attendance.png',
+            deviceHeight,
+            'My Attendance',
+          ),
         ),
-        SmallDashboard(
-          'assets/small-dashboard-abstract3.png',
-          'assets/grades.png',
-          deviceHeight,
-          'Upload Marks',
+        GestureDetector(
+          onTap: () => openPage(const TeacherPutAttendance()),
+          child: SmallDashboard(
+            'assets/small-dashboard-abstract3.png',
+            'assets/grades.png',
+            deviceHeight,
+            'Upload Marks',
+          ),
         ),
       ];
 
   List<Widget> get fullMenuItems => [
-        FullMenuWidget(
-          deviceHeight,
-          deviceWidth,
-          true,
-          'assets/homework-red.png',
-          'HomeWork',
+        GestureDetector(
+          onTap: () => openPage(const TeacherPutAttendance()),
+          child: FullMenuWidget(
+            deviceHeight,
+            deviceWidth,
+            true,
+            'assets/homework-red.png',
+            'HomeWork',
+          ),
         ),
-        FullMenuWidget(
-          deviceHeight,
-          deviceWidth,
-          true,
-          'assets/syllabus.png',
-          'Syllabus',
+        GestureDetector(
+          onTap: () => openPage(const TeacherPutAttendance()),
+          child: FullMenuWidget(
+            deviceHeight,
+            deviceWidth,
+            true,
+            'assets/syllabus.png',
+            'Syllabus',
+          ),
         ),
-        FullMenuWidget(
-          deviceHeight,
-          deviceWidth,
-          true,
-          'assets/salary.png',
-          'My Salary',
+        GestureDetector(
+          onTap: () => openPage(const TeacherPutAttendance()),
+          child: FullMenuWidget(
+            deviceHeight,
+            deviceWidth,
+            true,
+            'assets/salary.png',
+            'My Salary',
+          ),
         ),
-        FullMenuWidget(
-          deviceHeight,
-          deviceWidth,
-          true,
-          'assets/study-material.png',
-          'Assignment',
+        GestureDetector(
+          onTap: () => openPage(const TeacherPutAttendance()),
+          child: FullMenuWidget(
+            deviceHeight,
+            deviceWidth,
+            true,
+            'assets/study-material.png',
+            'Assignment',
+          ),
         ),
-        FullMenuWidget(
-          deviceHeight,
-          deviceWidth,
-          false,
-          'assets/leave-application.png',
-          'Leave Application',
+        GestureDetector(
+          onTap: () => openPage(const TeacherPutAttendance()),
+          child: FullMenuWidget(
+            deviceHeight,
+            deviceWidth,
+            false,
+            'assets/leave-application.png',
+            'Leave Application',
+          ),
         ),
-        FullMenuWidget(
-          deviceHeight,
-          deviceWidth,
-          false,
-          'assets/student-birthdays.png',
-          'Student Birthdays',
+        GestureDetector(
+          onTap: () => openPage(const TeacherPutAttendance()),
+          child: FullMenuWidget(
+            deviceHeight,
+            deviceWidth,
+            false,
+            'assets/student-birthdays.png',
+            'Student Birthdays',
+          ),
         ),
-        FullMenuWidget(
-          deviceHeight,
-          deviceWidth,
-          false,
-          'assets/message.png',
-          'Group Chat',
+        GestureDetector(
+          onTap: () => openPage(const TeacherPutAttendance()),
+          child: FullMenuWidget(
+            deviceHeight,
+            deviceWidth,
+            false,
+            'assets/message.png',
+            'Group Chat',
+          ),
         ),
-        FullMenuWidget(
-          deviceHeight,
-          deviceWidth,
-          false,
-          'assets/personal_msg.png',
-          'Personal Message',
+        GestureDetector(
+          onTap: () => openPage(const TeacherPutAttendance()),
+          child: FullMenuWidget(
+            deviceHeight,
+            deviceWidth,
+            false,
+            'assets/personal_msg.png',
+            'Personal Message',
+          ),
         ),
-        FullMenuWidget(
-          deviceHeight,
-          deviceWidth,
-          false,
-          'assets/folder.png',
-          'Upload Resources',
+        GestureDetector(
+          onTap: () => openPage(const TeacherPutAttendance()),
+          child: FullMenuWidget(
+            deviceHeight,
+            deviceWidth,
+            false,
+            'assets/folder.png',
+            'Upload Resources',
+          ),
         ),
-        FullMenuWidget(
-          deviceHeight,
-          deviceWidth,
-          true,
-          'assets/attachements.png',
-          'Events',
+        GestureDetector(
+          onTap: () => openPage(const TeacherPutAttendance()),
+          child: FullMenuWidget(
+            deviceHeight,
+            deviceWidth,
+            true,
+            'assets/attachements.png',
+            'Events',
+          ),
         ),
       ];
 }

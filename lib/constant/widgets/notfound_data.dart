@@ -3,12 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 // ignore: non_constant_identifier_names
-Widget NoDataFound(double deviceHeight) {
+Widget NoDataFound(double deviceHeight, String json) {
   return Center(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Lottie.asset('assets/no_data.json', height: deviceHeight * 0.25),
+        Lottie.asset(json, height: deviceHeight * 0.25),
         SizedBox(
           height: deviceHeight * 0.02,
         ),

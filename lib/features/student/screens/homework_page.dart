@@ -98,7 +98,7 @@ class _StudentHomeWorkPageScreenState extends State<StudentHomeWorkPageScreen>
                       : SizedBox(
                           height: MediaQuery.of(context).size.height * 0.4,
                           child: !isData
-                              ? NoDataFound(deviceHeight)
+                              ? NoDataFound(deviceHeight, "assets/no_data.json")
                               : HomeworkListWidget(
                                   homeworks: [
                                     Homework(
