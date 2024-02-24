@@ -3,7 +3,7 @@ import 'package:erp_app/constant/widgets/head_text.dart';
 import 'package:erp_app/constant/widgets/notfound_data.dart';
 import 'package:erp_app/constant/widgets/teacher/notice_bottom_image.dart';
 import 'package:erp_app/features/common/subapp_bar.dart';
-import 'package:erp_app/features/student/screens/put_attendance_list.dart';
+import 'package:erp_app/features/common/widgets/put_attendance_list.dart';
 import 'package:erp_app/features/teacher/screens/individual_class_attendacne.dart';
 import 'package:flutter/material.dart';
 

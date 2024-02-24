@@ -1,5 +1,7 @@
 import 'package:erp_app/constant/widgets/students/menu_widget.dart';
 import 'package:erp_app/constant/widgets/students/small_dashboard.dart';
+import 'package:erp_app/features/student/screens/attendance_page.dart';
+import 'package:erp_app/features/student/screens/timetabel_page.dart';
 import 'package:erp_app/features/teacher/screens/put_attendance.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +43,7 @@ class WidgetData {
           ),
         ),
         GestureDetector(
-          onTap: () => openPage(const TeacherPutAttendance()),
+          onTap: () => openPage(const StudentTimeTablePageScreen()),
           child: SmallDashboard(
             'assets/small-dashboard-abstract2.png',
             'assets/schedule.png',
@@ -50,7 +52,7 @@ class WidgetData {
           ),
         ),
         GestureDetector(
-          onTap: () => openPage(const TeacherPutAttendance()),
+          onTap: () => openPage(const StudentAttendancePageScreen()),
           child: SmallDashboard(
             'assets/small-dashboard-abstract4.png',
             'assets/attendance.png',
