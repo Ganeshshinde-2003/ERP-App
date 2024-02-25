@@ -332,14 +332,3 @@ class _NewUploadMarksState extends State<NewUploadMarks> {
     );
   }
 }
-
-// void main() {
-//   runApp(MaterialApp(
-//     home: NewUploadMarks(
-//       currentYear: '2022',
-//       classId: 'Class 10',
-//       subId: 'Math',
-//       examData: {'name': 'Final Exam', 'marks': 100},
-//     ),
-//   ));
-// }
