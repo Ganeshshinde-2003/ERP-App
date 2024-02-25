@@ -1,5 +1,4 @@
-import 'package:erp_app/features/common/bottom_navigation.dart';
-// import 'package:erp_app/features/common/landing_page.dart';
+import 'package:erp_app/features/common/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,8 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      // home: const LandingPage(),
-      home: const Frame(role: "Teacher"),
+      home: const LandingPage(),
     );
   }
 }
