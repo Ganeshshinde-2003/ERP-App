@@ -6,7 +6,7 @@ void showSnackBar({required BuildContext context, required String content}) {
     SnackBar(
       content: Text(content, style: AppTextStyles.heading2),
       backgroundColor: Colors.black,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 1000),
     ),
   );
 }

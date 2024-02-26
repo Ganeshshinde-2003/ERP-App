@@ -1,5 +1,4 @@
 // ignore: constant_identifier_names
-const String GoogleMapsAPI = "AIzaSyBe0VbDic_OtfpikqNSLPupVERK1nybYz0";
 
 class StudentOnBoardingData {
   List<String> get heading => [

@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
-import 'package:erp_app/constant/data/student_onboarding.dart';
+import 'package:erp_app/constant/data/global_variable.dart';
 import 'package:erp_app/constant/widgets/logo_loading.dart';
 import 'package:erp_app/constant/widgets/snack_bar.dart';
 import 'package:erp_app/features/common/subapp_bar.dart';
