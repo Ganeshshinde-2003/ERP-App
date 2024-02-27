@@ -39,6 +39,7 @@ Widget _buildFeatureImageContainer(
   return Stack(
     children: [
       Container(
+        margin: const EdgeInsets.only(bottom: 5),
         height: deviceHeight * 0.08,
         decoration: BoxDecoration(
           color: Colors.white,
