@@ -14,6 +14,6 @@ class SharedStoreData {
 
   Future<void> saveUserToPreferences(User user) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('user', user.toJson()); // Save as JSON string
+    prefs.setString('user', user.toJson());
   }
 }
