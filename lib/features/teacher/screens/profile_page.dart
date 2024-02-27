@@ -1,3 +1,5 @@
+import 'package:erp_app/constant/models/user_model.dart';
+import 'package:erp_app/constant/provider/user_provider.dart';
 import 'package:erp_app/constant/text_style.dart';
 import 'package:erp_app/constant/widgets/animated_logo.dart';
 import 'package:erp_app/constant/widgets/teacher/divider_widget.dart';
@@ -15,6 +17,25 @@ class ProfilePageScreen extends StatefulWidget {
 }
 
 class _ProfilePageScreenState extends State<ProfilePageScreen> {
+  bool isLoading = true;
+  User? user;
+  SharedStoreData sharedStoreData = SharedStoreData();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserData();
+  }
+
+  void fetchUserData() async {
+    User? loadedUser = await sharedStoreData.loadUserFromPreferences();
+
+    setState(() {
+      user = loadedUser;
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var deviceHeight = MediaQuery.of(context).size.height;
@@ -22,12 +43,12 @@ class _ProfilePageScreenState extends State<ProfilePageScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.all(20.0),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
             child: ProfileRowWidget(
-              name: "Ganesh",
-              id: "02",
-              role: "Teacher",
+              name: user?.fullName ?? 'Loading...',
+              id: user?.company_id ?? 'Loading...',
+              role: user?.role == "admin" ? "Teacher" : "Student",
               profilePic: 'assets/avatar.png',
             ),
           ),

@@ -28,7 +28,7 @@ class CustomUserInfoWidget extends StatelessWidget {
                     color: Colors.black),
               ),
               Text(
-                role == "Teacher"
+                role == "admin"
                     ? 'Staff | Teacher '
                     : "Class XI | Roll no: 0135",
                 style: GoogleFonts.poppins(

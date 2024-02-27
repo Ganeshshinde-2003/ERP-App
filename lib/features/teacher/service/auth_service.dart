@@ -3,6 +3,8 @@
 import 'dart:convert';
 
 import 'package:erp_app/constant/data/global_variable.dart';
+import 'package:erp_app/constant/models/user_model.dart';
+import 'package:erp_app/constant/provider/user_provider.dart';
 import 'package:erp_app/constant/widgets/http_error_handler.dart';
 import 'package:erp_app/constant/widgets/snack_bar.dart';
 import 'package:erp_app/features/common/bottom_navigation.dart';
@@ -34,7 +36,22 @@ class LoginTeacher {
       httpErrorHandle(
         response: res,
         context: context,
-        onSuccess: () {
+        onSuccess: () async {
+          final responseBody = jsonDecode(res.body);
+          SharedStoreData sharedStoreData = SharedStoreData();
+
+          User user = User(
+            id: responseBody['data']['user']['id'],
+            fullName: responseBody['data']['user']['fullName'],
+            email: responseBody['data']['user']['email'],
+            role: responseBody['data']['user']['role'][0],
+            company_id: responseBody['data']['user']['company_id'],
+            token: responseBody['data']['token'],
+          );
+
+          await sharedStoreData.saveUserToPreferences(user);
+          User? user2 = await sharedStoreData.loadUserFromPreferences();
+
           showSnackBar(
             context: context,
             content: jsonDecode(res.body)['message'],
@@ -48,9 +65,13 @@ class LoginTeacher {
                 Alignment.centerLeft,
                 0.5,
               ),
-              child: const Frame(
-                role: "Teacher",
-              ),
+              child: user2?.role == "admin"
+                  ? const Frame(
+                      role: "Teacher",
+                    )
+                  : const Frame(
+                      role: "Student",
+                    ),
             ),
           );
         },

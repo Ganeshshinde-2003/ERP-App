@@ -1,3 +1,6 @@
+import 'package:erp_app/constant/models/user_model.dart';
+import 'package:erp_app/constant/provider/user_provider.dart';
+import 'package:erp_app/features/common/bottom_navigation.dart';
 import 'package:erp_app/features/common/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,8 +9,33 @@ void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _isSignin = false;
+  String role = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getUserLoggedInStatus();
+  }
+
+  getUserLoggedInStatus() async {
+    final sharedStoreData = SharedStoreData();
+    User? user = await sharedStoreData.loadUserFromPreferences();
+    setState(() {
+      if (user != null) {
+        _isSignin = true;
+        role = user.role;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +45,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const LandingPage(),
+      home: _isSignin
+          ? Frame(role: role == "admin" ? "Teacher" : "Student")
+          : const LandingPage(),
     );
   }
 }

@@ -4,7 +4,6 @@ import 'package:erp_app/constant/widgets/head_disc_widget.dart';
 import 'package:erp_app/constant/widgets/input_field.dart';
 import 'package:erp_app/constant/widgets/query_contact.dart';
 import 'package:erp_app/constant/widgets/snack_bar.dart';
-import 'package:erp_app/features/student/controller/auth_controller.dart';
 import 'package:erp_app/features/teacher/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,13 +21,9 @@ class _LoginPageScreenState extends ConsumerState<LoginPageScreen> {
   TextEditingController passwordController = TextEditingController();
 
   void loginWithUserNameandPassword(String userId, String password) {
-    widget.role == "Student"
-        ? ref
-            .read(loginStudentControllerProvider)
-            .loginStudentWithUserNamePassword(context, userId, password)
-        : ref
-            .read(loginTeahcerControllerProvider)
-            .loginTeacherWithUserNamePassword(context, userId, password);
+    ref
+        .read(loginTeahcerControllerProvider)
+        .loginTeacherWithUserNamePassword(context, userId, password);
   }
 
   void singupHandle() {
