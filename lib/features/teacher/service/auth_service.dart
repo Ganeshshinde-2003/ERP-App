@@ -29,7 +29,7 @@ class LoginTeacher {
           'password': password,
         }),
         headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
+          'Content-Type': 'application/json; charset=UTF-8'
         },
       );
 
@@ -66,12 +66,8 @@ class LoginTeacher {
                 0.5,
               ),
               child: user2?.role == "admin"
-                  ? const Frame(
-                      role: "Teacher",
-                    )
-                  : const Frame(
-                      role: "Student",
-                    ),
+                  ? const Frame(role: "Teacher")
+                  : const Frame(role: "Student"),
             ),
           );
         },
