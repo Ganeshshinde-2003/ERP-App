@@ -24,4 +24,8 @@ class LoginTeacherController {
       context: context,
     );
   }
+
+  void logoutUser(BuildContext context) {
+    loginTeacher.logoutUser(context: context);
+  }
 }

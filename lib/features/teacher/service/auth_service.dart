@@ -8,6 +8,7 @@ import 'package:erp_app/constant/provider/user_provider.dart';
 import 'package:erp_app/constant/widgets/http_error_handler.dart';
 import 'package:erp_app/constant/widgets/snack_bar.dart';
 import 'package:erp_app/features/common/bottom_navigation.dart';
+import 'package:erp_app/features/common/landing_page.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
@@ -75,5 +76,22 @@ class LoginTeacher {
     } catch (e) {
       showSnackBar(context: context, content: e.toString());
     }
+  }
+
+  void logoutUser({required BuildContext context}) async {
+    SharedStoreData sharedStoreData = SharedStoreData();
+    await sharedStoreData.logout();
+    Navigator.push(
+      context,
+      PageTransition(
+        type: PageTransitionType.fade,
+        alignment: Alignment.lerp(
+          Alignment.centerLeft,
+          Alignment.centerLeft,
+          0.5,
+        ),
+        child: const LandingPage(),
+      ),
+    );
   }
 }

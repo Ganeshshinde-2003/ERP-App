@@ -16,4 +16,9 @@ class SharedStoreData {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('user', user.toJson());
   }
+
+  Future<void> logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('user');
+  }
 }
