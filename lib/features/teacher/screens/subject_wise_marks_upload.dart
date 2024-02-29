@@ -81,6 +81,7 @@ class _SubjectWiseMarksUploadState
                         ? NoDataFound(deviceHeight, 'assets/loading2.json')
                         // ignore: dead_code
                         : SubjectWiseMarkView(
+                            whoCalling: widget.callingWho,
                             items: sectionList ?? [],
                             currentYear: '2022',
                             onTap: (classId, currentYear) {

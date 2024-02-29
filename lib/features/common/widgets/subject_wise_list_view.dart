@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SubjectWiseMarkView extends StatelessWidget {
+  final String whoCalling;
   final List<Section> items;
   final String currentYear;
   final Widget Function(String classId, String currentYear) onTap;
@@ -13,6 +14,7 @@ class SubjectWiseMarkView extends StatelessWidget {
     required this.items,
     required this.currentYear,
     required this.onTap,
+    required this.whoCalling,
   });
 
   @override
@@ -63,10 +65,13 @@ class SubjectWiseMarkView extends StatelessWidget {
                     items[index].sectionName,
                     style: AppTextStyles.sliderText.copyWith(fontSize: 13),
                   ),
-                  Text(
-                    'Marks : 20',
-                    style: AppTextStyles.sliderText.copyWith(fontSize: 13),
-                  ),
+                  whoCalling == "marks"
+                      ? Text(
+                          'Marks : 20',
+                          style:
+                              AppTextStyles.sliderText.copyWith(fontSize: 13),
+                        )
+                      : Container(),
                 ],
               ),
             ),
