@@ -65,7 +65,7 @@ class PutAttendanceListView extends StatelessWidget {
                 children: [
                   Text(
                     items[index].className,
-                    style: AppTextStyles.sliderText.copyWith(fontSize: 13),
+                    style: AppTextStyles.sliderText.copyWith(fontSize: 18),
                   ),
                 ],
               ),

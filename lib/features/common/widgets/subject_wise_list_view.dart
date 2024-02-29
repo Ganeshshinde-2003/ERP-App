@@ -77,7 +77,7 @@ class SubjectWiseMarkView extends StatelessWidget {
                 children: [
                   Text(
                     items[index].sectionName,
-                    style: AppTextStyles.sliderText.copyWith(fontSize: 13),
+                    style: AppTextStyles.sliderText.copyWith(fontSize: 18),
                   ),
                 ],
               ),
