@@ -54,7 +54,7 @@ class _UploadMarksScreenState extends ConsumerState<UploadMarksScreen> {
             child: Column(
               children: [
                 const ReusableClassButtonWidget(
-                  title: "Select Class and Subject",
+                  title: "Select Class",
                   buttonText: "Past Marks",
                   onPressed: PastMarksScreen(),
                 ),

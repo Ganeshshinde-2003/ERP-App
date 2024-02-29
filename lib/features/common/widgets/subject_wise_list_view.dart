@@ -65,13 +65,6 @@ class SubjectWiseMarkView extends StatelessWidget {
                     items[index].sectionName,
                     style: AppTextStyles.sliderText.copyWith(fontSize: 13),
                   ),
-                  whoCalling == "marks"
-                      ? Text(
-                          'Marks : 20',
-                          style:
-                              AppTextStyles.sliderText.copyWith(fontSize: 13),
-                        )
-                      : Container(),
                 ],
               ),
             ),
