@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:erp_app/constant/data/global_variable.dart';
+import 'package:erp_app/constant/models/master_model.dart';
 import 'package:erp_app/constant/models/user_model.dart';
 import 'package:erp_app/constant/provider/user_provider.dart';
 import 'package:erp_app/constant/widgets/http_error_handler.dart';
@@ -45,7 +46,7 @@ class LoginTeacher {
             id: responseBody['data']['user']['id'],
             fullName: responseBody['data']['user']['fullName'],
             email: responseBody['data']['user']['email'],
-            role: responseBody['data']['user']['role'][0],
+            role: responseBody['data']['user']['role'],
             company_id: responseBody['data']['user']['company_id'],
             token: responseBody['data']['token'],
           );
@@ -57,6 +58,9 @@ class LoginTeacher {
             context: context,
             content: jsonDecode(res.body)['message'],
           );
+          if (user2?.role == "admin") {
+            await getMasterDataToChache(context: context);
+          }
           Navigator.push(
             context,
             PageTransition(
@@ -93,5 +97,35 @@ class LoginTeacher {
         child: const LandingPage(),
       ),
     );
+  }
+
+  Future<void> getMasterDataToChache({required BuildContext context}) async {
+    SharedStoreData sharedStoreData = SharedStoreData();
+
+    User? loadUser = await sharedStoreData.loadUserFromPreferences();
+    String? authToken = loadUser?.token;
+
+    try {
+      final response = await http.get(
+        Uri.parse('$URI/commonmaster/getCommonMasterData'),
+        headers: {
+          'Authorization': 'Bearer $authToken',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      httpErrorHandle(
+        response: response,
+        context: context,
+        onSuccess: () async {
+          final responseData = json.decode(response.body);
+          MasterDataCache masterDataCache =
+              MasterDataCache.fromJson(responseData);
+          await sharedStoreData.saveMasterDataCache(masterDataCache);
+        },
+      );
+    } catch (e) {
+      showSnackBar(context: context, content: e.toString());
+    }
   }
 }
