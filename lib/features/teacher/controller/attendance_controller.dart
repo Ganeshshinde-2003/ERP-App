@@ -26,4 +26,8 @@ class MasterDataUtilController {
   Future<List<Section>?> getMasterSectionData(String classID) async {
     return masterDataUtilService.loadSectionList(classID);
   }
+
+  Future<List<Subject>?> getMasterSubjectData(String classID) async {
+    return masterDataUtilService.loadSubjectList(classID);
+  }
 }

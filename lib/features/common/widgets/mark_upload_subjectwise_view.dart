@@ -1,16 +1,15 @@
 import 'package:erp_app/constant/models/master_model.dart';
 import 'package:erp_app/constant/text_style.dart';
-import 'package:erp_app/features/teacher/screens/individual_class_attendacne.dart';
-import 'package:erp_app/features/teacher/screens/subject_wise_marks_upload.dart';
+import 'package:erp_app/features/teacher/screens/individual_marks_upload.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-class SubjectWiseMarkView extends StatelessWidget {
+class MarkUploadSubjectWiseViewWidget extends StatelessWidget {
   final String whoCalling;
-  final List<Section> items;
+  final List<Subject> items;
   final String currentYear;
 
-  const SubjectWiseMarkView({
+  const MarkUploadSubjectWiseViewWidget({
     super.key,
     required this.items,
     required this.currentYear,
@@ -39,21 +38,12 @@ class SubjectWiseMarkView extends StatelessWidget {
                   Alignment.centerLeft,
                   0.5,
                 ),
-                child: whoCalling == "marks"
-                    ? SubjectWiseMarksUpload(
-                        classID: items[index].classId,
-                        callingWho: "subjects",
-                      )
-                    // NewUploadMarks(
-                    //     currentYear: currentYear,
-                    //     classId: items[index].sectionName,
-                    //     subId: "SUB01",
-                    //     examData: const {'name': 'Final Exam', 'marks': 100},
-                    //   )
-                    : IndividualClassAttendace(
-                        classId: items[index].sectionName,
-                        currentYear: currentYear,
-                      ),
+                child: NewUploadMarks(
+                  currentYear: currentYear,
+                  classId: items[index].subjectName,
+                  subId: "SUB01",
+                  examData: const {'name': 'Final Exam', 'marks': 100},
+                ),
               ),
             );
           },
@@ -76,7 +66,7 @@ class SubjectWiseMarkView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    items[index].sectionName,
+                    items[index].subjectName,
                     style: AppTextStyles.sliderText.copyWith(fontSize: 13),
                   ),
                 ],

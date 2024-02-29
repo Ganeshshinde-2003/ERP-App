@@ -3,10 +3,9 @@ import 'package:erp_app/constant/widgets/notfound_data.dart';
 import 'package:erp_app/constant/widgets/teacher/notice_bottom_image.dart';
 import 'package:erp_app/features/common/subapp_bar.dart';
 import 'package:erp_app/features/common/widgets/class_past_button.dart';
+import 'package:erp_app/features/common/widgets/mark_upload_subjectwise_view.dart';
 import 'package:erp_app/features/common/widgets/subject_wise_list_view.dart';
 import 'package:erp_app/features/teacher/controller/attendance_controller.dart';
-import 'package:erp_app/features/teacher/screens/individual_class_attendacne.dart';
-import 'package:erp_app/features/teacher/screens/individual_marks_upload.dart';
 import 'package:erp_app/features/teacher/screens/past_marks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,6 +27,7 @@ class SubjectWiseMarksUpload extends ConsumerStatefulWidget {
 class _SubjectWiseMarksUploadState
     extends ConsumerState<SubjectWiseMarksUpload> {
   List<Section>? sectionList;
+  List<Subject>? subjectList;
 
   @override
   void initState() {
@@ -36,9 +36,15 @@ class _SubjectWiseMarksUploadState
   }
 
   Future<void> loadSectionList() async {
-    sectionList = await ref
-        .read(masterDataUtilControllerProvider)
-        .getMasterSectionData(widget.classID);
+    if (widget.callingWho == "marks" || widget.callingWho == "attendance") {
+      sectionList = await ref
+          .read(masterDataUtilControllerProvider)
+          .getMasterSectionData(widget.classID);
+    } else {
+      subjectList = await ref
+          .read(masterDataUtilControllerProvider)
+          .getMasterSubjectData(widget.classID);
+    }
     setState(() {});
   }
 
@@ -51,7 +57,9 @@ class _SubjectWiseMarksUploadState
       backgroundColor: Colors.white,
       appBar: SubPageAppBar(
         context,
-        widget.callingWho == "marks" ? 'Upload Marks' : "Attendance",
+        widget.callingWho == "marks" || widget.callingWho == "subjects"
+            ? 'Upload Marks'
+            : "Attendance",
       ),
       body: Stack(
         children: [
@@ -80,27 +88,17 @@ class _SubjectWiseMarksUploadState
                         // ignore: dead_code
                         ? NoDataFound(deviceHeight, 'assets/loading2.json')
                         // ignore: dead_code
-                        : SubjectWiseMarkView(
-                            whoCalling: widget.callingWho,
-                            items: sectionList ?? [],
-                            currentYear: '2022',
-                            onTap: (classId, currentYear) {
-                              return widget.callingWho == "marks"
-                                  ? NewUploadMarks(
-                                      currentYear: currentYear,
-                                      classId: classId,
-                                      subId: "SUB01",
-                                      examData: const {
-                                        'name': 'Final Exam',
-                                        'marks': 100
-                                      },
-                                    )
-                                  : IndividualClassAttendace(
-                                      classId: classId,
-                                      currentYear: currentYear,
-                                    );
-                            },
-                          ),
+                        : widget.callingWho == "subjects"
+                            ? MarkUploadSubjectWiseViewWidget(
+                                items: subjectList ?? [],
+                                currentYear: '2024',
+                                whoCalling: "marks",
+                              )
+                            : SubjectWiseMarkView(
+                                whoCalling: widget.callingWho,
+                                items: sectionList ?? [],
+                                currentYear: '2022',
+                              ),
                   ),
                 ),
               ],

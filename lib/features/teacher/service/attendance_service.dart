@@ -39,4 +39,23 @@ class MasterDataUtilService {
       return null;
     }
   }
+
+  Future<List<Subject>?> loadSubjectList(String classId) async {
+    try {
+      SharedStoreData sharedStoreData = SharedStoreData();
+
+      MasterDataCache? masterData =
+          await sharedStoreData.loadMasterDataCacheFromPreferences();
+      if (masterData != null) {
+        List<Subject>? filteredSections = masterData.data.subjects
+            .where((subject) => subject.classId == classId)
+            .toList();
+
+        return filteredSections;
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
 }
