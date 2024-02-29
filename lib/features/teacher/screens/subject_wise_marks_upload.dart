@@ -72,10 +72,12 @@ class _SubjectWiseMarksUploadState
             width: deviceWidth,
             child: Column(
               children: [
-                const ReusableClassButtonWidget(
-                  title: "Select Section",
+                ReusableClassButtonWidget(
+                  title: widget.callingWho == "subjects"
+                      ? "Select Subject"
+                      : "Select Section",
                   buttonText: "Past Marks",
-                  onPressed: PastMarksScreen(),
+                  onPressed: const PastMarksScreen(),
                 ),
                 SizedBox(
                   width: deviceWidth * 0.8,
