@@ -1,20 +1,39 @@
+import 'package:erp_app/constant/models/master_model.dart';
 import 'package:erp_app/constant/widgets/notfound_data.dart';
 import 'package:erp_app/constant/widgets/teacher/notice_bottom_image.dart';
 import 'package:erp_app/features/common/subapp_bar.dart';
 import 'package:erp_app/features/common/widgets/class_past_button.dart';
 import 'package:erp_app/features/common/widgets/put_attendance_list.dart';
+import 'package:erp_app/features/teacher/controller/attendance_controller.dart';
 import 'package:erp_app/features/teacher/screens/past_marks.dart';
-import 'package:erp_app/features/teacher/screens/subject_wise_marks_upload.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class UploadMarksScreen extends StatefulWidget {
+class UploadMarksScreen extends ConsumerStatefulWidget {
   const UploadMarksScreen({super.key});
 
   @override
-  State<UploadMarksScreen> createState() => _UploadMarksScreenState();
+  ConsumerState<UploadMarksScreen> createState() => _UploadMarksScreenState();
 }
 
-class _UploadMarksScreenState extends State<UploadMarksScreen> {
+class _UploadMarksScreenState extends ConsumerState<UploadMarksScreen> {
+  bool isLoading = true;
+  List<Class>? classList;
+
+  @override
+  void initState() {
+    super.initState();
+    loadClassList();
+  }
+
+  Future<void> loadClassList() async {
+    classList =
+        await ref.read(masterDataUtilControllerProvider).getMasterClassData();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isLoading = true;
@@ -51,11 +70,9 @@ class _UploadMarksScreenState extends State<UploadMarksScreen> {
                         ? NoDataFound(deviceHeight, 'assets/loading2.json')
                         // ignore: dead_code
                         : PutAttendanceListView(
-                            items: const ['ClassA', 'ClassB', 'ClassC'],
+                            whoCalling: "marks",
+                            items: classList ?? [],
                             currentYear: '2022',
-                            onTap: (classId, currentYear) {
-                              return SubjectWiseMarksUpload(classname: classId);
-                            },
                           ),
                   ),
                 ),

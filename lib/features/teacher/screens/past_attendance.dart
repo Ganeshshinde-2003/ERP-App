@@ -1,20 +1,40 @@
+import 'package:erp_app/constant/models/master_model.dart';
 import 'package:erp_app/constant/text_style.dart';
 import 'package:erp_app/constant/widgets/head_text.dart';
 import 'package:erp_app/constant/widgets/notfound_data.dart';
 import 'package:erp_app/constant/widgets/teacher/notice_bottom_image.dart';
 import 'package:erp_app/features/common/subapp_bar.dart';
 import 'package:erp_app/features/common/widgets/put_attendance_list.dart';
-import 'package:erp_app/features/teacher/screens/individual_class_attendacne.dart';
+import 'package:erp_app/features/teacher/controller/attendance_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PastAttendaceScreen extends StatefulWidget {
+class PastAttendaceScreen extends ConsumerStatefulWidget {
   const PastAttendaceScreen({super.key});
 
   @override
-  State<PastAttendaceScreen> createState() => _PastAttendaceScreenState();
+  ConsumerState<PastAttendaceScreen> createState() =>
+      _PastAttendaceScreenState();
 }
 
-class _PastAttendaceScreenState extends State<PastAttendaceScreen> {
+class _PastAttendaceScreenState extends ConsumerState<PastAttendaceScreen> {
+  bool isLoading = true;
+  List<Class>? classList;
+
+  @override
+  void initState() {
+    super.initState();
+    loadClassList();
+  }
+
+  Future<void> loadClassList() async {
+    classList =
+        await ref.read(masterDataUtilControllerProvider).getMasterClassData();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isLoading = true;
@@ -56,14 +76,9 @@ class _PastAttendaceScreenState extends State<PastAttendaceScreen> {
                         ? NoDataFound(deviceHeight, 'assets/loading2.json')
                         // ignore: dead_code
                         : PutAttendanceListView(
-                            items: const ['ClassA', 'ClassB', 'ClassC'],
+                            whoCalling: "attendance",
+                            items: classList ?? [],
                             currentYear: '2022',
-                            onTap: (classId, currentYear) {
-                              return IndividualClassAttendace(
-                                classId: classId,
-                                currentYear: currentYear,
-                              );
-                            },
                           ),
                   ),
                 ),

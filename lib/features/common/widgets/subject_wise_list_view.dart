@@ -1,9 +1,10 @@
+import 'package:erp_app/constant/models/master_model.dart';
 import 'package:erp_app/constant/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SubjectWiseMarkView extends StatelessWidget {
-  final List<Map<String, Object>> items;
+  final List<Section> items;
   final String currentYear;
   final Widget Function(String classId, String currentYear) onTap;
 
@@ -36,7 +37,7 @@ class SubjectWiseMarkView extends StatelessWidget {
                   Alignment.centerLeft,
                   0.5,
                 ),
-                child: onTap(items[index]["class"].toString(), currentYear),
+                child: onTap(items[index].sectionName, currentYear),
               ),
             );
           },
@@ -59,11 +60,11 @@ class SubjectWiseMarkView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    items[index]["name"].toString(),
+                    items[index].sectionName,
                     style: AppTextStyles.sliderText.copyWith(fontSize: 13),
                   ),
                   Text(
-                    'Marks : ${items[index]['marks']}',
+                    'Marks : 20',
                     style: AppTextStyles.sliderText.copyWith(fontSize: 13),
                   ),
                 ],
