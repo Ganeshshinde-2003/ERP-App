@@ -2,6 +2,7 @@ import 'package:erp_app/constant/models/user_model.dart';
 import 'package:erp_app/constant/provider/user_provider.dart';
 import 'package:erp_app/constant/text_style.dart';
 import 'package:erp_app/constant/widgets/animated_logo.dart';
+import 'package:erp_app/constant/widgets/show_dealog.dart';
 import 'package:erp_app/constant/widgets/teacher/divider_widget.dart';
 import 'package:erp_app/constant/widgets/teacher/profile_widget.dart';
 import 'package:erp_app/constant/widgets/teacher/teacher_button.dart';
@@ -20,6 +21,28 @@ class _ProfilePageScreenState extends ConsumerState<ProfilePageScreen> {
   bool isLoading = true;
   User? user;
   SharedStoreData sharedStoreData = SharedStoreData();
+
+  Future<void> _confirmLogout() async {
+    bool? confirmed = await DialogHelper.showConfirmationDialog(
+      context,
+      true,
+      "Logout",
+      "Are you sure you want to logout?",
+    );
+
+    if (confirmed == true) {
+      logoutUser();
+    }
+  }
+
+  Future<void> _ContactAdmin() async {
+    await DialogHelper.showConfirmationDialog(
+      context,
+      false,
+      "Contact Admin",
+      "Contact Info",
+    );
+  }
 
   void logoutUser() async {
     ref.read(loginTeahcerControllerProvider).logoutUser(context);
@@ -70,13 +93,13 @@ class _ProfilePageScreenState extends ConsumerState<ProfilePageScreen> {
           ReusableContactAdminWidget(
             buttonText: "Contact Admin",
             imagePath: "assets/contact_admin.png",
-            onPressed: () => {},
+            onPressed: _ContactAdmin,
           ),
           const DividerWidget(),
           ReusableContactAdminWidget(
             buttonText: "Logout",
             imagePath: "assets/logout.png",
-            onPressed: logoutUser,
+            onPressed: _confirmLogout,
           ),
           const DividerWidget(),
           const Spacer(), // Spacer takes remaining space
