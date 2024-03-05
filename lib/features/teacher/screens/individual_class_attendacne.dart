@@ -1,42 +1,40 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:erp_app/constant/models/student_attendace_model.dart';
 import 'package:erp_app/constant/text_style.dart';
 import 'package:erp_app/constant/widgets/notfound_data.dart';
 import 'package:erp_app/features/common/subapp_bar.dart';
 import 'package:erp_app/features/common/widgets/row_head_disc.dart';
+import 'package:erp_app/features/teacher/controller/student_fetching_for_attendance_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-class StudentAttendanceData {
-  final String rollNo;
-  final String name;
-  final String? propic;
-
-  StudentAttendanceData(this.rollNo, this.name, this.propic);
-}
-
-class IndividualClassAttendace extends StatefulWidget {
+class IndividualClassAttendace extends ConsumerStatefulWidget {
   final String currentYear;
   final String classId;
+  final String sectionId;
 
   const IndividualClassAttendace({
     Key? key,
     required this.currentYear,
     required this.classId,
+    required this.sectionId,
   }) : super(key: key);
 
   @override
-  State<IndividualClassAttendace> createState() =>
+  ConsumerState<IndividualClassAttendace> createState() =>
       _IndividualClassAttendaceState();
 }
 
-class _IndividualClassAttendaceState extends State<IndividualClassAttendace> {
+class _IndividualClassAttendaceState
+    extends ConsumerState<IndividualClassAttendace> {
   bool isLoading = false;
   bool addingAttendance = false;
-  List<StudentAttendanceData> students = [];
+  List<StudentData> students = [];
   late List<bool> groupValue;
   bool _value = true;
 
@@ -51,15 +49,23 @@ class _IndividualClassAttendaceState extends State<IndividualClassAttendace> {
     });
   }
 
-  void getData() {
-    students = [
-      StudentAttendanceData('001', 'John Doe', null),
-      StudentAttendanceData('002', 'Jane Doe', null),
-      // Add more static data as needed
-    ];
+  void getData() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    String currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+    students = await ref
+        .read(putStudentAttendanceControllerProvider)
+        .fetchStudentAttendanceData(context, widget.sectionId, currentDate);
 
     setState(() {
-      groupValue = List<bool>.filled(students.length, true);
+      if (students.isNotEmpty) {
+        groupValue = List<bool>.filled(students.length, true);
+      } else {
+        groupValue = [];
+      }
       isLoading = false;
     });
   }
@@ -70,8 +76,6 @@ class _IndividualClassAttendaceState extends State<IndividualClassAttendace> {
     });
 
     try {
-      // Your logic for submitting attendance with static data
-
       Fluttertoast.showToast(msg: 'Saved Successfully !');
       Navigator.pop(context);
     } catch (e) {
@@ -185,13 +189,13 @@ class _IndividualClassAttendaceState extends State<IndividualClassAttendace> {
                                           children: [
                                             Text(
                                               textScaleFactor: 1.0,
-                                              students[index].name,
+                                              students[index].studentID.name,
                                               textAlign: TextAlign.start,
                                               style: AppTextStyles.heading2,
                                             ),
                                             Text(
                                               textScaleFactor: 1.0,
-                                              'Roll No: ${students[index].rollNo}',
+                                              'Roll No: ${students[index].studentID.rollNo}',
                                               style: AppTextStyles.heading2
                                                   .copyWith(
                                                 fontWeight: FontWeight.w600,
@@ -200,7 +204,7 @@ class _IndividualClassAttendaceState extends State<IndividualClassAttendace> {
                                             ),
                                             Text(
                                               textScaleFactor: 1.0,
-                                              'USN: ${students[index].rollNo}',
+                                              'USN: ${students[index].studentID.rollNo}',
                                               style: AppTextStyles.heading2
                                                   .copyWith(fontSize: 13),
                                             ),
@@ -214,17 +218,18 @@ class _IndividualClassAttendaceState extends State<IndividualClassAttendace> {
                                           children: [
                                             CircleAvatar(
                                               backgroundImage: students[index]
-                                                          .propic
-                                                          .toString() ==
+                                                          .studentID
+                                                          .name
+                                                          .toString() !=
                                                       'null'
                                                   ? const NetworkImage(
                                                       'https://firebasestorage.googleapis.com/v0/b/lmsapp-5ab03.appspot.com/o/photo_6336711903350470680_x.jpg?alt=media&token=cb008091-1921-40ee-b133-e7d0bd42d83a')
                                                   : NetworkImage(students[index]
-                                                      .propic
+                                                      .status
                                                       .toString()),
                                               child: students[index]
-                                                          .propic
-                                                          .toString() ==
+                                                          .status
+                                                          .toString() !=
                                                       'null'
                                                   ? Image.asset(
                                                       'assets/avatar.png')

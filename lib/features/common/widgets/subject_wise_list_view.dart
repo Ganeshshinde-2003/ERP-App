@@ -53,6 +53,7 @@ class SubjectWiseMarkView extends StatelessWidget {
                     : IndividualClassAttendace(
                         classId: items[index].sectionName,
                         currentYear: currentYear,
+                        sectionId: items[index].id,
                       ),
               ),
             );
