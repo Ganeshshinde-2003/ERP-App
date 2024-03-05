@@ -87,6 +87,17 @@ class _IndividualClassAttendaceState
     });
   }
 
+  void resetAttendance() {
+    setState(() {
+      _value = true;
+      if (students.isNotEmpty) {
+        groupValue = List<bool>.filled(students.length, true);
+      } else {
+        groupValue = [];
+      }
+    });
+  }
+
   @override
   void initState() {
     getData();
@@ -342,9 +353,7 @@ class _IndividualClassAttendaceState
               Row(
                 children: [
                   TextButton(
-                    onPressed: () {
-                      _toggleSwitch(true);
-                    },
+                    onPressed: resetAttendance,
                     child: Container(
                       decoration: BoxDecoration(
                           color: Colors.black,
