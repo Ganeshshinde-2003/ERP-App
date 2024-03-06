@@ -47,7 +47,8 @@ class LoginTeacher {
             fullName: responseBody['data']['user']['fullName'],
             email: responseBody['data']['user']['email'],
             role: responseBody['data']['user']['role'],
-            company_id: responseBody['data']['user']['company_id'],
+            company_id:
+                responseBody['data']['user']['company_id'] ?? "ENG21CS0135",
             token: responseBody['data']['token'],
           );
 

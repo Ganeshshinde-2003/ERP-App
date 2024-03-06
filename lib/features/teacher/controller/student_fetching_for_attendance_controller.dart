@@ -31,4 +31,14 @@ class PutStudentAttendanceController {
       date: date,
     );
   }
+
+  Future<void> saveAttendanceData(
+    Map<String, dynamic> attendanceData,
+    BuildContext context,
+  ) async {
+    putStudentAttendance.saveAttendanceData(
+      attendanceData: attendanceData,
+      context: context,
+    );
+  }
 }

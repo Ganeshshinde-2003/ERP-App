@@ -40,4 +40,14 @@ class SharedStoreData {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('user');
   }
+
+  Future<bool?> loadAttendanceStatus(String date) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('attendanceStatus_$date') ?? false;
+  }
+
+  Future<void> saveAttendanceStatus(String date, bool status) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool('attendanceStatus_$date', status);
+  }
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'package:erp_app/constant/models/student_attendace_model.dart';
 import 'package:erp_app/constant/text_style.dart';
@@ -60,24 +60,53 @@ class _IndividualClassAttendaceState
         .read(putStudentAttendanceControllerProvider)
         .fetchStudentAttendanceData(context, widget.sectionId, currentDate);
 
+    await processData(); // Wait for processData to complete
+
     setState(() {
-      if (students.isNotEmpty) {
-        groupValue = List<bool>.filled(students.length, true);
-      } else {
-        groupValue = [];
-      }
       isLoading = false;
     });
   }
 
-  void submitAttendance() {
+  Future<void> processData() async {
+    if (students.isNotEmpty) {
+      groupValue = List<bool>.filled(students.length, true);
+
+      for (int i = 0; i < students.length; i++) {
+        groupValue[i] = students[i].attendanceStatus;
+      }
+    } else {
+      groupValue = [];
+    }
+  }
+
+  void submitAttendance() async {
     setState(() {
       addingAttendance = true;
     });
 
     try {
-      Fluttertoast.showToast(msg: 'Saved Successfully !');
-      Navigator.pop(context);
+      String currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+      List<String> absentStudents = [];
+      List<String> presentStudents = [];
+
+      for (int i = 0; i < students.length; i++) {
+        if (groupValue[i]) {
+          presentStudents.add(students[i].id.toString());
+        } else {
+          absentStudents.add(students[i].id.toString());
+        }
+      }
+
+      Map<String, dynamic> attendanceData = {
+        'date': currentDate,
+        'sectionId': widget.sectionId.toString(),
+        'absent': absentStudents,
+        'present': presentStudents,
+      };
+      await ref
+          .read(putStudentAttendanceControllerProvider)
+          .saveAttendanceData(attendanceData, context);
     } catch (e) {
       Fluttertoast.showToast(msg: 'Failed to save, Try again!');
     }

@@ -35,6 +35,7 @@ class _ProfilePageScreenState extends ConsumerState<ProfilePageScreen> {
     }
   }
 
+  // ignore: non_constant_identifier_names
   Future<void> _ContactAdmin() async {
     await DialogHelper.showConfirmationDialog(
       context,
