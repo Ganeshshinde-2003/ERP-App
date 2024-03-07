@@ -21,6 +21,17 @@ class SharedStoreData {
     final prefs = await SharedPreferences.getInstance();
     final userJson = json.encode(user.toJson());
     prefs.setString('user', userJson);
+    storeUserRole(user.data.user.role);
+  }
+
+  Future<void> storeUserRole(String role) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("UserRole", role);
+  }
+
+  Future<String?> getUserRole() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString("UserRole");
   }
 
   Future<User?> loadUserFromPreferences() async {
@@ -36,6 +47,7 @@ class SharedStoreData {
   Future<void> saveUserToPreferences(User user) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('user', user.toJson());
+    storeUserRole(user.role);
   }
 
   Future<MasterDataCache?> loadMasterDataCacheFromPreferences() async {
@@ -56,7 +68,7 @@ class SharedStoreData {
 
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.remove('user');
+    prefs.remove('UserRole');
   }
 
   Future<bool?> loadAttendanceStatus(String date) async {

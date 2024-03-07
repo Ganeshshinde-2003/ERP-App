@@ -1,4 +1,3 @@
-import 'package:erp_app/constant/models/user_model.dart';
 import 'package:erp_app/constant/provider/user_provider.dart';
 import 'package:erp_app/features/common/bottom_navigation.dart';
 import 'package:erp_app/features/common/landing_page.dart';
@@ -28,11 +27,11 @@ class _MyAppState extends State<MyApp> {
 
   getUserLoggedInStatus() async {
     final sharedStoreData = SharedStoreData();
-    User? user = await sharedStoreData.loadUserFromPreferences();
+    final userRole = await sharedStoreData.getUserRole();
     setState(() {
-      if (user != null) {
+      if (userRole != null) {
         _isSignin = true;
-        role = user.role;
+        role = userRole.toString();
       }
     });
   }
