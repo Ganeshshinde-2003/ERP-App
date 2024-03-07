@@ -1,4 +1,6 @@
 import 'package:erp_app/constant/data/widget_data_student.dart';
+import 'package:erp_app/constant/models/student_login_model.dart';
+import 'package:erp_app/constant/provider/user_provider.dart';
 import 'package:erp_app/constant/text_style.dart';
 import 'package:erp_app/constant/widgets/students/carousel_slider.dart';
 import 'package:erp_app/constant/widgets/students/custom_info_widget.dart';
@@ -15,6 +17,23 @@ class StudentHomePageScreen extends StatefulWidget {
 class _StudentHomePageScreenState extends State<StudentHomePageScreen> {
   bool dashboardoading = false;
   bool isLoading = true;
+  StudentLoginModel? user;
+  SharedStoreData sharedStoreData = SharedStoreData();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserData();
+  }
+
+  void fetchUserData() async {
+    StudentLoginModel? loadUser =
+        await sharedStoreData.loadStudentFromPreferences();
+    setState(() {
+      user = loadUser;
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +47,12 @@ class _StudentHomePageScreenState extends State<StudentHomePageScreen> {
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            const CustomUserInfoWidget(
-              name: "Ganesh",
+            CustomUserInfoWidget(
+              name: '${user?.data.user.fullName}',
               role: "Student",
+              rollNo: "CS0135",
+              classNo:
+                  '${user?.data.admissionDetails.classID.className} ${user?.data.admissionDetails.sectionID.sectionName}',
             ),
             SizedBox(height: deviceHeight * 0.01),
             SizedBox(height: deviceHeight * 0.01),

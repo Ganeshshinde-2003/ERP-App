@@ -20,18 +20,6 @@ class _FrameState extends State<Frame> {
   int _selectedIndex = 0;
   final PageController _pageController = PageController();
 
-  final List<Widget> _teacherPages = [
-    const HomePageScreen(),
-    const NoticePageScreen(),
-    const ProfilePageScreen(),
-  ];
-
-  final List<Widget> _studentPages = [
-    const StudentHomePageScreen(),
-    const NoticePageScreen(),
-    const ProfilePageScreen(),
-  ];
-
   void _navigateBottomBar(int index) {
     setState(() {
       _selectedIndex = index;
@@ -119,6 +107,18 @@ class _FrameState extends State<Frame> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> teacherPages = [
+      const HomePageScreen(),
+      const NoticePageScreen(),
+      ProfilePageScreen(who: widget.role),
+    ];
+
+    final List<Widget> studentPages = [
+      const StudentHomePageScreen(),
+      const NoticePageScreen(),
+      ProfilePageScreen(who: widget.role),
+    ];
+
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: _onBackPressed,
@@ -128,7 +128,7 @@ class _FrameState extends State<Frame> {
         body: PageView(
           controller: _pageController,
           physics: const NeverScrollableScrollPhysics(),
-          children: widget.role == "Teacher" ? _teacherPages : _studentPages,
+          children: widget.role == "Teacher" ? teacherPages : studentPages,
         ),
         bottomNavigationBar: CustomBottomNavigationBar(
           selectedIndex: _selectedIndex,

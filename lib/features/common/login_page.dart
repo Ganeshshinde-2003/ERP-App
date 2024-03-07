@@ -21,9 +21,8 @@ class _LoginPageScreenState extends ConsumerState<LoginPageScreen> {
   TextEditingController passwordController = TextEditingController();
 
   void loginWithUserNameandPassword(String userId, String password) {
-    ref
-        .read(loginTeahcerControllerProvider)
-        .loginTeacherWithUserNamePassword(context, userId, password);
+    ref.read(loginTeahcerControllerProvider).loginTeacherWithUserNamePassword(
+        context, userId, password, widget.role);
   }
 
   void singupHandle() {

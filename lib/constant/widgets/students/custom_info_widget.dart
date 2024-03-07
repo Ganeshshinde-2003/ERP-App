@@ -4,10 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 class CustomUserInfoWidget extends StatelessWidget {
   final String name;
   final String role;
+  final String rollNo;
+  final String classNo;
   const CustomUserInfoWidget({
     super.key,
     required this.name,
     required this.role,
+    this.rollNo = '0135',
+    this.classNo = "XI",
   });
 
   @override
@@ -30,7 +34,7 @@ class CustomUserInfoWidget extends StatelessWidget {
               Text(
                 role == "admin"
                     ? 'Staff | Teacher '
-                    : "Class XI | Roll no: 0135",
+                    : "Class $classNo | Roll no: $rollNo",
                 style: GoogleFonts.poppins(
                     fontSize: 11, color: Colors.grey.shade600),
               )

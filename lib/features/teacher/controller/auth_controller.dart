@@ -17,12 +17,9 @@ class LoginTeacherController {
   });
 
   void loginTeacherWithUserNamePassword(
-      BuildContext context, String userId, String password) {
+      BuildContext context, String userId, String password, String who) {
     loginTeacher.loginTeacherWithUsername(
-      userId: userId,
-      password: password,
-      context: context,
-    );
+        userId: userId, password: password, context: context, who: who);
   }
 
   void logoutUser(BuildContext context) {

@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:erp_app/constant/data/global_variable.dart';
 import 'package:erp_app/constant/models/master_model.dart';
+import 'package:erp_app/constant/models/student_login_model.dart';
 import 'package:erp_app/constant/models/user_model.dart';
 import 'package:erp_app/constant/provider/user_provider.dart';
 import 'package:erp_app/constant/widgets/http_error_handler.dart';
@@ -21,65 +22,118 @@ class LoginTeacher {
   Future<void> loginTeacherWithUsername({
     required String userId,
     required String password,
+    required String who,
     required BuildContext context,
   }) async {
-    try {
-      http.Response res = await http.post(
-        Uri.parse('$URI/users/login'),
-        body: jsonEncode({
-          'email': userId,
-          'password': password,
-        }),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
-        },
-      );
+    if (who == "Teacher") {
+      try {
+        http.Response res = await http.post(
+          Uri.parse('$URI/users/login'),
+          body: jsonEncode({
+            'email': userId,
+            'password': password,
+          }),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          },
+        );
 
-      httpErrorHandle(
-        response: res,
-        context: context,
-        onSuccess: () async {
-          final responseBody = jsonDecode(res.body);
-          SharedStoreData sharedStoreData = SharedStoreData();
+        httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () async {
+            final responseBody = jsonDecode(res.body);
+            SharedStoreData sharedStoreData = SharedStoreData();
 
-          User user = User(
-            id: responseBody['data']['user']['id'],
-            fullName: responseBody['data']['user']['fullName'],
-            email: responseBody['data']['user']['email'],
-            role: responseBody['data']['user']['role'],
-            company_id:
-                responseBody['data']['user']['company_id'] ?? "ENG21CS0135",
-            token: responseBody['data']['token'],
-          );
+            User user = User(
+              id: responseBody['data']['user']['userId'],
+              fullName: responseBody['data']['user']['fullName'],
+              email: responseBody['data']['user']['email'],
+              role: responseBody['data']['user']['role'],
+              company_id: responseBody['data']['user']['company_id'],
+              token: responseBody['data']['token'],
+            );
 
-          await sharedStoreData.saveUserToPreferences(user);
-          User? user2 = await sharedStoreData.loadUserFromPreferences();
+            await sharedStoreData.saveUserToPreferences(user);
+            User? user2 = await sharedStoreData.loadUserFromPreferences();
 
-          showSnackBar(
-            context: context,
-            content: jsonDecode(res.body)['message'],
-          );
-          if (user2?.role == "admin") {
-            await getMasterDataToChache(context: context);
-          }
-          Navigator.push(
-            context,
-            PageTransition(
-              type: PageTransitionType.fade,
-              alignment: Alignment.lerp(
-                Alignment.centerLeft,
-                Alignment.centerLeft,
-                0.5,
+            showSnackBar(
+              context: context,
+              content: jsonDecode(res.body)['message'],
+            );
+            if (user2?.role == "admin") {
+              await getMasterDataToChache(context: context);
+            }
+            Navigator.push(
+              context,
+              PageTransition(
+                type: PageTransitionType.fade,
+                alignment: Alignment.lerp(
+                  Alignment.centerLeft,
+                  Alignment.centerLeft,
+                  0.5,
+                ),
+                child: user2?.role == "admin"
+                    ? const Frame(role: "Teacher")
+                    : const Frame(role: "Student"),
               ),
-              child: user2?.role == "admin"
-                  ? const Frame(role: "Teacher")
-                  : const Frame(role: "Student"),
-            ),
-          );
-        },
-      );
-    } catch (e) {
-      showSnackBar(context: context, content: e.toString());
+            );
+          },
+        );
+      } catch (e) {
+        showSnackBar(context: context, content: e.toString());
+      }
+    }
+    if (who == "Student") {
+      try {
+        http.Response res = await http.post(
+          Uri.parse('$URI/users/login'),
+          body: jsonEncode({
+            'email': userId,
+            'password': password,
+          }),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          },
+        );
+
+        httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () async {
+            final responseBody = jsonDecode(res.body);
+            SharedStoreData sharedStoreData = SharedStoreData();
+
+            StudentLoginModel studentLoginModel =
+                StudentLoginModel.fromJson(responseBody);
+
+            await sharedStoreData.saveStudentToPreferences(studentLoginModel);
+            StudentLoginModel? user2 =
+                await sharedStoreData.loadStudentFromPreferences();
+
+            showSnackBar(
+              context: context,
+              content: jsonDecode(res.body)['message'],
+            );
+            Navigator.push(
+              context,
+              PageTransition(
+                type: PageTransitionType.fade,
+                alignment: Alignment.lerp(
+                  Alignment.centerLeft,
+                  Alignment.centerLeft,
+                  0.5,
+                ),
+                child: user2?.data.user.role == "admin"
+                    ? const Frame(role: "Teacher")
+                    : const Frame(role: "Student"),
+              ),
+            );
+          },
+        );
+      } catch (e) {
+        showSnackBar(context: context, content: e.toString());
+      }
     }
   }
 

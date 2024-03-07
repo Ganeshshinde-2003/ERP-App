@@ -1,10 +1,28 @@
 import 'dart:convert';
 
 import 'package:erp_app/constant/models/master_model.dart';
+import 'package:erp_app/constant/models/student_login_model.dart';
 import 'package:erp_app/constant/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedStoreData {
+  Future<StudentLoginModel?> loadStudentFromPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonString = prefs.getString('user');
+    if (jsonString != null) {
+      final Map<String, dynamic> jsonData = json.decode(jsonString);
+      return StudentLoginModel.fromJson(jsonData);
+    } else {
+      return null;
+    }
+  }
+
+  Future<void> saveStudentToPreferences(StudentLoginModel user) async {
+    final prefs = await SharedPreferences.getInstance();
+    final userJson = json.encode(user.toJson());
+    prefs.setString('user', userJson);
+  }
+
   Future<User?> loadUserFromPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     final jsonString = prefs.getString('user');

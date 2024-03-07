@@ -1,3 +1,4 @@
+import 'package:erp_app/constant/models/student_login_model.dart';
 import 'package:erp_app/constant/models/user_model.dart';
 import 'package:erp_app/constant/provider/user_provider.dart';
 import 'package:erp_app/constant/text_style.dart';
@@ -11,7 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProfilePageScreen extends ConsumerStatefulWidget {
-  const ProfilePageScreen({super.key});
+  final String who;
+  const ProfilePageScreen({super.key, required this.who});
 
   @override
   ConsumerState<ProfilePageScreen> createState() => _ProfilePageScreenState();
@@ -20,6 +22,7 @@ class ProfilePageScreen extends ConsumerStatefulWidget {
 class _ProfilePageScreenState extends ConsumerState<ProfilePageScreen> {
   bool isLoading = true;
   User? user;
+  StudentLoginModel? studentLoginModel;
   SharedStoreData sharedStoreData = SharedStoreData();
 
   Future<void> _confirmLogout() async {
@@ -56,12 +59,20 @@ class _ProfilePageScreenState extends ConsumerState<ProfilePageScreen> {
   }
 
   void fetchUserData() async {
-    User? loadedUser = await sharedStoreData.loadUserFromPreferences();
-
-    setState(() {
-      user = loadedUser;
-      isLoading = false;
-    });
+    if (widget.who == "Teacher") {
+      User? loadedUser = await sharedStoreData.loadUserFromPreferences();
+      setState(() {
+        user = loadedUser;
+        isLoading = false;
+      });
+    } else {
+      StudentLoginModel? loadUser =
+          await sharedStoreData.loadStudentFromPreferences();
+      setState(() {
+        studentLoginModel = loadUser;
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -74,8 +85,12 @@ class _ProfilePageScreenState extends ConsumerState<ProfilePageScreen> {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: ProfileRowWidget(
-              name: user?.fullName ?? 'Loading...',
-              id: user?.company_id ?? 'Loading...',
+              name: widget.who == "Teacher"
+                  ? user?.fullName ?? 'Loading...'
+                  : studentLoginModel?.data.user.fullName ?? "Loading...",
+              id: widget.who == "Teacher"
+                  ? user?.company_id ?? 'Loading...'
+                  : "CS0135",
               role: user?.role == "admin" ? "Teacher" : "Student",
               profilePic: 'assets/avatar.png',
             ),
