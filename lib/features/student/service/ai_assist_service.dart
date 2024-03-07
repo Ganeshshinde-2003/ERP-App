@@ -70,8 +70,17 @@ class AiAssistService {
       "Authorization": "Bearer $API"
     });
     final Map<String, dynamic> parsedResponse = jsonDecode(response.body);
-    String reply = parsedResponse['choices'][0]['message']['content'];
-    return reply;
+    print(parsedResponse);
+
+    if (parsedResponse['choices'] != null &&
+        parsedResponse['choices'].isNotEmpty &&
+        parsedResponse['choices'][0]['message'] != null &&
+        parsedResponse['choices'][0]['message']['content'] != null) {
+      String reply = parsedResponse['choices'][0]['message']['content'];
+      return reply;
+    } else {
+      return 'Error: Invalid JSON structure';
+    }
   }
 
   Future<String> sendtoSummary(String input) async {
