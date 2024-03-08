@@ -70,7 +70,7 @@ class AiAssistService {
       "Authorization": "Bearer $API"
     });
     final Map<String, dynamic> parsedResponse = jsonDecode(response.body);
-    print(parsedResponse);
+    // print(parsedResponse);
 
     if (parsedResponse['choices'] != null &&
         parsedResponse['choices'].isNotEmpty &&

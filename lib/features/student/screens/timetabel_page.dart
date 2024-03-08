@@ -23,6 +23,7 @@ class _StudentTimeTablePageScreenState extends State<StudentTimeTablePageScreen>
     with TickerProviderStateMixin {
   bool isLoading = false;
   bool isData = true;
+  int day = 1;
   String todaysDate = DateFormat('EEEE').format(DateTime.now());
 
   @override
@@ -59,6 +60,7 @@ class _StudentTimeTablePageScreenState extends State<StudentTimeTablePageScreen>
                       setState(() {
                         controller.animateTo(index);
                         todaysDate = studentOnBoardingData.weekdays[index];
+                        day = index + 1;
                       });
                     },
                   ),
@@ -101,7 +103,7 @@ class _StudentTimeTablePageScreenState extends State<StudentTimeTablePageScreen>
                           width: MediaQuery.of(context).size.width * 0.9,
                           child: !isData
                               ? NoDataFound(deviceHeight, "assets/no_data.json")
-                              : const PeriodsListWidget(),
+                              : PeriodsListWidget(day: day.toString()),
                         )
                 ],
               ),
