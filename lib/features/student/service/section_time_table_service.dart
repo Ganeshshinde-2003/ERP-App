@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:erp_app/constant/data/global_variable.dart';
 import 'package:erp_app/constant/models/student_login_model.dart';
 import 'package:erp_app/constant/models/student_time_table_model.dart';
+import 'package:erp_app/constant/models/user_model.dart';
 import 'package:erp_app/constant/provider/user_provider.dart';
 import 'package:erp_app/constant/widgets/http_error_handler.dart';
 import 'package:erp_app/constant/widgets/snack_bar.dart';
@@ -16,25 +17,44 @@ final studentSectionTimeTableServiceProvider =
     Provider((ref) => StudentSectionTimetableService());
 
 class StudentSectionTimetableService {
-  Future<StudentSectionTimeTable?> getTimeTableBySection(
-      {required BuildContext context}) async {
+  Future<StudentSectionTimeTable?> getTimeTableBySection({
+    required BuildContext context,
+    required String who,
+  }) async {
     SharedStoreData sharedStoreData = SharedStoreData();
-    StudentLoginModel? loadUser =
-        await sharedStoreData.loadStudentFromPreferences();
-
-    String? authToken = loadUser?.data.token;
-    // String? sectionId = loadUser?.data.admissionDetails.sectionID.id;
-
     StudentSectionTimeTable? sectionTimeTable;
+    http.Response res = http.Response('', 200);
     try {
-      http.Response res = await http.get(
-        Uri.parse(
-            '$URI/students/getscheduleBysection/65e87c6d027050ce5dcffc5d'),
-        headers: {
-          'Authorization': 'Bearer $authToken',
-          'Content-Type': 'application/json',
-        },
-      );
+      if (who == 'Student') {
+        StudentLoginModel? loadUser =
+            await sharedStoreData.loadStudentFromPreferences();
+
+        String? authToken = loadUser?.data.token;
+        String? sectionId = loadUser?.data.admissionDetails.sectionID.id;
+
+        res = await http.get(
+          Uri.parse('$URI/students/getscheduleBysection/$sectionId'),
+          headers: {
+            'Authorization': 'Bearer $authToken',
+            'Content-Type': 'application/json',
+          },
+        );
+      }
+
+      if (who == "Teacher") {
+        User? loadUser = await sharedStoreData.loadUserFromPreferences();
+
+        String? authToken = loadUser?.data.token;
+        String? sectionId = loadUser?.data.employee.id;
+
+        res = await http.get(
+          Uri.parse('$URI/teachers/getscheduleByTeacher/$sectionId'),
+          headers: {
+            'Authorization': 'Bearer $authToken',
+            'Content-Type': 'application/json',
+          },
+        );
+      }
 
       httpErrorHandle(
           response: res,

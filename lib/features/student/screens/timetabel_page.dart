@@ -12,7 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class StudentTimeTablePageScreen extends StatefulWidget {
-  const StudentTimeTablePageScreen({Key? key}) : super(key: key);
+  final String who;
+  const StudentTimeTablePageScreen({Key? key, required this.who})
+      : super(key: key);
 
   @override
   State<StudentTimeTablePageScreen> createState() =>
@@ -43,7 +45,7 @@ class _StudentTimeTablePageScreenState extends State<StudentTimeTablePageScreen>
         children: [
           BottomImageBar(
             deviceWidth: deviceWidth,
-            color: "Green",
+            color: "Green", // Add a default color or handle the null case here
           ),
           Container(
             height: deviceHeight,
@@ -103,7 +105,10 @@ class _StudentTimeTablePageScreenState extends State<StudentTimeTablePageScreen>
                           width: MediaQuery.of(context).size.width * 0.9,
                           child: !isData
                               ? NoDataFound(deviceHeight, "assets/no_data.json")
-                              : PeriodsListWidget(day: day.toString()),
+                              : PeriodsListWidget(
+                                  day: day.toString(),
+                                  who: widget.who,
+                                ),
                         )
                 ],
               ),

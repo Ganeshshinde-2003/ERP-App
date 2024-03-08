@@ -22,8 +22,10 @@ class StudentSectionTimetableController {
   });
 
   Future<StudentSectionTimeTable?> getTimeTableBySection(
-      BuildContext context) async {
+      BuildContext context, String who) async {
     return studentSectionTimetableService.getTimeTableBySection(
-        context: context);
+      context: context,
+      who: who,
+    );
   }
 }

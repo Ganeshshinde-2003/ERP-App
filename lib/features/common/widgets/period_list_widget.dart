@@ -8,8 +8,10 @@ import 'package:intl/intl.dart';
 
 class PeriodsListWidget extends ConsumerStatefulWidget {
   final String day;
+  final String who;
 
-  const PeriodsListWidget({Key? key, required this.day}) : super(key: key);
+  const PeriodsListWidget({Key? key, required this.day, required this.who})
+      : super(key: key);
 
   @override
   ConsumerState<PeriodsListWidget> createState() => _PeriodsListWidgetState();
@@ -21,7 +23,7 @@ class _PeriodsListWidgetState extends ConsumerState<PeriodsListWidget> {
   void getTimeTable() async {
     StudentSectionTimeTable? localTimeTable = await ref
         .read(studentSectionTimeTableControllerProvider)
-        .getTimeTableBySection(context);
+        .getTimeTableBySection(context, widget.who);
     setState(() {
       sectionTimeTable = localTimeTable;
     });
@@ -44,7 +46,9 @@ class _PeriodsListWidgetState extends ConsumerState<PeriodsListWidget> {
                 subject: session.sessionID.subjectId.subjectName,
                 starttime: session.startTime,
                 endtime: session.endTime,
-                teacher: session.teacherID.employeeName,
+                teacher: widget.who == "Student"
+                    ? session.teacherID.employeeName
+                    : '${session.sessionID.classId.className} ${session.sessionID.sectionId.sectionName}',
               ))
           .toList();
 
@@ -115,7 +119,9 @@ class _PeriodsListWidgetState extends ConsumerState<PeriodsListWidget> {
                       ],
                     ),
                     Text(
-                      'Teacher : ${periods[index].teacher}',
+                      widget.who == "Student"
+                          ? 'Teacher : ${periods[index].teacher}'
+                          : 'Section : ${periods[index].teacher}',
                       style: GoogleFonts.poppins(
                           fontSize: 12,
                           color: Colors.black,

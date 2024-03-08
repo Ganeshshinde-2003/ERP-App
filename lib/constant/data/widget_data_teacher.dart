@@ -44,7 +44,9 @@ class WidgetData {
           ),
         ),
         GestureDetector(
-          onTap: () => openPage(const StudentTimeTablePageScreen()),
+          onTap: () => openPage(const StudentTimeTablePageScreen(
+            who: "Teacher",
+          )),
           child: SmallDashboard(
             'assets/small-dashboard-abstract2.png',
             'assets/schedule.png',
