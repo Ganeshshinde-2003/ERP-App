@@ -22,6 +22,7 @@ class ProfilePageScreen extends ConsumerStatefulWidget {
 class _ProfilePageScreenState extends ConsumerState<ProfilePageScreen> {
   bool isLoading = true;
   User? user;
+  String? role;
   StudentLoginModel? studentLoginModel;
   SharedStoreData sharedStoreData = SharedStoreData();
 
@@ -61,8 +62,10 @@ class _ProfilePageScreenState extends ConsumerState<ProfilePageScreen> {
   void fetchUserData() async {
     if (widget.who == "Teacher") {
       User? loadedUser = await sharedStoreData.loadUserFromPreferences();
+      String? userRole = await sharedStoreData.getUserRole();
       setState(() {
         user = loadedUser;
+        role = userRole;
         isLoading = false;
       });
     } else {
@@ -86,12 +89,14 @@ class _ProfilePageScreenState extends ConsumerState<ProfilePageScreen> {
             padding: const EdgeInsets.all(20.0),
             child: ProfileRowWidget(
               name: widget.who == "Teacher"
-                  ? user?.fullName ?? 'Loading...'
+                  ? user?.data.user.fullName ?? 'Loading...'
                   : studentLoginModel?.data.user.fullName ?? "Loading...",
               id: widget.who == "Teacher"
-                  ? user?.company_id ?? 'Loading...'
-                  : "CS0135",
-              role: user?.role == "admin" ? "Teacher" : "Student",
+                  ? user?.data.employee.empNumber.toString() ?? 'Loading...'
+                  : studentLoginModel?.data.admissionDetails.studentID.rollNo
+                          .toString() ??
+                      'Loading...',
+              role: role == "teacher" ? "Teacher" : "Student",
               profilePic: 'assets/avatar.png',
             ),
           ),

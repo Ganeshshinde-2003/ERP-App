@@ -28,6 +28,7 @@ class _MyAppState extends State<MyApp> {
   getUserLoggedInStatus() async {
     final sharedStoreData = SharedStoreData();
     final userRole = await sharedStoreData.getUserRole();
+
     setState(() {
       if (userRole != null) {
         _isSignin = true;
@@ -45,7 +46,7 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       home: _isSignin
-          ? Frame(role: role == "admin" ? "Teacher" : "Student")
+          ? Frame(role: role == "teacher" ? "Teacher" : "Student")
           : const LandingPage(),
     );
   }

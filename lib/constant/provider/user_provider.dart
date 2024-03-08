@@ -37,8 +37,10 @@ class SharedStoreData {
   Future<User?> loadUserFromPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     final jsonString = prefs.getString('user');
+
     if (jsonString != null) {
-      return User.fromJson(jsonString);
+      Map<String, dynamic> jsonMap = json.decode(jsonString);
+      return User.fromJson(jsonMap);
     } else {
       return null;
     }
@@ -46,8 +48,8 @@ class SharedStoreData {
 
   Future<void> saveUserToPreferences(User user) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('user', user.toJson());
-    storeUserRole(user.role);
+    prefs.setString('user', json.encode(user.toJson()));
+    storeUserRole(user.data.user.role);
   }
 
   Future<MasterDataCache?> loadMasterDataCacheFromPreferences() async {

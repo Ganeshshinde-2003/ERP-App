@@ -48,8 +48,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
         child: Column(
           children: [
             CustomUserInfoWidget(
-              name: user?.fullName ?? 'Loading...',
-              role: user?.role ?? 'Loading...',
+              name: user?.data.user.fullName ?? 'Loading...',
+              role: "teacher",
+              teacher: user?.data.employee.designation ?? "Loading...",
             ),
             SizedBox(height: deviceHeight * 0.01),
             SizedBox(height: deviceHeight * 0.01),

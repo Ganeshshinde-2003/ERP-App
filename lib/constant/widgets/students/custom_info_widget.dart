@@ -6,10 +6,12 @@ class CustomUserInfoWidget extends StatelessWidget {
   final String role;
   final String rollNo;
   final String classNo;
+  final String teacher;
   const CustomUserInfoWidget({
     super.key,
     required this.name,
     required this.role,
+    this.teacher = "Staff",
     this.rollNo = '0135',
     this.classNo = "XI",
   });
@@ -32,8 +34,8 @@ class CustomUserInfoWidget extends StatelessWidget {
                     color: Colors.black),
               ),
               Text(
-                role == "admin"
-                    ? 'Staff | Teacher '
+                role == "teacher"
+                    ? '$teacher | Teacher '
                     : "Class $classNo | Roll no: $rollNo",
                 style: GoogleFonts.poppins(
                     fontSize: 11, color: Colors.grey.shade600),

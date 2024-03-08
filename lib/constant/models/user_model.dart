@@ -1,46 +1,107 @@
-import 'dart:convert';
-// ignore_for_file: non_constant_identifier_names
-
 class User {
-  final String id;
-  final String fullName;
-  final String email;
-  final String role;
-  final String company_id;
-  final String token;
-  User({
-    required this.id,
-    required this.fullName,
-    required this.email,
-    required this.role,
-    required this.company_id,
-    required this.token,
-  });
+  bool success;
+  String message;
+  ApiData data;
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'fullName': fullName,
-      'email': email,
-      'role': role,
-      'company_id': company_id,
-      'token': token,
-    };
-  }
+  User({required this.success, required this.message, required this.data});
 
-  factory User.fromMap(Map<String, dynamic> map) {
+  factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: map['id'] as String,
-      fullName: map['fullName'] as String,
-      email: map['email'] as String,
-      role: map['role'] as String,
-      company_id: map['company_id'] as String,
-      token: map['token'] as String,
+      success: json['success'],
+      message: json['message'],
+      data: ApiData.fromJson(json['data']),
     );
   }
 
-  String toJson() => json.encode(toMap());
+  Map<String, dynamic> toJson() {
+    return {
+      'success': success,
+      'message': message,
+      'data': data.toJson(),
+    };
+  }
+}
 
-  factory User.fromJson(String source) =>
-      User.fromMap(json.decode(source) as Map<String, dynamic>);
+class ApiData {
+  String token;
+  ApiUser user;
+  ApiEmployee employee;
+
+  ApiData({required this.token, required this.user, required this.employee});
+
+  factory ApiData.fromJson(Map<String, dynamic> json) {
+    return ApiData(
+      token: json['token'],
+      user: ApiUser.fromJson(json['user']),
+      employee: ApiEmployee.fromJson(json['employee']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'token': token,
+      'user': user.toJson(),
+      'employee': employee.toJson(),
+    };
+  }
+}
+
+class ApiUser {
+  String userId;
+  String email;
+  String fullName;
+  String role;
+
+  ApiUser({
+    required this.userId,
+    required this.email,
+    required this.fullName,
+    required this.role,
+  });
+
+  factory ApiUser.fromJson(Map<String, dynamic> json) {
+    return ApiUser(
+      userId: json['userId'],
+      email: json['email'],
+      fullName: json['fullName'],
+      role: json['role'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'userId': userId,
+      'email': email,
+      'fullName': fullName,
+      'role': role,
+    };
+  }
+}
+
+class ApiEmployee {
+  String id;
+  int empNumber;
+  String designation;
+
+  ApiEmployee({
+    required this.id,
+    required this.empNumber,
+    required this.designation,
+  });
+
+  factory ApiEmployee.fromJson(Map<String, dynamic> json) {
+    return ApiEmployee(
+      id: json['_id'],
+      empNumber: json['empNumber'],
+      designation: json['designation'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': id,
+      'empNumber': empNumber,
+      'designation': designation,
+    };
+  }
 }

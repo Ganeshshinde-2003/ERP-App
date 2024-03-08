@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class StudentLoginModel {
   bool success;
   String message;
@@ -137,12 +138,14 @@ class AdmissionDetails {
 class StudentID {
   String id;
   String name;
+  int rollNo;
   String dob;
   String gender;
 
   StudentID({
     required this.id,
     required this.name,
+    required this.rollNo,
     required this.dob,
     required this.gender,
   });
@@ -151,6 +154,7 @@ class StudentID {
     return StudentID(
       id: json['_id'],
       name: json['name'],
+      rollNo: json['rollNo'],
       dob: json['dob'],
       gender: json['gender'],
     );
@@ -160,6 +164,7 @@ class StudentID {
     return {
       '_id': id,
       'name': name,
+      'rollNo': rollNo,
       'dob': dob,
       'gender': gender,
     };

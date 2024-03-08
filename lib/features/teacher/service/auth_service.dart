@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
-
 import 'package:erp_app/constant/data/global_variable.dart';
 import 'package:erp_app/constant/models/master_model.dart';
 import 'package:erp_app/constant/models/student_login_model.dart';
@@ -45,14 +44,7 @@ class LoginTeacher {
             final responseBody = jsonDecode(res.body);
             SharedStoreData sharedStoreData = SharedStoreData();
 
-            User user = User(
-              id: responseBody['data']['user']['userId'],
-              fullName: responseBody['data']['user']['fullName'],
-              email: responseBody['data']['user']['email'],
-              role: responseBody['data']['user']['role'],
-              company_id: responseBody['data']['user']['company_id'],
-              token: responseBody['data']['token'],
-            );
+            User user = User.fromJson(responseBody);
 
             await sharedStoreData.saveUserToPreferences(user);
             User? user2 = await sharedStoreData.loadUserFromPreferences();
@@ -61,7 +53,7 @@ class LoginTeacher {
               context: context,
               content: jsonDecode(res.body)['message'],
             );
-            if (user2?.role == "admin") {
+            if (user2?.data.user.role == "teacher") {
               await getMasterDataToChache(context: context);
             }
             Navigator.push(
@@ -73,7 +65,7 @@ class LoginTeacher {
                   Alignment.centerLeft,
                   0.5,
                 ),
-                child: user2?.role == "admin"
+                child: user2?.data.user.role == "teacher"
                     ? const Frame(role: "Teacher")
                     : const Frame(role: "Student"),
               ),
@@ -124,7 +116,7 @@ class LoginTeacher {
                   Alignment.centerLeft,
                   0.5,
                 ),
-                child: user2?.data.user.role == "admin"
+                child: user2?.data.user.role == "teacher"
                     ? const Frame(role: "Teacher")
                     : const Frame(role: "Student"),
               ),
@@ -158,7 +150,7 @@ class LoginTeacher {
     SharedStoreData sharedStoreData = SharedStoreData();
 
     User? loadUser = await sharedStoreData.loadUserFromPreferences();
-    String? authToken = loadUser?.token;
+    String? authToken = loadUser?.data.user.role;
 
     try {
       final response = await http.get(

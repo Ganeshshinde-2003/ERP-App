@@ -48,11 +48,12 @@ class _StudentHomePageScreenState extends State<StudentHomePageScreen> {
         child: Column(
           children: [
             CustomUserInfoWidget(
-              name: '${user?.data.user.fullName}',
+              name: user?.data.user.fullName ?? "Unknown",
               role: "Student",
-              rollNo: "CS0135",
+              rollNo: user?.data.admissionDetails.studentID.rollNo.toString() ??
+                  "N/A",
               classNo:
-                  '${user?.data.admissionDetails.classID.className} ${user?.data.admissionDetails.sectionID.sectionName}',
+                  '${user?.data.admissionDetails.classID.className ?? "Unknown"} ${user?.data.admissionDetails.sectionID.sectionName ?? "Unknown"}',
             ),
             SizedBox(height: deviceHeight * 0.01),
             SizedBox(height: deviceHeight * 0.01),

@@ -27,7 +27,7 @@ class PutStudentAttendance {
     SharedStoreData sharedStoreData = SharedStoreData();
 
     User? loadUser = await sharedStoreData.loadUserFromPreferences();
-    String? authToken = loadUser?.token;
+    String? authToken = loadUser?.data.token;
 
     try {
       http.Response res = await http.get(
@@ -114,7 +114,7 @@ class PutStudentAttendance {
     SharedStoreData sharedStoreData = SharedStoreData();
 
     User? loadUser = await sharedStoreData.loadUserFromPreferences();
-    String? authToken = loadUser?.token;
+    String? authToken = loadUser?.data.token;
 
     http.Response res = await http.post(
       Uri.parse("$URI/students/attendance/save"),
