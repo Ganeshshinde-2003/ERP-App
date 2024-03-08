@@ -15,6 +15,9 @@ final getIndiAttedanceServiceProvider =
     Provider((ref) => GetIndiAttedanceService());
 
 class GetIndiAttedanceService {
+  // ignore: constant_identifier_names
+  static const String API_ENDPOINT = '$URI/students/monthly-attendance-report';
+
   Future<AttendanceIndiModel?> getIndiAttendance({
     required int month,
     required int year,
@@ -26,10 +29,10 @@ class GetIndiAttedanceService {
     StudentLoginModel? studentLoginModel =
         await sharedStoreData.loadStudentFromPreferences();
     String? authToken = studentLoginModel?.data.token;
-    // String? studentId = studentLoginModel?.data.admissionDetails.studentID.id;
+
     try {
       http.Response res = await http.post(
-        Uri.parse('$URI/students/monthly-attendance-report'),
+        Uri.parse(API_ENDPOINT),
         body: jsonEncode({
           'studentId': "65e0d3f2026813d9450ec86a",
           'month': month,
@@ -46,7 +49,6 @@ class GetIndiAttedanceService {
         context: context,
         onSuccess: () async {
           final responseData = json.decode(res.body);
-          print(responseData);
           attendanceIndiModel = AttendanceIndiModel.fromJson(responseData);
         },
       );

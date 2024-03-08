@@ -1,11 +1,13 @@
+import 'package:erp_app/constant/models/attendance_indi_model.dart';
 import 'package:erp_app/features/common/widgets/attendance_status.dart';
+import 'package:erp_app/features/student/controller/get_attedance_indi_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ReusableCalendar extends ConsumerStatefulWidget {
-  const ReusableCalendar({super.key});
+  const ReusableCalendar({Key? key}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
@@ -15,12 +17,56 @@ class ReusableCalendar extends ConsumerStatefulWidget {
 class _ReusableCalendarState extends ConsumerState<ReusableCalendar> {
   late DateTime focusedDay;
   late int currentIndex;
+  AttendanceIndiModel? attendanceIndiModel;
+  List<DateTime> absentDates = [];
+  List<DateTime> presentDates = [];
+
+  Future<void> getAttendanceData(dynamic month, dynamic year) async {
+    attendanceIndiModel = await ref
+        .read(getAttedanceIndiControllerProvider)
+        .getIndiAttendance(month, year, "S", context);
+
+    if (attendanceIndiModel != null) {
+      final dateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+      absentDates = attendanceIndiModel!.data.absentDates
+          .map((dateString) => dateFormat.parse(dateString))
+          .toList();
+
+      presentDates = attendanceIndiModel!.data.presentDates
+          .map((dateString) => dateFormat.parse(dateString))
+          .toList();
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     focusedDay = DateTime.now();
     currentIndex = DateTime.now().month - 1;
+    Future.delayed(Duration.zero, () {
+      _initializeData();
+    });
+  }
+
+  Future<void> _initializeData() async {
+    await getAttendanceData(focusedDay.month, focusedDay.year);
+    setState(() {});
+  }
+
+  bool isSameDayList(DateTime date, List<DateTime> dateList) {
+    return dateList.any((d) => isSameDay(date, d));
+  }
+
+  bool isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
+  }
+
+  Future<void> _onMonthChange(DateTime focusedDay) async {
+    currentIndex = focusedDay.month - 1;
+    await getAttendanceData(focusedDay.month, focusedDay.year);
+    setState(() {});
   }
 
   @override
@@ -54,6 +100,7 @@ class _ReusableCalendarState extends ConsumerState<ReusableCalendar> {
                           currentIndex--;
                           focusedDay =
                               DateTime(focusedDay.year, currentIndex + 1, 1);
+                          _onMonthChange(focusedDay);
                         }
                       });
                     },
@@ -77,6 +124,7 @@ class _ReusableCalendarState extends ConsumerState<ReusableCalendar> {
                           currentIndex++;
                           focusedDay =
                               DateTime(focusedDay.year, currentIndex + 1, 1);
+                          _onMonthChange(focusedDay);
                         }
                       });
                     },
@@ -88,35 +136,36 @@ class _ReusableCalendarState extends ConsumerState<ReusableCalendar> {
             TableCalendar(
               headerVisible: false,
               calendarFormat: CalendarFormat.month,
-              onPageChanged: (DateTime focusedDay) {},
+              onPageChanged: _onMonthChange,
               calendarStyle: const CalendarStyle(
-                defaultTextStyle: TextStyle(fontSize: 10.5),
-                holidayTextStyle: TextStyle(fontSize: 10.5),
-                weekendTextStyle: TextStyle(fontSize: 10.5),
+                defaultTextStyle: TextStyle(fontSize: 12),
+                holidayTextStyle: TextStyle(fontSize: 12),
+                weekendTextStyle: TextStyle(fontSize: 12),
               ),
               daysOfWeekStyle: const DaysOfWeekStyle(
                 weekdayStyle: TextStyle(fontSize: 12),
                 weekendStyle: TextStyle(fontSize: 12),
               ),
-              headerStyle: const HeaderStyle(
-                formatButtonVisible: false,
-                titleCentered: true,
-                titleTextStyle:
-                    TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
-              ),
               focusedDay: focusedDay,
               firstDay: DateTime(2023, 1, 1),
               lastDay: DateTime(2025, 12, 31),
               selectedDayPredicate: (day) {
-                // Update this logic based on your markedDates or selected dates
-                return isSameDay(day, focusedDay);
+                return isSameDayList(day, [...absentDates, ...presentDates]);
+              },
+              onDaySelected: (selectedDay, focusedDay) {
+                setState(() {
+                  focusedDay = selectedDay;
+                });
               },
               calendarBuilders: CalendarBuilders(
                 selectedBuilder: (context, date, events) {
                   Color cellColor = Colors.transparent;
 
-                  // Check if the date is the focused day
-                  if (isSameDay(date, focusedDay)) {
+                  if (isSameDayList(date, absentDates)) {
+                    cellColor = Colors.red;
+                  }
+
+                  if (isSameDayList(date, presentDates)) {
                     cellColor = Colors.green;
                   }
 
@@ -132,6 +181,7 @@ class _ReusableCalendarState extends ConsumerState<ReusableCalendar> {
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 10,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
