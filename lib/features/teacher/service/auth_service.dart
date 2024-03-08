@@ -150,11 +150,11 @@ class LoginTeacher {
     SharedStoreData sharedStoreData = SharedStoreData();
 
     User? loadUser = await sharedStoreData.loadUserFromPreferences();
-    String? authToken = loadUser?.data.user.role;
+    String? authToken = loadUser?.data.token;
 
     try {
       final response = await http.get(
-        Uri.parse('$URI/commonmaster/getCommonMasterData'),
+        Uri.parse('$URI/common/masterData'),
         headers: {
           'Authorization': 'Bearer $authToken',
           'Content-Type': 'application/json',
