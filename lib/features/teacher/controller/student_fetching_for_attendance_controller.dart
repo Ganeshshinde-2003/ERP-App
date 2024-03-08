@@ -24,8 +24,8 @@ class PutStudentAttendanceController {
     BuildContext context,
     String sectionId,
     String date,
-  ) {
-    return putStudentAttendance.fetchStudentAttendanceData(
+  ) async {
+    return await putStudentAttendance.fetchStudentAttendanceData(
       sectionId: sectionId,
       context: context,
       date: date,

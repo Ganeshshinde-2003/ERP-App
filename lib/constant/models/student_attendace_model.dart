@@ -29,7 +29,7 @@ class StudentData {
   String sectionID;
   String status;
   String updatedBy;
-  bool attendanceStatus; // Change the type to bool
+  bool attendanceStatus;
 
   StudentData({
     required this.id,
@@ -53,7 +53,7 @@ class StudentData {
       sectionID: json['sectionID'],
       status: json['status'],
       updatedBy: json['updatedBy'],
-      attendanceStatus: true, // Set the default value to true
+      attendanceStatus: true,
     );
   }
 }

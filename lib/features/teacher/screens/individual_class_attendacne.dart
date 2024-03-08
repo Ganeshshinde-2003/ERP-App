@@ -3,6 +3,7 @@
 import 'package:erp_app/constant/models/student_attendace_model.dart';
 import 'package:erp_app/constant/text_style.dart';
 import 'package:erp_app/constant/widgets/notfound_data.dart';
+import 'package:erp_app/constant/widgets/snack_bar.dart';
 import 'package:erp_app/features/common/subapp_bar.dart';
 import 'package:erp_app/features/common/widgets/row_head_disc.dart';
 import 'package:erp_app/features/teacher/controller/student_fetching_for_attendance_controller.dart';
@@ -50,29 +51,34 @@ class _IndividualClassAttendaceState
   }
 
   void getData() async {
-    setState(() {
-      isLoading = true;
-    });
+    try {
+      setState(() {
+        isLoading = true;
+      });
 
-    String currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+      String currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-    students = await ref
-        .read(putStudentAttendanceControllerProvider)
-        .fetchStudentAttendanceData(context, widget.sectionId, currentDate);
+      // Fetch data
+      students = await ref
+          .read(putStudentAttendanceControllerProvider)
+          .fetchStudentAttendanceData(context, widget.sectionId, currentDate);
 
-    await processData(); // Wait for processData to complete
-
-    setState(() {
-      isLoading = false;
-    });
+      await processData(students);
+    } catch (e) {
+      showSnackBar(context: context, content: e.toString());
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
-  Future<void> processData() async {
-    if (students.isNotEmpty) {
-      groupValue = List<bool>.filled(students.length, true);
+  Future<void> processData(data) async {
+    if (data.isNotEmpty) {
+      groupValue = List<bool>.filled(data.length, true);
 
-      for (int i = 0; i < students.length; i++) {
-        groupValue[i] = students[i].attendanceStatus;
+      for (int i = 0; i < data.length; i++) {
+        groupValue[i] = data[i].attendanceStatus;
       }
     } else {
       groupValue = [];
