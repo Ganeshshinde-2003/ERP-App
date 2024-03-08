@@ -1,5 +1,7 @@
 import 'package:erp_app/constant/models/attendance_indi_model.dart';
+import 'package:erp_app/constant/widgets/logo_loading.dart';
 import 'package:erp_app/features/common/widgets/attendance_status.dart';
+import 'package:erp_app/features/common/widgets/percent_total_widget.dart';
 import 'package:erp_app/features/student/controller/get_attedance_indi_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,11 +19,19 @@ class ReusableCalendar extends ConsumerStatefulWidget {
 class _ReusableCalendarState extends ConsumerState<ReusableCalendar> {
   late DateTime focusedDay;
   late int currentIndex;
+  bool isLoading = false;
   AttendanceIndiModel? attendanceIndiModel;
   List<DateTime> absentDates = [];
   List<DateTime> presentDates = [];
+  int totalDays = 0;
+  int attendedDays = 0;
+  int absentDays = 0;
+  double attendancePercent = 0.0;
 
   Future<void> getAttendanceData(dynamic month, dynamic year) async {
+    setState(() {
+      isLoading = true;
+    });
     attendanceIndiModel = await ref
         .read(getAttedanceIndiControllerProvider)
         .getIndiAttendance(month, year, "S", context);
@@ -36,6 +46,14 @@ class _ReusableCalendarState extends ConsumerState<ReusableCalendar> {
           .map((dateString) => dateFormat.parse(dateString))
           .toList();
     }
+
+    setState(() {
+      isLoading = false;
+      attendedDays = attendanceIndiModel!.data.presentDates.length;
+      absentDays = attendanceIndiModel!.data.absentDates.length;
+      totalDays = attendedDays + absentDays;
+      attendancePercent = (attendedDays / totalDays) * 100.0;
+    });
   }
 
   @override
@@ -71,127 +89,160 @@ class _ReusableCalendarState extends ConsumerState<ReusableCalendar> {
 
   @override
   Widget build(BuildContext context) {
+    var deviceHeight = MediaQuery.of(context).size.height;
     return Padding(
       padding: const EdgeInsets.only(left: 25, right: 25),
-      child: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.shade200,
-              blurRadius: 1.0,
-              spreadRadius: 1.0,
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade200,
+                  blurRadius: 1.0,
+                  spreadRadius: 1.0,
+                ),
+              ],
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.grey.shade400),
             ),
-          ],
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey.shade400),
-        ),
-        child: Column(
-          children: [
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        if (currentIndex > 0) {
-                          currentIndex--;
-                          focusedDay =
-                              DateTime(focusedDay.year, currentIndex + 1, 1);
-                          _onMonthChange(focusedDay);
-                        }
-                      });
-                    },
-                    icon: const Icon(Icons.navigate_before),
-                  ),
-                  const SizedBox(width: 10),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: Center(
-                      child: Text(
-                        DateFormat('MMMM').format(focusedDay),
-                        style: const TextStyle(fontSize: 15),
+            child: Column(
+              children: [
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            if (currentIndex > 0) {
+                              currentIndex--;
+                              focusedDay = DateTime(
+                                  focusedDay.year, currentIndex + 1, 1);
+                              _onMonthChange(focusedDay);
+                            }
+                          });
+                        },
+                        icon: const Icon(Icons.navigate_before),
                       ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        if (currentIndex < 11) {
-                          currentIndex++;
-                          focusedDay =
-                              DateTime(focusedDay.year, currentIndex + 1, 1);
-                          _onMonthChange(focusedDay);
-                        }
-                      });
-                    },
-                    icon: const Icon(Icons.navigate_next),
-                  ),
-                ],
-              ),
-            ),
-            TableCalendar(
-              headerVisible: false,
-              calendarFormat: CalendarFormat.month,
-              onPageChanged: _onMonthChange,
-              calendarStyle: const CalendarStyle(
-                defaultTextStyle: TextStyle(fontSize: 12),
-                holidayTextStyle: TextStyle(fontSize: 12),
-                weekendTextStyle: TextStyle(fontSize: 12),
-              ),
-              daysOfWeekStyle: const DaysOfWeekStyle(
-                weekdayStyle: TextStyle(fontSize: 12),
-                weekendStyle: TextStyle(fontSize: 12),
-              ),
-              focusedDay: focusedDay,
-              firstDay: DateTime(2023, 1, 1),
-              lastDay: DateTime(2025, 12, 31),
-              selectedDayPredicate: (day) {
-                return isSameDayList(day, [...absentDates, ...presentDates]);
-              },
-              onDaySelected: (selectedDay, focusedDay) {
-                setState(() {
-                  focusedDay = selectedDay;
-                });
-              },
-              calendarBuilders: CalendarBuilders(
-                selectedBuilder: (context, date, events) {
-                  Color cellColor = Colors.transparent;
-
-                  if (isSameDayList(date, absentDates)) {
-                    cellColor = Colors.red;
-                  }
-
-                  if (isSameDayList(date, presentDates)) {
-                    cellColor = Colors.green;
-                  }
-
-                  return Container(
-                    margin: const EdgeInsets.all(11.0),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: cellColor,
-                    ),
-                    child: Center(
-                      child: Text(
-                        date.day.toString(),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
+                      const SizedBox(width: 10),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: Center(
+                          child: Text(
+                            DateFormat('MMMM').format(focusedDay),
+                            style: const TextStyle(fontSize: 15),
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              ),
+                      const SizedBox(width: 10),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            if (currentIndex < 11) {
+                              currentIndex++;
+                              focusedDay = DateTime(
+                                  focusedDay.year, currentIndex + 1, 1);
+                              _onMonthChange(focusedDay);
+                            }
+                          });
+                        },
+                        icon: const Icon(Icons.navigate_next),
+                      ),
+                    ],
+                  ),
+                ),
+                TableCalendar(
+                  headerVisible: false,
+                  calendarFormat: CalendarFormat.month,
+                  onPageChanged: _onMonthChange,
+                  calendarStyle: const CalendarStyle(
+                    defaultTextStyle: TextStyle(fontSize: 12),
+                    holidayTextStyle: TextStyle(fontSize: 12),
+                    weekendTextStyle: TextStyle(fontSize: 12),
+                  ),
+                  daysOfWeekStyle: const DaysOfWeekStyle(
+                    weekdayStyle: TextStyle(fontSize: 12),
+                    weekendStyle: TextStyle(fontSize: 12),
+                  ),
+                  focusedDay: focusedDay,
+                  firstDay: DateTime(2023, 1, 1),
+                  lastDay: DateTime(2025, 12, 31),
+                  selectedDayPredicate: (day) {
+                    return isSameDayList(
+                        day, [...absentDates, ...presentDates]);
+                  },
+                  onDaySelected: (selectedDay, focusedDay) {
+                    setState(() {
+                      focusedDay = selectedDay;
+                    });
+                  },
+                  calendarBuilders: CalendarBuilders(
+                    selectedBuilder: (context, date, events) {
+                      Color cellColor = Colors.transparent;
+
+                      if (isSameDayList(date, absentDates)) {
+                        cellColor = Colors.red;
+                      }
+
+                      if (isSameDayList(date, presentDates)) {
+                        cellColor = Colors.green;
+                      }
+
+                      return Container(
+                        margin: const EdgeInsets.all(11.0),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: cellColor,
+                        ),
+                        child: Center(
+                          child: Text(
+                            date.day.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                AttendanceStatusBar(),
+              ],
             ),
-            AttendanceStatusBar(),
-          ],
-        ),
+          ),
+          SizedBox(height: deviceHeight * 0.05),
+          isLoading
+              ? SizedBox(
+                  height: deviceHeight * 0.3,
+                  child: Column(
+                    children: [
+                      Expanded(child: Container()),
+                      LogoLoading(deviceHeight),
+                    ],
+                  ))
+              : Column(
+                  children: [
+                    PercentStatusWidget(
+                      label: 'Present %',
+                      value: '$attendancePercent',
+                      labelColor: Colors.black,
+                      valueColor: Colors.green,
+                    ),
+                    SizedBox(height: deviceHeight * 0.01),
+                    PercentStatusWidget(
+                      label: 'Attended Days',
+                      value: '$attendedDays / $totalDays',
+                      labelColor: Colors.black,
+                      valueColor: Colors.green,
+                    )
+                  ],
+                ),
+        ],
       ),
     );
   }
