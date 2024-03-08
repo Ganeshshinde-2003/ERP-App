@@ -74,15 +74,17 @@ class _IndividualClassAttendaceState
   }
 
   Future<void> processData(data) async {
-    if (data.isNotEmpty) {
-      groupValue = List<bool>.filled(data.length, true);
+    setState(() {
+      if (data.isNotEmpty) {
+        groupValue = List<bool>.filled(data.length, true);
 
-      for (int i = 0; i < data.length; i++) {
-        groupValue[i] = data[i].attendanceStatus;
+        for (int i = 0; i < data.length; i++) {
+          groupValue[i] = data[i].attendanceStatus;
+        }
+      } else {
+        groupValue = [];
       }
-    } else {
-      groupValue = [];
-    }
+    });
   }
 
   void submitAttendance() async {

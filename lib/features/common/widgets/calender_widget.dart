@@ -1,9 +1,10 @@
 import 'package:erp_app/features/common/widgets/attendance_status.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class ReusableCalendar extends StatefulWidget {
+class ReusableCalendar extends ConsumerStatefulWidget {
   const ReusableCalendar({super.key});
 
   @override
@@ -11,7 +12,7 @@ class ReusableCalendar extends StatefulWidget {
   _ReusableCalendarState createState() => _ReusableCalendarState();
 }
 
-class _ReusableCalendarState extends State<ReusableCalendar> {
+class _ReusableCalendarState extends ConsumerState<ReusableCalendar> {
   late DateTime focusedDay;
   late int currentIndex;
 
@@ -19,7 +20,7 @@ class _ReusableCalendarState extends State<ReusableCalendar> {
   void initState() {
     super.initState();
     focusedDay = DateTime.now();
-    currentIndex = DateTime.now().month - 1; // Adjust to zero-based index
+    currentIndex = DateTime.now().month - 1;
   }
 
   @override
@@ -138,7 +139,7 @@ class _ReusableCalendarState extends State<ReusableCalendar> {
                 },
               ),
             ),
-            AttendaceStatusBar(),
+            AttendanceStatusBar(),
           ],
         ),
       ),

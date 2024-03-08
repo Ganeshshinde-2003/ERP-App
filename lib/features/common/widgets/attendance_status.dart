@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AttendaceStatusBar extends StatelessWidget {
+class AttendanceStatusBar extends StatelessWidget {
   final Color presentColor;
   final Color absentColor;
   final Color naColor;
 
-  AttendaceStatusBar({
+  AttendanceStatusBar({
     super.key,
     Color? presentColor,
     Color? absentColor,

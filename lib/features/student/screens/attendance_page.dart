@@ -4,24 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:erp_app/constant/widgets/teacher/notice_bottom_image.dart';
 import 'package:erp_app/features/common/subapp_bar.dart';
 import 'package:erp_app/features/common/widgets/calender_widget.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class StudentAttendancePageScreen extends StatefulWidget {
+class StudentAttendancePageScreen extends ConsumerStatefulWidget {
   const StudentAttendancePageScreen({super.key});
 
   @override
-  State<StudentAttendancePageScreen> createState() =>
+  ConsumerState<StudentAttendancePageScreen> createState() =>
       _StudentAttendancePageScreenState();
 }
 
 class _StudentAttendancePageScreenState
-    extends State<StudentAttendancePageScreen> {
+    extends ConsumerState<StudentAttendancePageScreen> {
   final DateTime focusedDay = DateTime.now();
   bool isLoading = false;
   final List<DateTime> markedDates = [
     DateTime.now(),
     DateTime.now().add(const Duration(days: 2)),
     DateTime.now().add(const Duration(days: 5)),
-    // Add more static dates as needed
   ];
 
   @override
