@@ -1,4 +1,3 @@
-import 'package:erp_app/constant/models/student_attendace_model.dart';
 import 'package:erp_app/features/teacher/service/student_fetching_for_attendance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,7 +19,7 @@ class PutStudentAttendanceController {
     required this.ref,
   });
 
-  Future<List<StudentData>> fetchStudentAttendanceData(
+  Future<List<dynamic>> fetchStudentAttendanceData(
     BuildContext context,
     String sectionId,
     String date,

@@ -29,7 +29,6 @@ class StudentData {
   String sectionID;
   String status;
   String updatedBy;
-  bool attendanceStatus;
 
   StudentData({
     required this.id,
@@ -40,7 +39,6 @@ class StudentData {
     required this.sectionID,
     required this.status,
     required this.updatedBy,
-    required this.attendanceStatus,
   });
 
   factory StudentData.fromJson(Map<String, dynamic> json) {
@@ -53,7 +51,6 @@ class StudentData {
       sectionID: json['sectionID'],
       status: json['status'],
       updatedBy: json['updatedBy'],
-      attendanceStatus: true,
     );
   }
 }

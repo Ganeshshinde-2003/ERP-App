@@ -71,6 +71,8 @@ class SharedStoreData {
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('UserRole');
+    prefs.remove("masterDataCache");
+    prefs.remove("user");
   }
 
   Future<bool?> loadAttendanceStatus(String date) async {
@@ -81,5 +83,19 @@ class SharedStoreData {
   Future<void> saveAttendanceStatus(String date, bool status) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool('attendanceStatus_$date', status);
+  }
+
+  Future<void> saveAttendanceStatusToSharedPreferences(
+      List<bool> attendanceStatus) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(
+        'attendanceStatus', attendanceStatus.map((e) => e.toString()).toList());
+  }
+
+  Future<List<bool>> getAttendanceStatusFromSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? stringList = prefs.getStringList('attendanceStatus');
+
+    return stringList?.map((e) => e == 'true').toList() ?? [];
   }
 }

@@ -19,7 +19,7 @@ final putStudentAttendanceServiceProvider = Provider(
 );
 
 class PutStudentAttendance {
-  Future<List<StudentData>> fetchStudentAttendanceData({
+  Future<List<dynamic>> fetchStudentAttendanceData({
     required String sectionId,
     required BuildContext context,
     required String date,
@@ -39,6 +39,7 @@ class PutStudentAttendance {
       );
 
       List<StudentData> attendanceData = [];
+      List<bool> attendanceStatus = [];
 
       httpErrorHandle(
         response: res,
@@ -71,23 +72,31 @@ class PutStudentAttendance {
                 httpErrorHandle(
                   response: attendanceRes,
                   context: context,
-                  onSuccess: () {
+                  onSuccess: () async {
                     final attendanceResponseData =
                         json.decode(attendanceRes.body);
+                    Map<String, dynamic>? data = attendanceResponseData['data'];
 
-                    if (attendanceResponseData['success']) {
-                      final absentDataList =
-                          attendanceResponseData['data']['absent'];
-                      final presentDataList =
-                          attendanceResponseData['data']['present'];
+                    if (data != null) {
+                      List<String> absentList =
+                          List<String>.from(data['absent']);
+                      List<String> presentList =
+                          List<String>.from(data['present']);
 
-                      for (var studentData in attendanceData) {
-                        if (absentDataList.contains(studentData.id)) {
-                          studentData.attendanceStatus = false;
-                        } else if (presentDataList.contains(studentData.id)) {
-                          studentData.attendanceStatus = true;
-                        }
+                      for (String _ in absentList) {
+                        attendanceStatus.add(false);
                       }
+                      for (String _ in presentList) {
+                        attendanceStatus.add(true);
+                      }
+                      await sharedStoreData
+                          .saveAttendanceStatusToSharedPreferences(
+                              attendanceStatus);
+                    } else {
+                      showSnackBar(
+                        context: context,
+                        content: "No data available",
+                      );
                     }
                   },
                 );
@@ -99,11 +108,10 @@ class PutStudentAttendance {
           }
         },
       );
-
-      return attendanceData;
+      return [attendanceData, attendanceStatus];
     } catch (e) {
       showSnackBar(context: context, content: e.toString());
-      return [];
+      return [[], []]; // Return empty lists in case of an error
     }
   }
 

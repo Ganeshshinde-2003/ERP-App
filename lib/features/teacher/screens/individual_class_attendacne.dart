@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'package:erp_app/constant/models/student_attendace_model.dart';
+import 'package:erp_app/constant/provider/user_provider.dart';
 import 'package:erp_app/constant/text_style.dart';
 import 'package:erp_app/constant/widgets/notfound_data.dart';
 import 'package:erp_app/constant/widgets/snack_bar.dart';
@@ -38,6 +39,7 @@ class _IndividualClassAttendaceState
   List<StudentData> students = [];
   late List<bool> groupValue;
   bool _value = true;
+  SharedStoreData sharedStoreData = SharedStoreData();
 
   void _toggleSwitch(bool value) {
     setState(() {
@@ -59,11 +61,21 @@ class _IndividualClassAttendaceState
       String currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
       // Fetch data
-      students = await ref
+      List<dynamic> attendaceData = await ref
           .read(putStudentAttendanceControllerProvider)
           .fetchStudentAttendanceData(context, widget.sectionId, currentDate);
 
-      await processData(students);
+      List<bool> retrievedAttendanceStatus =
+          await sharedStoreData.getAttendanceStatusFromSharedPreferences();
+      setState(() {
+        students = attendaceData[0];
+        groupValue = List<bool>.filled(students.length, false);
+        for (int i = 0;
+            i < groupValue.length && i < retrievedAttendanceStatus.length;
+            i++) {
+          groupValue[i] = retrievedAttendanceStatus[i];
+        }
+      });
     } catch (e) {
       showSnackBar(context: context, content: e.toString());
     } finally {
@@ -71,20 +83,6 @@ class _IndividualClassAttendaceState
         isLoading = false;
       });
     }
-  }
-
-  Future<void> processData(data) async {
-    setState(() {
-      if (data.isNotEmpty) {
-        groupValue = List<bool>.filled(data.length, true);
-
-        for (int i = 0; i < data.length; i++) {
-          groupValue[i] = data[i].attendanceStatus;
-        }
-      } else {
-        groupValue = [];
-      }
-    });
   }
 
   void submitAttendance() async {
