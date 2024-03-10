@@ -2,6 +2,7 @@ import 'package:erp_app/constant/widgets/students/menu_widget.dart';
 import 'package:erp_app/constant/widgets/students/small_dashboard.dart';
 import 'package:erp_app/features/student/screens/ai_assist_page.dart';
 import 'package:erp_app/features/student/screens/attendance_page.dart';
+import 'package:erp_app/features/student/screens/fee_history_page.dart';
 import 'package:erp_app/features/student/screens/homework_page.dart';
 import 'package:erp_app/features/student/screens/timetabel_page.dart';
 import 'package:erp_app/features/student/screens/vanlive_tracking.dart';
@@ -95,7 +96,7 @@ class WidgetDataStudent {
           ),
         ),
         GestureDetector(
-          onTap: () => openPage(const StudentAttendancePageScreen()),
+          onTap: () => openPage(const FeeHistoryScreen()),
           child: FullMenuWidget(
             deviceHeight,
             deviceWidth,

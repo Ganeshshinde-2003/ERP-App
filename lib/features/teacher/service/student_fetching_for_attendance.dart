@@ -56,7 +56,6 @@ class PutStudentAttendance {
                     data.map((item) => StudentData.fromJson(item)).toList();
               }
 
-              // Check if loadAttendanceStatus is true
               bool? loadAttendanceStatus =
                   await sharedStoreData.loadAttendanceStatus(date);
 
@@ -111,7 +110,7 @@ class PutStudentAttendance {
       return [attendanceData, attendanceStatus];
     } catch (e) {
       showSnackBar(context: context, content: e.toString());
-      return [[], []]; // Return empty lists in case of an error
+      return [[], []];
     }
   }
 
