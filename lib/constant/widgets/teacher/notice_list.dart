@@ -5,14 +5,12 @@ import 'package:flutter/material.dart';
 class ReusableNoticeCard extends StatelessWidget {
   final String subject;
   final String date;
-  final String time;
   final String desc;
   final VoidCallback onTap;
 
   const ReusableNoticeCard({
     required this.subject,
     required this.date,
-    required this.time,
     required this.desc,
     required this.onTap,
     Key? key,
@@ -24,7 +22,19 @@ class ReusableNoticeCard extends StatelessWidget {
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: Card(
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.shade200,
+                blurRadius: 1.0,
+                spreadRadius: 1.0,
+              ),
+            ],
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.grey.shade400),
+          ),
           child: ListTile(
             title: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -57,13 +67,7 @@ class ReusableNoticeCard extends StatelessWidget {
                   maxLines: 1,
                   style: AppTextStyles.sliderText.copyWith(
                     color: TextColorScheme.secondaryTextColor,
-                  ),
-                ),
-                Text(
-                  time,
-                  maxLines: 1,
-                  style: AppTextStyles.sliderText.copyWith(
-                    color: TextColorScheme.secondaryTextColor,
+                    fontSize: 13,
                   ),
                 ),
               ],

@@ -109,13 +109,13 @@ class _FrameState extends State<Frame> {
   Widget build(BuildContext context) {
     final List<Widget> teacherPages = [
       const HomePageScreen(),
-      const NoticePageScreen(),
+      const NoticePageScreen(who: "Teacher"),
       ProfilePageScreen(who: widget.role),
     ];
 
     final List<Widget> studentPages = [
       const StudentHomePageScreen(),
-      const NoticePageScreen(),
+      const NoticePageScreen(who: "Student"),
       ProfilePageScreen(who: widget.role),
     ];
 

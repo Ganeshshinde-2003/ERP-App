@@ -1,34 +1,40 @@
+import 'package:erp_app/constant/models/notice_model.dart';
+import 'package:erp_app/constant/widgets/notfound_data.dart';
 import 'package:erp_app/constant/widgets/teacher/notice_list.dart';
 import 'package:erp_app/features/common/noticescreens/notice_details.dart';
+import 'package:erp_app/features/teacher/controller/notice_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 
-class NoticePageScreen extends StatefulWidget {
-  const NoticePageScreen({super.key});
+class NoticePageScreen extends ConsumerStatefulWidget {
+  final String who;
+  const NoticePageScreen({super.key, required this.who});
 
   @override
-  State<NoticePageScreen> createState() => _NoticePageScreenState();
+  ConsumerState<NoticePageScreen> createState() => _NoticePageScreenState();
 }
 
-class _NoticePageScreenState extends State<NoticePageScreen> {
-  final List<Notice> notices = [
-    Notice(
-      subject: 'Important Notice fdsafdsafdsaf1',
-      desc: 'This is the description for notice 1.',
-      date: '2022-01-01',
-      time: '10:00 AM',
-    ),
-    Notice(
-      subject: 'Important Notice 2fdasfdafdasf',
-      desc: 'This is the description for notice 2.',
-      date: '2022-02-01',
-      time: '12:00 PM',
-    ),
-    // Add more dummy data as needed
-  ];
+class _NoticePageScreenState extends ConsumerState<NoticePageScreen> {
+  NoticesModel? noticesData;
+
+  void fetchNotices() async {
+    noticesData = await ref
+        .read(noticeControllerProvider)
+        .fetchNotices(context, widget.who);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchNotices();
+  }
 
   @override
   Widget build(BuildContext context) {
+    var deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 20),
@@ -37,34 +43,42 @@ class _NoticePageScreenState extends State<NoticePageScreen> {
             children: [
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.4,
-                child: ListView.builder(
-                  itemCount: notices.length,
-                  itemBuilder: (context, index) {
-                    return ReusableNoticeCard(
-                      subject: notices[index].subject,
-                      date: notices[index].date,
-                      time: notices[index].time,
-                      desc: notices[index].desc,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            alignment: Alignment.lerp(
-                              Alignment.centerLeft,
-                              Alignment.centerLeft,
-                              0.5,
-                            ),
-                            child: NoticeDetails(
-                              title: notices[index].subject,
-                              desc: notices[index].desc,
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
+                child: noticesData != null
+                    ? ListView.builder(
+                        itemCount: noticesData!.data.length,
+                        itemBuilder: (context, index) {
+                          String noticeDateString =
+                              noticesData!.data[index].noticeDate;
+                          DateTime noticeDate =
+                              DateTime.parse(noticeDateString);
+                          String formattedDate =
+                              DateFormat('MMMM d, y').format(noticeDate);
+
+                          return ReusableNoticeCard(
+                            subject: noticesData!.data[index].title,
+                            date: formattedDate,
+                            desc: noticesData!.data[index].description,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  type: PageTransitionType.fade,
+                                  alignment: Alignment.lerp(
+                                    Alignment.centerLeft,
+                                    Alignment.centerLeft,
+                                    0.5,
+                                  ),
+                                  child: NoticeDetails(
+                                    title: noticesData!.data[index].title,
+                                    desc: noticesData!.data[index].description,
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      )
+                    : NoDataFound(deviceHeight, "assets/loading2.json"),
               ),
             ],
           ),
@@ -72,18 +86,4 @@ class _NoticePageScreenState extends State<NoticePageScreen> {
       ),
     );
   }
-}
-
-class Notice {
-  final String subject;
-  final String desc;
-  final String date;
-  final String time;
-
-  Notice({
-    required this.subject,
-    required this.desc,
-    required this.date,
-    required this.time,
-  });
 }
