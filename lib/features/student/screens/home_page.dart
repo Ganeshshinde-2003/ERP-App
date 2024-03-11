@@ -64,6 +64,7 @@ class _StudentHomePageScreenState extends State<StudentHomePageScreen> {
                     isLoading: isLoading,
                   )
                 : CustomCarouselSlider(
+                    who: "Student",
                     deviceWidth: deviceWidth,
                     deviceHeight: deviceHeight,
                   ),

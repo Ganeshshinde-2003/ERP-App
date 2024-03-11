@@ -1,45 +1,76 @@
+import 'package:erp_app/constant/models/events_model.dart';
 import 'package:erp_app/constant/text_style.dart';
+import 'package:erp_app/features/teacher/controller/event_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
-class CustomCarouselSlider extends StatelessWidget {
+class CustomCarouselSlider extends ConsumerStatefulWidget {
+  final String who;
   final double deviceWidth;
   final double deviceHeight;
 
   const CustomCarouselSlider({
-    super.key,
+    Key? key,
     required this.deviceWidth,
     required this.deviceHeight,
-  });
+    required this.who,
+  }) : super(key: key);
+
+  @override
+  _CustomCarouselSliderState createState() => _CustomCarouselSliderState();
+}
+
+class _CustomCarouselSliderState extends ConsumerState<CustomCarouselSlider> {
+  EventsModel? eventsData;
+
+  void fetchEvents() async {
+    eventsData = await ref
+        .read(eventsControllerProvider)
+        .fetchEvents(context, widget.who);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchEvents();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider(
-      items: [
-        CustomCarouselItem(
-          deviceWidth: deviceWidth,
-          deviceHeight: deviceHeight,
-          title: 'Events',
-          subTitle: 'Sports Meet',
-          updatedOn: '12 Sept 2023',
-          time: '12:20 pm',
-        ),
-      ],
-      options: CarouselOptions(
-        height: deviceHeight * 0.18,
-        aspectRatio: 12,
-        viewportFraction: 0.93,
-        initialPage: 0,
-        enableInfiniteScroll: true,
-        reverse: false,
-        autoPlay: true,
-        autoPlayInterval: const Duration(seconds: 5),
-        autoPlayAnimationDuration: const Duration(milliseconds: 500),
-        autoPlayCurve: Curves.linearToEaseOut,
-        enlargeCenterPage: true,
-        scrollDirection: Axis.horizontal,
-      ),
-    );
+    return eventsData == null
+        ? const CircularProgressIndicator()
+        : CarouselSlider.builder(
+            itemCount: eventsData!.data.length,
+            itemBuilder: (context, index, realIndex) {
+              final event = eventsData!.data[index];
+
+              return CustomCarouselItem(
+                deviceWidth: widget.deviceWidth,
+                deviceHeight: widget.deviceHeight,
+                title: event.eventType,
+                subTitle: event.eventName,
+                updatedOn: DateFormat('MMMM d, y').format(event.updatedAt),
+                time: DateFormat('h:mm a').format(event.eventDate),
+              );
+            },
+            options: CarouselOptions(
+              height: widget.deviceHeight * 0.18,
+              aspectRatio: 12,
+              viewportFraction: 0.93,
+              initialPage: 0,
+              enableInfiniteScroll: true,
+              reverse: false,
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 5),
+              autoPlayAnimationDuration: const Duration(milliseconds: 500),
+              autoPlayCurve: Curves.linearToEaseOut,
+              enlargeCenterPage: true,
+              scrollDirection: Axis.horizontal,
+            ),
+          );
   }
 }
 
