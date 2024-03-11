@@ -1,5 +1,6 @@
 import 'package:erp_app/constant/models/events_model.dart';
 import 'package:erp_app/constant/text_style.dart';
+import 'package:erp_app/constant/widgets/students/shimmer_effect.dart';
 import 'package:erp_app/features/teacher/controller/event_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -19,6 +20,7 @@ class CustomCarouselSlider extends ConsumerStatefulWidget {
   }) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _CustomCarouselSliderState createState() => _CustomCarouselSliderState();
 }
 
@@ -41,7 +43,11 @@ class _CustomCarouselSliderState extends ConsumerState<CustomCarouselSlider> {
   @override
   Widget build(BuildContext context) {
     return eventsData == null
-        ? const CircularProgressIndicator()
+        ? ShimmerEffectWidget(
+            deviceWidth: widget.deviceWidth,
+            deviceHeight: widget.deviceHeight,
+            isLoading: true,
+          )
         : CarouselSlider.builder(
             itemCount: eventsData!.data.length,
             itemBuilder: (context, index, realIndex) {
