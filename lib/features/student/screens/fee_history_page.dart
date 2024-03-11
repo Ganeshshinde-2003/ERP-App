@@ -60,7 +60,6 @@ class _FeeHistoryScreenState extends ConsumerState<FeeHistoryScreen> {
       itemBuilder: (context, index) {
         var feeItem = feeHistory!.data[index];
 
-        // Helper function to determine color and icon based on status
         StatusInfo statusInfo = getStatusInfo(feeItem.status);
 
         return Card(

@@ -1,5 +1,6 @@
 import 'package:erp_app/constant/widgets/students/menu_widget.dart';
 import 'package:erp_app/constant/widgets/students/small_dashboard.dart';
+import 'package:erp_app/features/common/eventscreens/events_page.dart';
 import 'package:erp_app/features/student/screens/attendance_page.dart';
 import 'package:erp_app/features/student/screens/timetabel_page.dart';
 import 'package:erp_app/features/teacher/screens/put_attendance.dart';
@@ -58,9 +59,9 @@ class WidgetData {
           onTap: () => openPage(const StudentAttendancePageScreen()),
           child: SmallDashboard(
             'assets/small-dashboard-abstract4.png',
-            'assets/attendance.png',
+            'assets/study-material.png',
             deviceHeight,
-            'My Attendance',
+            'Assignment',
           ),
         ),
         GestureDetector(
@@ -75,16 +76,6 @@ class WidgetData {
       ];
 
   List<Widget> get fullMenuItems => [
-        GestureDetector(
-          onTap: () => openPage(const TeacherPutAttendance()),
-          child: FullMenuWidget(
-            deviceHeight,
-            deviceWidth,
-            true,
-            'assets/homework-red.png',
-            'HomeWork',
-          ),
-        ),
         GestureDetector(
           onTap: () => openPage(const TeacherPutAttendance()),
           child: FullMenuWidget(
@@ -110,16 +101,6 @@ class WidgetData {
           child: FullMenuWidget(
             deviceHeight,
             deviceWidth,
-            true,
-            'assets/study-material.png',
-            'Assignment',
-          ),
-        ),
-        GestureDetector(
-          onTap: () => openPage(const TeacherPutAttendance()),
-          child: FullMenuWidget(
-            deviceHeight,
-            deviceWidth,
             false,
             'assets/leave-application.png',
             'Leave Application',
@@ -135,26 +116,26 @@ class WidgetData {
             'Student Birthdays',
           ),
         ),
-        GestureDetector(
-          onTap: () => openPage(const TeacherPutAttendance()),
-          child: FullMenuWidget(
-            deviceHeight,
-            deviceWidth,
-            false,
-            'assets/message.png',
-            'Group Chat',
-          ),
-        ),
-        GestureDetector(
-          onTap: () => openPage(const TeacherPutAttendance()),
-          child: FullMenuWidget(
-            deviceHeight,
-            deviceWidth,
-            false,
-            'assets/personal_msg.png',
-            'Personal Message',
-          ),
-        ),
+        // GestureDetector(
+        //   onTap: () => openPage(const TeacherPutAttendance()),
+        //   child: FullMenuWidget(
+        //     deviceHeight,
+        //     deviceWidth,
+        //     false,
+        //     'assets/message.png',
+        //     'Group Chat',
+        //   ),
+        // ),
+        // GestureDetector(
+        //   onTap: () => openPage(const TeacherPutAttendance()),
+        //   child: FullMenuWidget(
+        //     deviceHeight,
+        //     deviceWidth,
+        //     false,
+        //     'assets/personal_msg.png',
+        //     'Personal Message',
+        //   ),
+        // ),
         GestureDetector(
           onTap: () => openPage(const TeacherPutAttendance()),
           child: FullMenuWidget(
@@ -166,7 +147,7 @@ class WidgetData {
           ),
         ),
         GestureDetector(
-          onTap: () => openPage(const TeacherPutAttendance()),
+          onTap: () => openPage(const EventsPageScreen(who: "Teacher")),
           child: FullMenuWidget(
             deviceHeight,
             deviceWidth,

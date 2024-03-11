@@ -1,5 +1,6 @@
 import 'package:erp_app/constant/widgets/students/menu_widget.dart';
 import 'package:erp_app/constant/widgets/students/small_dashboard.dart';
+import 'package:erp_app/features/common/eventscreens/events_page.dart';
 import 'package:erp_app/features/student/screens/ai_assist_page.dart';
 import 'package:erp_app/features/student/screens/attendance_page.dart';
 import 'package:erp_app/features/student/screens/fee_history_page.dart';
@@ -116,7 +117,7 @@ class WidgetDataStudent {
           ),
         ),
         GestureDetector(
-          onTap: () => openPage(const StudentAttendancePageScreen()),
+          onTap: () => openPage(const EventsPageScreen(who: "Student")),
           child: FullMenuWidget(
             deviceHeight,
             deviceWidth,
@@ -125,36 +126,36 @@ class WidgetDataStudent {
             'Events',
           ),
         ),
-        GestureDetector(
-          onTap: () => openPage(const StudentAttendancePageScreen()),
-          child: FullMenuWidget(
-            deviceHeight,
-            deviceWidth,
-            true,
-            'assets/assignment.png',
-            'Assignments',
-          ),
-        ),
-        GestureDetector(
-          onTap: () => openPage(const StudentAttendancePageScreen()),
-          child: FullMenuWidget(
-            deviceHeight,
-            deviceWidth,
-            true,
-            'assets/message.png',
-            'Group Chat',
-          ),
-        ),
-        GestureDetector(
-          onTap: () => openPage(const StudentAttendancePageScreen()),
-          child: FullMenuWidget(
-            deviceHeight,
-            deviceWidth,
-            false,
-            'assets/personal_msg.png',
-            'Personal Message',
-          ),
-        ),
+        // GestureDetector(
+        //   onTap: () => openPage(const StudentAttendancePageScreen()),
+        //   child: FullMenuWidget(
+        //     deviceHeight,
+        //     deviceWidth,
+        //     true,
+        //     'assets/assignment.png',
+        //     'Assignments',
+        //   ),
+        // ),
+        // GestureDetector(
+        //   onTap: () => openPage(const StudentAttendancePageScreen()),
+        //   child: FullMenuWidget(
+        //     deviceHeight,
+        //     deviceWidth,
+        //     true,
+        //     'assets/message.png',
+        //     'Group Chat',
+        //   ),
+        // ),
+        // GestureDetector(
+        //   onTap: () => openPage(const StudentAttendancePageScreen()),
+        //   child: FullMenuWidget(
+        //     deviceHeight,
+        //     deviceWidth,
+        //     false,
+        //     'assets/personal_msg.png',
+        //     'Personal Message',
+        //   ),
+        // ),
         GestureDetector(
           onTap: () => openPage(const StudentAttendancePageScreen()),
           child: FullMenuWidget(
