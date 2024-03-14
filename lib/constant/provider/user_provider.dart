@@ -88,6 +88,7 @@ class SharedStoreData {
   Future<void> saveAttendanceStatusToSharedPreferences(
       List<bool> attendanceStatus) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('attendanceStatus');
     await prefs.setStringList(
         'attendanceStatus', attendanceStatus.map((e) => e.toString()).toList());
   }

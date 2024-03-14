@@ -88,6 +88,7 @@ class PutStudentAttendance {
                       for (String _ in presentList) {
                         attendanceStatus.add(true);
                       }
+
                       await sharedStoreData
                           .saveAttendanceStatusToSharedPreferences(
                               attendanceStatus);
