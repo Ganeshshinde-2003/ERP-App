@@ -1,13 +1,16 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:erp_app/constant/data/global_variable.dart';
 import 'package:erp_app/constant/models/user_model.dart';
+import 'package:erp_app/constant/models/view_assignment_model.dart';
 import 'package:erp_app/constant/provider/user_provider.dart';
 import 'package:erp_app/constant/widgets/http_error_handler.dart';
 import 'package:erp_app/constant/widgets/snack_bar.dart';
 import 'package:erp_app/features/teacher/screens/upload_assignment/give_assigment.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
@@ -66,6 +69,41 @@ class UploadAssignmentService {
       }
     } catch (e) {
       showSnackBar(context: context, content: e.toString());
+    }
+  }
+
+  Future<AssignmentDataModel?> getAssingmentBySection({
+    required String sectionId,
+    required String subId,
+    required BuildContext context,
+  }) async {
+    SharedStoreData sharedStoreData = SharedStoreData();
+
+    User? loadUser = await sharedStoreData.loadUserFromPreferences();
+    String? authToken = loadUser?.data.token;
+    AssignmentDataModel? assignmentDataModel;
+
+    try {
+      http.Response res = await http.get(
+        Uri.parse('$URI/assignments/$sectionId/$subId'),
+        headers: {
+          'Authorization': 'Bearer $authToken',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () async {
+          final resBody = json.decode(res.body);
+          assignmentDataModel = AssignmentDataModel.fromJson(resBody);
+        },
+      );
+      return assignmentDataModel;
+    } catch (e) {
+      showSnackBar(context: context, content: e.toString());
+      return null;
     }
   }
 }

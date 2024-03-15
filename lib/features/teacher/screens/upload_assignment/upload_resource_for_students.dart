@@ -2,6 +2,7 @@ import 'package:erp_app/constant/text_style.dart';
 import 'package:erp_app/constant/widgets/teacher/notice_bottom_image.dart';
 import 'package:erp_app/features/common/subapp_bar.dart';
 import 'package:erp_app/features/teacher/screens/upload_assignment/give_assigment.dart';
+import 'package:erp_app/features/teacher/screens/upload_assignment/view_assignment.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -90,7 +91,23 @@ class _UploadResourceForStudentScreenState
                       ),
                       const SizedBox(width: 10),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              child: ViewAssignmentScreeb(
+                                sectionId: widget.sectionId,
+                                subId: widget.subId,
+                              ),
+                              type: PageTransitionType.fade,
+                              alignment: Alignment.lerp(
+                                Alignment.centerLeft,
+                                Alignment.centerLeft,
+                                0.5,
+                              ),
+                            ),
+                          );
+                        },
                         child: Container(
                           width: deviceWidth / 2 - 20,
                           height: 100,
