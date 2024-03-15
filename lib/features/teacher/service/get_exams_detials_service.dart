@@ -19,6 +19,7 @@ class GetExamsService {
 
     User? loadUser = await sharedStoreData.loadUserFromPreferences();
     String? authToken = loadUser?.data.token;
+    // ignore: prefer_typing_uninitialized_variables
     var responseBody;
 
     try {
