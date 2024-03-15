@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UploadMarksScreen extends ConsumerStatefulWidget {
-  const UploadMarksScreen({super.key});
+  final String whoiscalling;
+  const UploadMarksScreen({super.key, this.whoiscalling = "marks"});
 
   @override
   ConsumerState<UploadMarksScreen> createState() => _UploadMarksScreenState();
@@ -41,7 +42,8 @@ class _UploadMarksScreenState extends ConsumerState<UploadMarksScreen> {
     var deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: SubPageAppBar(context, 'Upload Marks'),
+      appBar: SubPageAppBar(context,
+          widget.whoiscalling == "marks" ? 'Upload Marks' : "Assignment"),
       body: Stack(
         children: [
           BottomImageBar(
@@ -70,7 +72,7 @@ class _UploadMarksScreenState extends ConsumerState<UploadMarksScreen> {
                         ? NoDataFound(deviceHeight, 'assets/loading2.json')
                         // ignore: dead_code
                         : PutAttendanceListView(
-                            whoCalling: "marks",
+                            whoCalling: widget.whoiscalling,
                             items: classList ?? [],
                             currentYear: '2022',
                           ),

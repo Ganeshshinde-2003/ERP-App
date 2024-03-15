@@ -2,6 +2,7 @@ import 'package:erp_app/constant/models/master_model.dart';
 import 'package:erp_app/constant/text_style.dart';
 import 'package:erp_app/constant/widgets/notfound_data.dart';
 import 'package:erp_app/features/teacher/screens/individual_marks_upload.dart';
+import 'package:erp_app/features/teacher/screens/upload_assignment/upload_resource_for_students.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -43,13 +44,23 @@ class MarkUploadSubjectWiseViewWidget extends StatelessWidget {
                         Alignment.centerLeft,
                         0.5,
                       ),
-                      child: NewUploadMarks(
-                        currentYear: currentYear,
-                        classId: items[index].subjectName,
-                        subId: items[index].id,
-                        sectionId: sectionId,
-                        examData: const {'name': 'Final Exam', 'marks': 100},
-                      ),
+                      child: whoCalling == "subjects-for-resources"
+                          ? UploadResourceForStudentScreen(
+                              classId: items[index].classId,
+                              sectionId: sectionId,
+                              subId: items[index].id,
+                              subName: items[index].subjectName,
+                            )
+                          : NewUploadMarks(
+                              currentYear: currentYear,
+                              classId: items[index].subjectName,
+                              subId: items[index].id,
+                              sectionId: sectionId,
+                              examData: const {
+                                'name': 'Final Exam',
+                                'marks': 100
+                              },
+                            ),
                     ),
                   );
                 },

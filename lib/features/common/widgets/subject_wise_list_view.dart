@@ -1,6 +1,7 @@
 import 'package:erp_app/constant/models/master_model.dart';
 import 'package:erp_app/constant/text_style.dart';
 import 'package:erp_app/features/common/widgets/exmas_list.dart';
+import 'package:erp_app/features/common/widgets/upload_resource.dart';
 import 'package:erp_app/features/teacher/screens/individual_class_attendacne.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -51,11 +52,17 @@ class SubjectWiseMarkView extends StatelessWidget {
                     //     callingWho: "subjects",
                     //   )
 
-                    : IndividualClassAttendace(
-                        classId: items[index].sectionName,
-                        currentYear: currentYear,
-                        sectionId: items[index].id,
-                      ),
+                    : whoCalling == "upload-resource"
+                        ? UploadResourcesPageScreen(
+                            classID: items[index].classId,
+                            callingWho: "subjects",
+                            sectionId: items[index].id,
+                          )
+                        : IndividualClassAttendace(
+                            classId: items[index].sectionName,
+                            currentYear: currentYear,
+                            sectionId: items[index].id,
+                          ),
               ),
             );
           },

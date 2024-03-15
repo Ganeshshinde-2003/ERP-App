@@ -156,15 +156,15 @@ class WidgetDataStudent {
         //     'Personal Message',
         //   ),
         // ),
-        GestureDetector(
-          onTap: () => openPage(const StudentAttendancePageScreen()),
-          child: FullMenuWidget(
-            deviceHeight,
-            deviceWidth,
-            true,
-            'assets/grades.png',
-            'Leave Application',
-          ),
-        ),
+        // GestureDetector(
+        //   onTap: () => openPage(const StudentAttendancePageScreen()),
+        //   child: FullMenuWidget(
+        //     deviceHeight,
+        //     deviceWidth,
+        //     true,
+        //     'assets/grades.png',
+        //     'Leave Application',
+        //   ),
+        // ),
       ];
 }

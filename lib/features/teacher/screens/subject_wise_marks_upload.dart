@@ -40,7 +40,9 @@ class _SubjectWiseMarksUploadState
   }
 
   Future<void> loadSectionList() async {
-    if (widget.callingWho == "marks" || widget.callingWho == "attendance") {
+    if (widget.callingWho == "marks" ||
+        widget.callingWho == "attendance" ||
+        widget.callingWho == "upload-resource") {
       sectionList = await ref
           .read(masterDataUtilControllerProvider)
           .getMasterSectionData(widget.classID);
@@ -61,9 +63,12 @@ class _SubjectWiseMarksUploadState
       backgroundColor: Colors.white,
       appBar: SubPageAppBar(
         context,
-        widget.callingWho == "marks" || widget.callingWho == "subjects"
-            ? 'Upload Marks'
-            : "Attendance",
+        widget.callingWho == "upload-resource" ||
+                widget.callingWho == "subjects-for-resources"
+            ? "Assignment"
+            : widget.callingWho == "marks" || widget.callingWho == "subjects"
+                ? 'Upload Marks'
+                : "Attendance",
       ),
       body: Stack(
         children: [
@@ -77,7 +82,8 @@ class _SubjectWiseMarksUploadState
             child: Column(
               children: [
                 ReusableClassButtonWidget(
-                  title: widget.callingWho == "subjects"
+                  title: widget.callingWho == "subjects" ||
+                          widget.callingWho == "subjects-for-resources"
                       ? "Select Subject"
                       : "Select Section",
                   buttonText: "Past Marks",
@@ -94,11 +100,12 @@ class _SubjectWiseMarksUploadState
                         // ignore: dead_code
                         ? NoDataFound(deviceHeight, 'assets/loading2.json')
                         // ignore: dead_code
-                        : widget.callingWho == "subjects"
+                        : widget.callingWho == "subjects" ||
+                                widget.callingWho == "subjects-for-resources"
                             ? MarkUploadSubjectWiseViewWidget(
                                 items: subjectList ?? [],
                                 currentYear: '2024',
-                                whoCalling: "marks",
+                                whoCalling: widget.callingWho,
                                 sectionId: widget.sectionId,
                               )
                             : SubjectWiseMarkView(
