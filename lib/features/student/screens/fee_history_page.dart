@@ -62,7 +62,19 @@ class _FeeHistoryScreenState extends ConsumerState<FeeHistoryScreen> {
 
         StatusInfo statusInfo = getStatusInfo(feeItem.status);
 
-        return Card(
+        return Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.shade200,
+                blurRadius: 1.0,
+                spreadRadius: 1.0,
+              ),
+            ],
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.grey.shade400),
+          ),
           margin: const EdgeInsets.symmetric(vertical: 8),
           child: Stack(
             children: [
@@ -78,8 +90,8 @@ class _FeeHistoryScreenState extends ConsumerState<FeeHistoryScreen> {
                 ),
               ),
               Positioned(
-                bottom: 8.0, // Adjust this value for the desired bottom spacing
-                right: 8.0, // Adjust this value for the desired right spacing
+                bottom: 8.0,
+                right: 8.0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

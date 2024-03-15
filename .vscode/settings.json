@@ -1,3 +1,4 @@
 {
-    "java.configuration.updateBuildConfiguration": "disabled"
+    "java.configuration.updateBuildConfiguration": "disabled",
+    "cmake.sourceDirectory": "C:/Users/sindh/Desktop/Internship/oscode/erp_app/linux"
 }
