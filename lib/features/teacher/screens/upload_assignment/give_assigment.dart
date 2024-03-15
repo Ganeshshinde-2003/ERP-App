@@ -1,7 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:erp_app/constant/models/user_model.dart';
 import 'package:erp_app/constant/provider/user_provider.dart';
+import 'package:erp_app/constant/widgets/snack_bar.dart';
 import 'package:erp_app/features/teacher/controller/upload_assigment_conroller.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -50,9 +53,9 @@ class GiveAssignmentScreen extends ConsumerStatefulWidget {
 }
 
 class _GiveAssignmentScreenState extends ConsumerState<GiveAssignmentScreen> {
-  TextEditingController _deadlineController = TextEditingController();
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _deadlineController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
   SharedStoreData sharedStoreData = SharedStoreData();
   DateTime? _selectedDate;
   Assignment? _assignment;
@@ -79,9 +82,8 @@ class _GiveAssignmentScreenState extends ConsumerState<GiveAssignmentScreen> {
     if (result != null) {
       PlatformFile file = result.files.first;
       _pickedFile = File(file.path!);
-      print('File picked: ${file.name}');
     } else {
-      print('User canceled file picking');
+      showSnackBar(context: context, content: "User canceled file picking");
     }
 
     setState(() {});
@@ -102,7 +104,6 @@ class _GiveAssignmentScreenState extends ConsumerState<GiveAssignmentScreen> {
     );
 
     ref.read(uploadAssignmentControllerProvider).uploadAssignment(
-          // ignore: use_build_context_synchronously
           context: context,
           assignment: _assignment!,
         );

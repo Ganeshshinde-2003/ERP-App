@@ -1,7 +1,6 @@
 import 'package:erp_app/constant/widgets/students/menu_widget.dart';
 import 'package:erp_app/constant/widgets/students/small_dashboard.dart';
 import 'package:erp_app/features/common/eventscreens/events_page.dart';
-import 'package:erp_app/features/student/screens/attendance_page.dart';
 import 'package:erp_app/features/student/screens/timetabel_page.dart';
 import 'package:erp_app/features/teacher/screens/put_attendance.dart';
 import 'package:erp_app/features/teacher/screens/upload_marks.dart';
