@@ -41,6 +41,7 @@ class PutAttendanceListView extends StatelessWidget {
                 child: SubjectWiseMarksUpload(
                   callingWho: whoCalling,
                   classID: items[index].id,
+                  sectionId: items[index].id,
                 ),
               ),
             );

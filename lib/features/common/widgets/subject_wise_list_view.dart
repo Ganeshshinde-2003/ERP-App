@@ -1,7 +1,7 @@
 import 'package:erp_app/constant/models/master_model.dart';
 import 'package:erp_app/constant/text_style.dart';
+import 'package:erp_app/features/common/widgets/exmas_list.dart';
 import 'package:erp_app/features/teacher/screens/individual_class_attendacne.dart';
-import 'package:erp_app/features/teacher/screens/subject_wise_marks_upload.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -40,16 +40,17 @@ class SubjectWiseMarkView extends StatelessWidget {
                   0.5,
                 ),
                 child: whoCalling == "marks"
-                    ? SubjectWiseMarksUpload(
+                    //I have to show here exmas and then from there navigate to this page
+                    ? ExamsListView(
                         classID: items[index].classId,
                         callingWho: "subjects",
+                        sectionId: items[index].id,
                       )
-                    // NewUploadMarks(
-                    //     currentYear: currentYear,
-                    //     classId: items[index].sectionName,
-                    //     subId: "SUB01",
-                    //     examData: const {'name': 'Final Exam', 'marks': 100},
+                    // SubjectWiseMarksUpload(
+                    //     classID: items[index].classId,
+                    //     callingWho: "subjects",
                     //   )
+
                     : IndividualClassAttendace(
                         classId: items[index].sectionName,
                         currentYear: currentYear,

@@ -1,25 +1,24 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
 
+import 'package:erp_app/constant/models/student_attendace_model.dart';
+import 'package:erp_app/constant/provider/user_provider.dart';
 import 'package:erp_app/constant/text_style.dart';
+import 'package:erp_app/constant/widgets/notfound_data.dart';
+import 'package:erp_app/constant/widgets/snack_bar.dart';
 import 'package:erp_app/features/common/subapp_bar.dart';
 import 'package:erp_app/features/common/widgets/row_head_disc.dart';
+import 'package:erp_app/features/teacher/controller/student_fetching_for_attendance_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-class StudentAttendanceData {
-  final String rollNo;
-  final String name;
-  final String? propic;
-
-  StudentAttendanceData(this.rollNo, this.name, this.propic);
-}
-
-class NewUploadMarks extends StatefulWidget {
+class NewUploadMarks extends ConsumerStatefulWidget {
   final String currentYear;
   final String classId;
   final String subId;
+  final String sectionId;
   final Map<String, dynamic> examData;
 
   const NewUploadMarks({
@@ -28,16 +27,18 @@ class NewUploadMarks extends StatefulWidget {
     required this.classId,
     required this.subId,
     required this.examData,
+    required this.sectionId,
   }) : super(key: key);
 
   @override
-  State<NewUploadMarks> createState() => _NewUploadMarksState();
+  ConsumerState<NewUploadMarks> createState() => _NewUploadMarksState();
 }
 
-class _NewUploadMarksState extends State<NewUploadMarks> {
+class _NewUploadMarksState extends ConsumerState<NewUploadMarks> {
   bool isLoading = false;
   bool addingAttendance = false;
-  List<StudentAttendanceData> students = [];
+  List<StudentData> students = [];
+  SharedStoreData sharedStoreData = SharedStoreData();
   List<TextEditingController> groupValue = [];
 
   void _toggleSwitch(bool value) {
@@ -49,20 +50,37 @@ class _NewUploadMarksState extends State<NewUploadMarks> {
     });
   }
 
+  void getData() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+
+      String currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+      List<dynamic> attendaceData = await ref
+          .read(putStudentAttendanceControllerProvider)
+          .fetchStudentAttendanceData(context, widget.sectionId, currentDate);
+      setState(() {
+        students = attendaceData[0];
+        groupValue = List<TextEditingController>.generate(
+          students.length,
+          (index) => TextEditingController(),
+        );
+      });
+    } catch (e) {
+      showSnackBar(context: context, content: e.toString());
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    // Add static data (for demonstration purposes)
-    students = [
-      StudentAttendanceData('001', 'John Doe', null),
-      StudentAttendanceData('002', 'Jane Doe', null),
-      // Add more static data as needed
-    ];
-
-    groupValue = List<TextEditingController>.generate(
-      students.length,
-      (index) => TextEditingController(),
-    );
+    getData();
   }
 
   submitAttendance() async {
@@ -75,15 +93,12 @@ class _NewUploadMarksState extends State<NewUploadMarks> {
 
       for (int i = 0; i < students.length; i++) {
         studentArray.add({
-          "roll": students[i].rollNo,
+          "roll": students[i].studentID.rollNo,
           "marks": groupValue[i].text.trim(),
         });
       }
-
-      // Simulating API call
       await Future.delayed(const Duration(seconds: 2));
 
-      // Print data for testing
       print('Student Marks: $studentArray');
 
       print('success');
@@ -100,14 +115,10 @@ class _NewUploadMarksState extends State<NewUploadMarks> {
     });
   }
 
-  updateTime() async {
-    // Implement your logic for updating time
-    // For now, this function is a placeholder
-  }
+  updateTime() async {}
 
   @override
   void dispose() {
-    students.clear();
     super.dispose();
   }
 
@@ -186,7 +197,7 @@ class _NewUploadMarksState extends State<NewUploadMarks> {
                         ),
                       )
                     : isLoading
-                        ? const CircularProgressIndicator() // Loading widget
+                        ? NoDataFound(deviceHeight, 'assets/loading2.json')
                         : students.isEmpty
                             ? const Center(
                                 child: Text('No Students Found'),
@@ -204,12 +215,12 @@ class _NewUploadMarksState extends State<NewUploadMarks> {
                                               MainAxisAlignment.start,
                                           children: [
                                             Text(
-                                              students[index].name,
+                                              students[index].studentID.name,
                                               textAlign: TextAlign.start,
                                               style: AppTextStyles.heading2,
                                             ),
                                             Text(
-                                              'Roll No: ${students[index].rollNo}',
+                                              'Roll No: ${students[index].studentID.rollNo}',
                                               style: AppTextStyles.heading2
                                                   .copyWith(
                                                 fontWeight: FontWeight.w600,
@@ -225,18 +236,10 @@ class _NewUploadMarksState extends State<NewUploadMarks> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             CircleAvatar(
-                                              backgroundImage: students[index]
-                                                          .propic ==
-                                                      null
-                                                  ? const NetworkImage(
-                                                      'https://firebasestorage.googleapis.com/v0/b/lmsapp-5ab03.appspot.com/o/photo_6336711903350470680_x.jpg?alt=media&token=cb008091-1921-40ee-b133-e7d0bd42d83a')
-                                                  : NetworkImage(
-                                                      students[index].propic!),
-                                              child:
-                                                  students[index].propic == null
-                                                      ? Image.asset(
-                                                          'assets/avatar.png')
-                                                      : const SizedBox.shrink(),
+                                              backgroundImage: const NetworkImage(
+                                                  'https://firebasestorage.googleapis.com/v0/b/lmsapp-5ab03.appspot.com/o/photo_6336711903350470680_x.jpg?alt=media&token=cb008091-1921-40ee-b133-e7d0bd42d83a'),
+                                              child: Image.asset(
+                                                  'assets/avatar.png'),
                                             ),
                                             SizedBox(
                                               height: deviceHeight * 0.003,

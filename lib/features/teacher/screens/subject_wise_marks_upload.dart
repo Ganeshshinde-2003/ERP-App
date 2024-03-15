@@ -11,12 +11,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SubjectWiseMarksUpload extends ConsumerStatefulWidget {
+  final Map<String, dynamic>? examScheduleData;
   final String classID;
   final String callingWho;
+  final String sectionId;
   const SubjectWiseMarksUpload({
     super.key,
     required this.classID,
     required this.callingWho,
+    this.examScheduleData,
+    required this.sectionId,
   });
 
   @override
@@ -95,6 +99,7 @@ class _SubjectWiseMarksUploadState
                                 items: subjectList ?? [],
                                 currentYear: '2024',
                                 whoCalling: "marks",
+                                sectionId: widget.sectionId,
                               )
                             : SubjectWiseMarkView(
                                 whoCalling: widget.callingWho,
