@@ -26,21 +26,36 @@ class ExamsListView extends ConsumerStatefulWidget {
 
 class _ExamsListViewState extends ConsumerState<ExamsListView> {
   Map<String, dynamic>? examScheduleData;
-  List<String> uniqueExamNames = [];
+  List<Map<String, dynamic>>? uniqueExamNames = [];
 
   void getExamsDetails() async {
     examScheduleData = await ref
         .read(getExamsDetailsControllerProvider)
         .getExamsDetails(context);
+
     if (examScheduleData != null) {
-      uniqueExamNames = examScheduleData!['data']
-          .map<String>((examData) {
-            final examCategory = examData['examScheduleID']['examTypeID']
-                ['examCatID']['examCategory'] as String?;
-            return examCategory ?? "";
-          })
-          .toSet()
-          .toList();
+      final List<Map<String, dynamic>> allExams =
+          examScheduleData!['data'].map<Map<String, dynamic>>((examData) {
+        final examCategory = examData['examScheduleID']['examTypeID']
+            ['examCatID']['examCategory'] as String?;
+        final examScheduleId = examData['examScheduleID']['_id'] as String?;
+        return {'name': examCategory ?? "", 'scheduleId': examScheduleId ?? ""};
+      }).toList();
+
+      uniqueExamNames = [];
+      for (final exam in allExams) {
+        bool foundDuplicate = false;
+        for (final uniqueExam in uniqueExamNames!) {
+          if (exam['name'] == uniqueExam['name']) {
+            foundDuplicate = true;
+            break;
+          }
+        }
+        if (!foundDuplicate) {
+          uniqueExamNames!.add(exam);
+        }
+      }
+
       setState(() {});
     } else {}
   }
@@ -83,7 +98,7 @@ class _ExamsListViewState extends ConsumerState<ExamsListView> {
                   width: deviceWidth * 0.8,
                   child: const Divider(thickness: 1),
                 ),
-                if (uniqueExamNames.isNotEmpty)
+                if (uniqueExamNames!.isNotEmpty)
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
@@ -95,7 +110,7 @@ class _ExamsListViewState extends ConsumerState<ExamsListView> {
                           childAspectRatio: 1.9,
                           crossAxisCount: 2,
                         ),
-                        itemCount: uniqueExamNames.length,
+                        itemCount: uniqueExamNames!.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
@@ -109,7 +124,7 @@ class _ExamsListViewState extends ConsumerState<ExamsListView> {
                                     0.5,
                                   ),
                                   child: SubjectWiseMarksUpload(
-                                    examScheduleData: examScheduleData,
+                                    examScheduleData: uniqueExamNames![index],
                                     classID: widget.classID,
                                     callingWho: "subjects",
                                     sectionId: widget.sectionId,
@@ -132,7 +147,7 @@ class _ExamsListViewState extends ConsumerState<ExamsListView> {
                               ),
                               child: Center(
                                 child: Text(
-                                  uniqueExamNames[index],
+                                  uniqueExamNames![index]['name'],
                                   style: const TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,

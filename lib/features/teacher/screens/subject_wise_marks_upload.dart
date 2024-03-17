@@ -103,6 +103,7 @@ class _SubjectWiseMarksUploadState
                         : widget.callingWho == "subjects" ||
                                 widget.callingWho == "subjects-for-resources"
                             ? MarkUploadSubjectWiseViewWidget(
+                                examId: widget.examScheduleData,
                                 items: subjectList ?? [],
                                 currentYear: '2024',
                                 whoCalling: widget.callingWho,

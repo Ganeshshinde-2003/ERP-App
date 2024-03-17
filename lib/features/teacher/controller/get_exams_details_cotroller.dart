@@ -18,4 +18,11 @@ class GetExamsDetailsController {
   Future<Map<String, dynamic>?> getExamsDetails(BuildContext context) async {
     return await getExamsService.getExamsDetails(context);
   }
+
+  Future<void> storeStudentExamsMarks({
+    required BuildContext context,
+    required List<dynamic> data,
+  }) async {
+    await getExamsService.storeStudentExamsMarks(context: context, data: data);
+  }
 }

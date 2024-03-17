@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:erp_app/constant/models/student_attendace_model.dart';
 import 'package:erp_app/constant/provider/user_provider.dart';
@@ -7,6 +7,7 @@ import 'package:erp_app/constant/widgets/notfound_data.dart';
 import 'package:erp_app/constant/widgets/snack_bar.dart';
 import 'package:erp_app/features/common/subapp_bar.dart';
 import 'package:erp_app/features/common/widgets/row_head_disc.dart';
+import 'package:erp_app/features/teacher/controller/get_exams_details_cotroller.dart';
 import 'package:erp_app/features/teacher/controller/student_fetching_for_attendance_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,6 +20,7 @@ class NewUploadMarks extends ConsumerStatefulWidget {
   final String classId;
   final String subId;
   final String sectionId;
+  final String examId;
   final Map<String, dynamic> examData;
 
   const NewUploadMarks({
@@ -28,6 +30,7 @@ class NewUploadMarks extends ConsumerStatefulWidget {
     required this.subId,
     required this.examData,
     required this.sectionId,
+    required this.examId,
   }) : super(key: key);
 
   @override
@@ -89,30 +92,32 @@ class _NewUploadMarksState extends ConsumerState<NewUploadMarks> {
     });
 
     try {
-      var studentArray = [];
+      var marksArray = [];
 
       for (int i = 0; i < students.length; i++) {
-        studentArray.add({
-          "roll": students[i].studentID.rollNo,
-          "marks": groupValue[i].text.trim(),
+        marksArray.add({
+          "examScheduleID": widget.examId,
+          "studentID": students[i].studentID.id,
+          "subjectID": widget.subId,
+          "obtainedMarks": int.parse(groupValue[i].text.trim()),
         });
       }
-      await Future.delayed(const Duration(seconds: 2));
-
-      print('Student Marks: $studentArray');
-
-      print('success');
+      await storeExamData(marksArray);
       Fluttertoast.showToast(msg: 'Saved Successfully !');
-
       Navigator.pop(context);
     } catch (e) {
-      print(e);
       Fluttertoast.showToast(msg: 'Failed to save, Try again!');
     }
 
     setState(() {
       addingAttendance = false;
     });
+  }
+
+  Future storeExamData(List<dynamic> data) async {
+    await ref
+        .read(getExamsDetailsControllerProvider)
+        .storeStudentExamsMarks(context: context, data: data);
   }
 
   updateTime() async {}

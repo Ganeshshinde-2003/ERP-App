@@ -10,6 +10,7 @@ class MarkUploadSubjectWiseViewWidget extends StatelessWidget {
   final String whoCalling;
   final List<Subject> items;
   final String currentYear;
+  final Map<String, dynamic>? examId;
   final String sectionId;
 
   const MarkUploadSubjectWiseViewWidget({
@@ -18,6 +19,7 @@ class MarkUploadSubjectWiseViewWidget extends StatelessWidget {
     required this.currentYear,
     required this.whoCalling,
     required this.sectionId,
+    required this.examId,
   });
 
   @override
@@ -56,10 +58,8 @@ class MarkUploadSubjectWiseViewWidget extends StatelessWidget {
                               classId: items[index].subjectName,
                               subId: items[index].id,
                               sectionId: sectionId,
-                              examData: const {
-                                'name': 'Final Exam',
-                                'marks': 100
-                              },
+                              examId: examId!['scheduleId'],
+                              examData: {'name': examId!['name'], 'marks': 100},
                             ),
                     ),
                   );
