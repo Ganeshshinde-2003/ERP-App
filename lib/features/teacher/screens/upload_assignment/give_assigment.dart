@@ -83,7 +83,7 @@ class _GiveAssignmentScreenState extends ConsumerState<GiveAssignmentScreen> {
       PlatformFile file = result.files.first;
       _pickedFile = File(file.path!);
     } else {
-      showSnackBar(context: context, content: "User canceled file picking");
+      showSnackBar(context: context, content: "Canceled file picking");
     }
 
     setState(() {});
