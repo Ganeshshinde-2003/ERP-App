@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:dio/dio.dart';
 import 'package:erp_app/constant/models/view_assignment_model.dart';
 import 'package:erp_app/constant/text_style.dart';
