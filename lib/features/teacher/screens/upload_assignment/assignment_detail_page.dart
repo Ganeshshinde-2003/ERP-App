@@ -1,13 +1,12 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:dio/dio.dart';
 import 'package:erp_app/constant/models/view_assignment_model.dart';
 import 'package:erp_app/constant/text_style.dart';
 import 'package:erp_app/constant/widgets/teacher/notice_bottom_image.dart';
 import 'package:erp_app/features/common/subapp_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AssignmentDetailsScreen extends StatefulWidget {
   final AssignmentData assignmentData;
@@ -21,28 +20,9 @@ class AssignmentDetailsScreen extends StatefulWidget {
 }
 
 class _AssignmentDetailsScreenState extends State<AssignmentDetailsScreen> {
-  bool _downloading = false;
-  late String _filePath;
-
   Future<void> _downloadFile(String url) async {
-    setState(() {
-      _downloading = true;
-    });
-
-    final dir = await getTemporaryDirectory();
-    _filePath =
-        '${dir.path}/assignment_${DateTime.now().millisecondsSinceEpoch}.pdf';
-
-    try {
-      await Dio().download(url, _filePath);
-      setState(() {
-        _downloading = false;
-      });
-    } catch (e) {
-      setState(() {
-        _downloading = false;
-      });
-    }
+    var urlLink = Uri.parse(url);
+    await launch(urlLink.toString());
   }
 
   @override
@@ -95,36 +75,35 @@ class _AssignmentDetailsScreenState extends State<AssignmentDetailsScreen> {
                       'Due Date: ${DateFormat('MMMM dd, yyyy').format(widget.assignmentData.dueDate)}',
                       style: AppTextStyles.bodyText,
                     ),
-                    _downloading
-                        ? const CircularProgressIndicator(color: Colors.green)
-                        : GestureDetector(
-                            onTap: () {
-                              _downloadFile(
-                                widget.assignmentData.uploadedFileUrl,
-                              );
-                            },
-                            child: Container(
-                              height: 50,
-                              width: deviceWidth,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: const Color(0xff03E627),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    spreadRadius: 1,
-                                    blurRadius: 10,
-                                    offset: const Offset(0, 1),
-                                  ),
-                                ],
-                              ),
-                              child: const Center(
-                                  child: Text(
-                                "Download Assignment",
-                                style: TextStyle(color: Colors.white),
-                              )),
+                    const SizedBox(height: 30),
+                    GestureDetector(
+                      onTap: () {
+                        _downloadFile(
+                          widget.assignmentData.uploadedFileUrl,
+                        );
+                      },
+                      child: Container(
+                        height: 50,
+                        width: deviceWidth,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: const Color(0xff03E627),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 1,
+                              blurRadius: 10,
+                              offset: const Offset(0, 1),
                             ),
-                          ),
+                          ],
+                        ),
+                        child: const Center(
+                            child: Text(
+                          "Download Assignment",
+                          style: TextStyle(color: Colors.white),
+                        )),
+                      ),
+                    ),
                   ],
                 ),
               ),
