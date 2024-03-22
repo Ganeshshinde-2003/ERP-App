@@ -3,7 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 // ignore: non_constant_identifier_names
-Widget NoDataFound(double deviceHeight, String json) {
+Widget NoDataFound(double deviceHeight, String json,
+    {String text = 'No Data Found'}) {
   return Center(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -17,7 +18,7 @@ Widget NoDataFound(double deviceHeight, String json) {
           height: deviceHeight * 0.05,
         ),
         Text(
-          'No Data Found',
+          text,
           style: GoogleFonts.poppins(),
         ),
       ],

@@ -5,11 +5,13 @@ class UploadResourcesPageScreen extends StatefulWidget {
   final String classID;
   final String callingWho;
   final String sectionId;
+  final String isRes;
   const UploadResourcesPageScreen({
     super.key,
     required this.classID,
     required this.callingWho,
     required this.sectionId,
+    required this.isRes,
   });
 
   @override
@@ -40,6 +42,7 @@ class _UploadResourcesPageScreenState extends State<UploadResourcesPageScreen>
       body: Stack(
         children: [
           SubjectWiseMarksUpload(
+            isRes: widget.isRes,
             classID: widget.classID,
             callingWho: "subjects-for-resources",
             sectionId: widget.sectionId,

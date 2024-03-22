@@ -55,9 +55,8 @@ class WidgetData {
           ),
         ),
         GestureDetector(
-          onTap: () => openPage(const UploadMarksScreen(
-            whoiscalling: "upload-resource",
-          )),
+          onTap: () => openPage(
+              const UploadMarksScreen(whoiscalling: "upload-resource")),
           child: SmallDashboard(
             'assets/small-dashboard-abstract4.png',
             'assets/study-material.png',
@@ -107,16 +106,16 @@ class WidgetData {
         //     'Leave Application',
         //   ),
         // ),
-        GestureDetector(
-          onTap: () => openPage(const TeacherPutAttendance()),
-          child: FullMenuWidget(
-            deviceHeight,
-            deviceWidth,
-            false,
-            'assets/student-birthdays.png',
-            'Student Birthdays',
-          ),
-        ),
+        // GestureDetector(
+        //   onTap: () => openPage(const TeacherPutAttendance()),
+        //   child: FullMenuWidget(
+        //     deviceHeight,
+        //     deviceWidth,
+        //     false,
+        //     'assets/student-birthdays.png',
+        //     'Student Birthdays',
+        //   ),
+        // ),
         // GestureDetector(
         //   onTap: () => openPage(const TeacherPutAttendance()),
         //   child: FullMenuWidget(
@@ -140,6 +139,7 @@ class WidgetData {
         GestureDetector(
           onTap: () => openPage(const UploadMarksScreen(
             whoiscalling: "upload-resource",
+            isRes: "yes",
           )),
           child: FullMenuWidget(
             deviceHeight,

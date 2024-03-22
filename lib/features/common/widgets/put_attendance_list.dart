@@ -8,9 +8,11 @@ class PutAttendanceListView extends StatelessWidget {
   final String whoCalling;
   final List<Class> items;
   final String currentYear;
+  final String isRes;
 
   const PutAttendanceListView({
     super.key,
+    this.isRes = "no",
     required this.items,
     required this.currentYear,
     required this.whoCalling,
@@ -39,6 +41,7 @@ class PutAttendanceListView extends StatelessWidget {
                   0.5,
                 ),
                 child: SubjectWiseMarksUpload(
+                  isRes: isRes,
                   callingWho: whoCalling,
                   classID: items[index].id,
                   sectionId: items[index].id,

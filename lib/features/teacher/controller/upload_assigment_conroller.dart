@@ -1,3 +1,4 @@
+import 'package:erp_app/constant/models/resources_model.dart';
 import 'package:erp_app/constant/models/view_assignment_model.dart';
 import 'package:erp_app/features/teacher/screens/upload_assignment/give_assigment.dart';
 import 'package:erp_app/features/teacher/service/upload_assignment_service.dart';
@@ -42,6 +43,20 @@ class UploadAssignmentController {
       subId: subId,
       who: who,
       context: context,
+    );
+  }
+
+  Future<ResourceModel?> getResources(
+    BuildContext context,
+    String who,
+    String classId,
+    String subId,
+  ) async {
+    return await uploadAssignmentService.getResources(
+      context: context,
+      who: who,
+      classId: classId,
+      subId: subId,
     );
   }
 }

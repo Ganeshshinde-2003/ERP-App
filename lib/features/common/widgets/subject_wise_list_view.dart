@@ -10,11 +10,13 @@ class SubjectWiseMarkView extends StatelessWidget {
   final String whoCalling;
   final List<Section> items;
   final String currentYear;
+  final String isRes;
 
   const SubjectWiseMarkView({
     super.key,
     required this.items,
     required this.currentYear,
+    required this.isRes,
     required this.whoCalling,
   });
 
@@ -41,19 +43,14 @@ class SubjectWiseMarkView extends StatelessWidget {
                   0.5,
                 ),
                 child: whoCalling == "marks"
-                    //I have to show here exmas and then from there navigate to this page
                     ? ExamsListView(
                         classID: items[index].classId,
                         callingWho: "subjects",
                         sectionId: items[index].id,
                       )
-                    // SubjectWiseMarksUpload(
-                    //     classID: items[index].classId,
-                    //     callingWho: "subjects",
-                    //   )
-
                     : whoCalling == "upload-resource"
                         ? UploadResourcesPageScreen(
+                            isRes: isRes,
                             classID: items[index].classId,
                             callingWho: "subjects",
                             sectionId: items[index].id,

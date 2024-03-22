@@ -15,11 +15,13 @@ class SubjectWiseMarksUpload extends ConsumerStatefulWidget {
   final String classID;
   final String callingWho;
   final String sectionId;
+  final String isRes;
   const SubjectWiseMarksUpload({
     super.key,
     required this.classID,
     required this.callingWho,
     this.examScheduleData,
+    required this.isRes,
     required this.sectionId,
   });
 
@@ -63,12 +65,15 @@ class _SubjectWiseMarksUploadState
       backgroundColor: Colors.white,
       appBar: SubPageAppBar(
         context,
-        widget.callingWho == "upload-resource" ||
-                widget.callingWho == "subjects-for-resources"
-            ? "Assignment"
-            : widget.callingWho == "marks" || widget.callingWho == "subjects"
-                ? 'Upload Marks'
-                : "Attendance",
+        widget.isRes == "yes"
+            ? 'Resources'
+            : widget.callingWho == "upload-resource" ||
+                    widget.callingWho == "subjects-for-resources"
+                ? "Assignment"
+                : widget.callingWho == "marks" ||
+                        widget.callingWho == "subjects"
+                    ? 'Upload Marks'
+                    : "Attendance",
       ),
       body: Stack(
         children: [
@@ -103,6 +108,7 @@ class _SubjectWiseMarksUploadState
                         : widget.callingWho == "subjects" ||
                                 widget.callingWho == "subjects-for-resources"
                             ? MarkUploadSubjectWiseViewWidget(
+                                isRes: widget.isRes,
                                 examId: widget.examScheduleData,
                                 items: subjectList ?? [],
                                 currentYear: '2024',
@@ -110,6 +116,7 @@ class _SubjectWiseMarksUploadState
                                 sectionId: widget.sectionId,
                               )
                             : SubjectWiseMarkView(
+                                isRes: widget.isRes,
                                 whoCalling: widget.callingWho,
                                 items: sectionList ?? [],
                                 currentYear: '2022',

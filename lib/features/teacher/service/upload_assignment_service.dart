@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:erp_app/constant/data/global_variable.dart';
+import 'package:erp_app/constant/models/resources_model.dart';
 import 'package:erp_app/constant/models/student_login_model.dart';
 import 'package:erp_app/constant/models/user_model.dart';
 import 'package:erp_app/constant/models/view_assignment_model.dart';
@@ -110,6 +111,52 @@ class UploadAssignmentService {
         },
       );
       return assignmentDataModel;
+    } catch (e) {
+      showSnackBar(context: context, content: e.toString());
+      return null;
+    }
+  }
+
+  Future<ResourceModel?> getResources({
+    required BuildContext context,
+    required String who,
+    required String classId,
+    required String subId,
+  }) async {
+    SharedStoreData sharedStoreData = SharedStoreData();
+    ResourceModel? resourceModel;
+    String? authToken;
+    String? whoIs;
+
+    if (who == "Student") {
+      StudentLoginModel? studentData =
+          await sharedStoreData.loadStudentFromPreferences();
+      authToken = studentData?.data.token;
+      whoIs = "students";
+    } else {
+      User? loadUser = await sharedStoreData.loadUserFromPreferences();
+      authToken = loadUser?.data.token;
+      whoIs = "teachers";
+    }
+    try {
+      http.Response res = await http.get(
+        Uri.parse('$URI/$whoIs/resources/$classId/$subId'),
+        headers: {
+          'Authorization': 'Bearer $authToken',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          final resBody = json.decode(res.body);
+          resourceModel = ResourceModel.fromJson(resBody);
+        },
+      );
+
+      return resourceModel;
     } catch (e) {
       showSnackBar(context: context, content: e.toString());
       return null;

@@ -112,7 +112,11 @@ class _ViewAssignmentScreebState extends ConsumerState<ViewAssignmentScreeb> {
   Widget _buildAssignmentListView(List<AssignmentData> assignments) {
     var deviceHeight = MediaQuery.of(context).size.height;
     if (assignments.isEmpty) {
-      return NoDataFound(deviceHeight, 'assets/loading1.json');
+      return NoDataFound(
+        deviceHeight,
+        'assets/loading1.json',
+        text: "No Assignment Found",
+      );
     } else {
       return Container(
         margin: const EdgeInsets.only(bottom: 130),

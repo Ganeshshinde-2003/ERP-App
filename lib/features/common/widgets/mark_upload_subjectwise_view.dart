@@ -2,6 +2,7 @@ import 'package:erp_app/constant/models/master_model.dart';
 import 'package:erp_app/constant/text_style.dart';
 import 'package:erp_app/constant/widgets/notfound_data.dart';
 import 'package:erp_app/features/teacher/screens/individual_marks_upload.dart';
+import 'package:erp_app/features/teacher/screens/resources_screen.dart';
 import 'package:erp_app/features/teacher/screens/upload_assignment/upload_resource_for_students.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -12,6 +13,7 @@ class MarkUploadSubjectWiseViewWidget extends StatelessWidget {
   final String currentYear;
   final Map<String, dynamic>? examId;
   final String sectionId;
+  final String isRes;
 
   const MarkUploadSubjectWiseViewWidget({
     super.key,
@@ -20,6 +22,7 @@ class MarkUploadSubjectWiseViewWidget extends StatelessWidget {
     required this.whoCalling,
     required this.sectionId,
     required this.examId,
+    required this.isRes,
   });
 
   @override
@@ -46,21 +49,30 @@ class MarkUploadSubjectWiseViewWidget extends StatelessWidget {
                         Alignment.centerLeft,
                         0.5,
                       ),
-                      child: whoCalling == "subjects-for-resources"
-                          ? UploadResourceForStudentScreen(
-                              classId: items[index].classId,
-                              sectionId: sectionId,
-                              subId: items[index].id,
+                      child: isRes == "yes"
+                          ? ResourceByClassAndSub(
                               subName: items[index].subjectName,
-                            )
-                          : NewUploadMarks(
-                              currentYear: currentYear,
-                              classId: items[index].subjectName,
+                              classId: items[index].classId,
                               subId: items[index].id,
-                              sectionId: sectionId,
-                              examId: examId!['scheduleId'],
-                              examData: {'name': examId!['name'], 'marks': 100},
-                            ),
+                            )
+                          : whoCalling == "subjects-for-resources"
+                              ? UploadResourceForStudentScreen(
+                                  classId: items[index].classId,
+                                  sectionId: sectionId,
+                                  subId: items[index].id,
+                                  subName: items[index].subjectName,
+                                )
+                              : NewUploadMarks(
+                                  currentYear: currentYear,
+                                  classId: items[index].subjectName,
+                                  subId: items[index].id,
+                                  sectionId: sectionId,
+                                  examId: examId!['scheduleId'],
+                                  examData: {
+                                    'name': examId!['name'],
+                                    'marks': 100
+                                  },
+                                ),
                     ),
                   );
                 },

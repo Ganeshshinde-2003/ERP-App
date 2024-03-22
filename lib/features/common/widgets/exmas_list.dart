@@ -124,6 +124,7 @@ class _ExamsListViewState extends ConsumerState<ExamsListView> {
                                     0.5,
                                   ),
                                   child: SubjectWiseMarksUpload(
+                                    isRes: "no",
                                     examScheduleData: uniqueExamNames![index],
                                     classID: widget.classID,
                                     callingWho: "subjects",
