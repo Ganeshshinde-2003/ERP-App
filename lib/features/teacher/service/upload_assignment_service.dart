@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:erp_app/constant/data/global_variable.dart';
+import 'package:erp_app/constant/models/student_login_model.dart';
 import 'package:erp_app/constant/models/user_model.dart';
 import 'package:erp_app/constant/models/view_assignment_model.dart';
 import 'package:erp_app/constant/provider/user_provider.dart';
@@ -75,14 +76,22 @@ class UploadAssignmentService {
   Future<AssignmentDataModel?> getAssingmentBySection({
     required String sectionId,
     required String subId,
+    required String who,
     required BuildContext context,
   }) async {
     SharedStoreData sharedStoreData = SharedStoreData();
 
-    User? loadUser = await sharedStoreData.loadUserFromPreferences();
-    String? authToken = loadUser?.data.token;
+    String? authToken;
     AssignmentDataModel? assignmentDataModel;
 
+    if (who == "Student") {
+      StudentLoginModel? studentData =
+          await sharedStoreData.loadStudentFromPreferences();
+      authToken = studentData?.data.token;
+    } else {
+      User? loadUser = await sharedStoreData.loadUserFromPreferences();
+      authToken = loadUser?.data.token;
+    }
     try {
       http.Response res = await http.get(
         Uri.parse('$URI/assignments/$sectionId/$subId'),

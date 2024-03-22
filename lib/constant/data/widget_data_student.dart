@@ -4,7 +4,7 @@ import 'package:erp_app/features/common/eventscreens/events_page.dart';
 import 'package:erp_app/features/student/screens/ai_assist_page.dart';
 import 'package:erp_app/features/student/screens/attendance_page.dart';
 import 'package:erp_app/features/student/screens/fee_history_page.dart';
-import 'package:erp_app/features/student/screens/homework_page.dart';
+import 'package:erp_app/features/student/screens/homework/subject_wise_view.dart';
 import 'package:erp_app/features/student/screens/timetabel_page.dart';
 import 'package:erp_app/features/student/screens/vanlive_tracking.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +56,7 @@ class WidgetDataStudent {
           ),
         ),
         GestureDetector(
-          onTap: () => openPage(const StudentHomeWorkPageScreen()),
+          onTap: () => openPage(const HomeWorkSubjectScreen()),
           child: SmallDashboard(
             'assets/small-dashboard-abstract4.png',
             'assets/homeworks.png',

@@ -12,12 +12,15 @@ import 'package:page_transition/page_transition.dart';
 
 class ViewAssignmentScreeb extends ConsumerStatefulWidget {
   final String sectionId;
+  final String subname;
   final String subId;
-  const ViewAssignmentScreeb({
-    super.key,
-    required this.sectionId,
-    required this.subId,
-  });
+  final String who;
+  const ViewAssignmentScreeb(
+      {super.key,
+      required this.sectionId,
+      required this.subId,
+      required this.who,
+      required this.subname});
 
   @override
   ConsumerState<ViewAssignmentScreeb> createState() =>
@@ -33,6 +36,7 @@ class _ViewAssignmentScreebState extends ConsumerState<ViewAssignmentScreeb> {
         .getAssingmentBySectionId(
           sectionId: widget.sectionId,
           subId: widget.subId,
+          who: widget.who,
           context: context,
         );
 
@@ -51,7 +55,7 @@ class _ViewAssignmentScreebState extends ConsumerState<ViewAssignmentScreeb> {
     var deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: SubPageAppBar(context, "Assignment"),
+      appBar: SubPageAppBar(context, widget.subname),
       body: Stack(
         children: [
           BottomImageBar(

@@ -34,11 +34,13 @@ class UploadAssignmentController {
   Future<AssignmentDataModel?> getAssingmentBySectionId({
     required String sectionId,
     required String subId,
+    required String who,
     required BuildContext context,
   }) async {
     return await uploadAssignmentService.getAssingmentBySection(
       sectionId: sectionId,
       subId: subId,
+      who: who,
       context: context,
     );
   }

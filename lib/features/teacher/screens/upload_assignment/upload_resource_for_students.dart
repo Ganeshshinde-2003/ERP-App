@@ -98,6 +98,8 @@ class _UploadResourceForStudentScreenState
                               child: ViewAssignmentScreeb(
                                 sectionId: widget.sectionId,
                                 subId: widget.subId,
+                                subname: widget.subName,
+                                who: "Teacher",
                               ),
                               type: PageTransitionType.fade,
                               alignment: Alignment.lerp(
