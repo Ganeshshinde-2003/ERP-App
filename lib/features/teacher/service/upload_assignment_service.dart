@@ -128,7 +128,7 @@ class UploadAssignmentService {
     String? authToken;
     String? whoIs;
 
-    if (who == "Student") {
+    if (who == "student") {
       StudentLoginModel? studentData =
           await sharedStoreData.loadStudentFromPreferences();
       authToken = studentData?.data.token;

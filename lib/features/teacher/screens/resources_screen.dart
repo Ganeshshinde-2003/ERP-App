@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, deprecated_member_use
 import 'package:erp_app/constant/models/resources_model.dart';
 import 'package:erp_app/constant/text_style.dart';
 import 'package:erp_app/constant/widgets/notfound_data.dart';
@@ -7,16 +7,19 @@ import 'package:erp_app/features/common/subapp_bar.dart';
 import 'package:erp_app/features/teacher/controller/upload_assigment_conroller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ResourceByClassAndSub extends ConsumerStatefulWidget {
   final String classId;
   final String subId;
   final String subName;
+  final String whoIs;
   const ResourceByClassAndSub({
     Key? key,
     required this.classId,
     required this.subId,
     required this.subName,
+    required this.whoIs,
   }) : super(key: key);
 
   @override
@@ -31,7 +34,7 @@ class _ResourceByClassAndSubState extends ConsumerState<ResourceByClassAndSub> {
     resourceModelData =
         await ref.read(uploadAssignmentControllerProvider).getResources(
               context,
-              "teacher",
+              widget.whoIs,
               widget.classId,
               widget.subId,
             );
@@ -43,6 +46,11 @@ class _ResourceByClassAndSubState extends ConsumerState<ResourceByClassAndSub> {
   void initState() {
     getResources();
     super.initState();
+  }
+
+  Future<void> _downloadFile(String url) async {
+    var urlLink = Uri.parse(url);
+    await launch(urlLink.toString());
   }
 
   @override
@@ -95,10 +103,15 @@ class _ResourceByClassAndSubState extends ConsumerState<ResourceByClassAndSub> {
                         style: AppTextStyles.sliderText
                             .copyWith(color: Colors.grey),
                       ),
-                      trailing: const Icon(
-                        Icons.file_copy_outlined,
-                        color: Colors.green,
-                      ), // Download icon
+                      trailing: GestureDetector(
+                        onTap: () {
+                          _downloadFile(resource.uploadedFileUrl);
+                        },
+                        child: const Icon(
+                          Icons.file_copy_outlined,
+                          color: Color(0xff03E627),
+                        ),
+                      ),
                     ),
                   );
                 },

@@ -56,7 +56,9 @@ class WidgetDataStudent {
           ),
         ),
         GestureDetector(
-          onTap: () => openPage(const HomeWorkSubjectScreen()),
+          onTap: () => openPage(const HomeWorkSubjectScreen(
+            who: "work",
+          )),
           child: SmallDashboard(
             'assets/small-dashboard-abstract4.png',
             'assets/study-material.png',
@@ -87,7 +89,9 @@ class WidgetDataStudent {
           ),
         ),
         GestureDetector(
-          onTap: () => openPage(const StudentAttendancePageScreen()),
+          onTap: () => openPage(const HomeWorkSubjectScreen(
+            who: "res",
+          )),
           child: FullMenuWidget(
             deviceHeight,
             deviceWidth,
