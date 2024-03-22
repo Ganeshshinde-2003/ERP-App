@@ -59,9 +59,9 @@ class WidgetDataStudent {
           onTap: () => openPage(const HomeWorkSubjectScreen()),
           child: SmallDashboard(
             'assets/small-dashboard-abstract4.png',
-            'assets/homeworks.png',
+            'assets/study-material.png',
             deviceHeight,
-            'Homeworks',
+            'Assignment',
           ),
         ),
         GestureDetector(
