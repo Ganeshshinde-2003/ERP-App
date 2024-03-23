@@ -90,19 +90,19 @@ class WidgetData {
             'Syllabus',
           ),
         ),
-        GestureDetector(
-          onTap: () => openPage(const UploadMarksScreen(
-            whoiscalling: "upload-resource",
-            isRes: "yes",
-          )),
-          child: FullMenuWidget(
-            deviceHeight,
-            deviceWidth,
-            false,
-            'assets/salary.png',
-            'My Salary',
-          ),
-        ),
+        // GestureDetector(
+        //   onTap: () => openPage(const UploadMarksScreen(
+        //     whoiscalling: "upload-resource",
+        //     isRes: "yes",
+        //   )),
+        //   child: FullMenuWidget(
+        //     deviceHeight,
+        //     deviceWidth,
+        //     false,
+        //     'assets/salary.png',
+        //     'My Salary',
+        //   ),
+        // ),
         // GestureDetector(
         //   onTap: () => openPage(const TeacherPutAttendance()),
         //   child: FullMenuWidget(
