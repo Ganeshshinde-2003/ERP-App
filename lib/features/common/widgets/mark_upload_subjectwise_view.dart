@@ -3,6 +3,7 @@ import 'package:erp_app/constant/text_style.dart';
 import 'package:erp_app/constant/widgets/notfound_data.dart';
 import 'package:erp_app/features/teacher/screens/individual_marks_upload.dart';
 import 'package:erp_app/features/teacher/screens/resources_screen.dart';
+import 'package:erp_app/features/teacher/screens/syllabus_details_page.dart';
 import 'package:erp_app/features/teacher/screens/upload_assignment/upload_resource_for_students.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -14,6 +15,7 @@ class MarkUploadSubjectWiseViewWidget extends StatelessWidget {
   final Map<String, dynamic>? examId;
   final String sectionId;
   final String isRes;
+  final String isSyl;
 
   const MarkUploadSubjectWiseViewWidget({
     super.key,
@@ -23,6 +25,7 @@ class MarkUploadSubjectWiseViewWidget extends StatelessWidget {
     required this.sectionId,
     required this.examId,
     required this.isRes,
+    required this.isSyl,
   });
 
   @override
@@ -49,31 +52,38 @@ class MarkUploadSubjectWiseViewWidget extends StatelessWidget {
                         Alignment.centerLeft,
                         0.5,
                       ),
-                      child: isRes == "yes"
-                          ? ResourceByClassAndSub(
-                              subName: items[index].subjectName,
-                              classId: items[index].classId,
+                      child: isSyl == "yes"
+                          ? SyallabusDetailsScreen(
+                              classID: items[index].classId,
                               subId: items[index].id,
-                              whoIs: "teacher",
+                              editAble: true,
+                              subName: items[index].subjectName,
                             )
-                          : whoCalling == "subjects-for-resources"
-                              ? UploadResourceForStudentScreen(
-                                  classId: items[index].classId,
-                                  sectionId: sectionId,
-                                  subId: items[index].id,
+                          : isRes == "yes"
+                              ? ResourceByClassAndSub(
                                   subName: items[index].subjectName,
-                                )
-                              : NewUploadMarks(
-                                  currentYear: currentYear,
-                                  classId: items[index].subjectName,
+                                  classId: items[index].classId,
                                   subId: items[index].id,
-                                  sectionId: sectionId,
-                                  examId: examId!['scheduleId'],
-                                  examData: {
-                                    'name': examId!['name'],
-                                    'marks': 100
-                                  },
-                                ),
+                                  whoIs: "teacher",
+                                )
+                              : whoCalling == "subjects-for-resources"
+                                  ? UploadResourceForStudentScreen(
+                                      classId: items[index].classId,
+                                      sectionId: sectionId,
+                                      subId: items[index].id,
+                                      subName: items[index].subjectName,
+                                    )
+                                  : NewUploadMarks(
+                                      currentYear: currentYear,
+                                      classId: items[index].subjectName,
+                                      subId: items[index].id,
+                                      sectionId: sectionId,
+                                      examId: examId!['scheduleId'],
+                                      examData: {
+                                        'name': examId!['name'],
+                                        'marks': 100
+                                      },
+                                    ),
                     ),
                   );
                 },

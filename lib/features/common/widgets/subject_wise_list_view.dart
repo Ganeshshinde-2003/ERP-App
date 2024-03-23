@@ -11,12 +11,14 @@ class SubjectWiseMarkView extends StatelessWidget {
   final List<Section> items;
   final String currentYear;
   final String isRes;
+  final String isSyl;
 
   const SubjectWiseMarkView({
     super.key,
     required this.items,
     required this.currentYear,
     required this.isRes,
+    required this.isSyl,
     required this.whoCalling,
   });
 
@@ -51,6 +53,7 @@ class SubjectWiseMarkView extends StatelessWidget {
                     : whoCalling == "upload-resource"
                         ? UploadResourcesPageScreen(
                             isRes: isRes,
+                            isSyl: isSyl,
                             classID: items[index].classId,
                             callingWho: "subjects",
                             sectionId: items[index].id,

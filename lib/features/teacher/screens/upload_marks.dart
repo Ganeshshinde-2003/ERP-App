@@ -12,10 +12,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class UploadMarksScreen extends ConsumerStatefulWidget {
   final String whoiscalling;
   final String isRes;
+  final String isSyl;
   const UploadMarksScreen({
     super.key,
     this.whoiscalling = "marks",
     this.isRes = "no",
+    this.isSyl = "no",
   });
 
   @override
@@ -49,11 +51,13 @@ class _UploadMarksScreenState extends ConsumerState<UploadMarksScreen> {
       backgroundColor: Colors.white,
       appBar: SubPageAppBar(
         context,
-        widget.isRes == "yes"
-            ? 'Resources'
-            : widget.whoiscalling == "marks"
-                ? 'Upload Marks'
-                : "Assignment",
+        widget.isSyl == "yes"
+            ? "Syllabus"
+            : widget.isRes == "yes"
+                ? 'Resources'
+                : widget.whoiscalling == "marks"
+                    ? 'Upload Marks'
+                    : "Assignment",
       ),
       body: Stack(
         children: [
@@ -80,6 +84,7 @@ class _UploadMarksScreenState extends ConsumerState<UploadMarksScreen> {
                         ? NoDataFound(deviceHeight, 'assets/loading2.json')
                         // ignore: dead_code
                         : PutAttendanceListView(
+                            isSyl: widget.isSyl,
                             isRes: widget.isRes,
                             whoCalling: widget.whoiscalling,
                             items: classList ?? [],

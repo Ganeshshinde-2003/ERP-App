@@ -16,12 +16,14 @@ class SubjectWiseMarksUpload extends ConsumerStatefulWidget {
   final String callingWho;
   final String sectionId;
   final String isRes;
+  final String isSyl;
   const SubjectWiseMarksUpload({
     super.key,
     required this.classID,
     required this.callingWho,
     this.examScheduleData,
     required this.isRes,
+    required this.isSyl,
     required this.sectionId,
   });
 
@@ -65,15 +67,17 @@ class _SubjectWiseMarksUploadState
       backgroundColor: Colors.white,
       appBar: SubPageAppBar(
         context,
-        widget.isRes == "yes"
-            ? 'Resources'
-            : widget.callingWho == "upload-resource" ||
-                    widget.callingWho == "subjects-for-resources"
-                ? "Assignment"
-                : widget.callingWho == "marks" ||
-                        widget.callingWho == "subjects"
-                    ? 'Upload Marks'
-                    : "Attendance",
+        widget.isSyl == "yes"
+            ? "Syllabus"
+            : widget.isRes == "yes"
+                ? 'Resources'
+                : widget.callingWho == "upload-resource" ||
+                        widget.callingWho == "subjects-for-resources"
+                    ? "Assignment"
+                    : widget.callingWho == "marks" ||
+                            widget.callingWho == "subjects"
+                        ? 'Upload Marks'
+                        : "Attendance",
       ),
       body: Stack(
         children: [
@@ -108,6 +112,7 @@ class _SubjectWiseMarksUploadState
                         : widget.callingWho == "subjects" ||
                                 widget.callingWho == "subjects-for-resources"
                             ? MarkUploadSubjectWiseViewWidget(
+                                isSyl: widget.isSyl,
                                 isRes: widget.isRes,
                                 examId: widget.examScheduleData,
                                 items: subjectList ?? [],
@@ -116,6 +121,7 @@ class _SubjectWiseMarksUploadState
                                 sectionId: widget.sectionId,
                               )
                             : SubjectWiseMarkView(
+                                isSyl: widget.isSyl,
                                 isRes: widget.isRes,
                                 whoCalling: widget.callingWho,
                                 items: sectionList ?? [],

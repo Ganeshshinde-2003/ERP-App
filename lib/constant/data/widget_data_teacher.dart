@@ -77,7 +77,11 @@ class WidgetData {
 
   List<Widget> get fullMenuItems => [
         GestureDetector(
-          onTap: () => openPage(const TeacherPutAttendance()),
+          onTap: () => openPage(const UploadMarksScreen(
+            whoiscalling: "upload-resource",
+            isRes: "no",
+            isSyl: "yes",
+          )),
           child: FullMenuWidget(
             deviceHeight,
             deviceWidth,
@@ -87,7 +91,10 @@ class WidgetData {
           ),
         ),
         GestureDetector(
-          onTap: () => openPage(const TeacherPutAttendance()),
+          onTap: () => openPage(const UploadMarksScreen(
+            whoiscalling: "upload-resource",
+            isRes: "yes",
+          )),
           child: FullMenuWidget(
             deviceHeight,
             deviceWidth,
