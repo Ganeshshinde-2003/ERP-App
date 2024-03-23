@@ -9,7 +9,7 @@ import 'package:erp_app/features/common/widgets/class_past_button.dart';
 import 'package:erp_app/features/student/controller/howewoek_controller.dart';
 import 'package:erp_app/features/teacher/screens/past_marks.dart';
 import 'package:erp_app/features/teacher/screens/resources_screen.dart';
-import 'package:erp_app/features/teacher/screens/syllabus_details_page.dart';
+import 'package:erp_app/features/teacher/screens/syllabus_screens/syllabus_details_page.dart';
 import 'package:erp_app/features/teacher/screens/upload_assignment/view_assignment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
