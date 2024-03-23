@@ -3,7 +3,7 @@ import 'package:erp_app/constant/text_style.dart';
 import 'package:erp_app/constant/widgets/notfound_data.dart';
 import 'package:erp_app/features/teacher/screens/individual_marks_upload.dart';
 import 'package:erp_app/features/teacher/screens/resources_screen.dart';
-import 'package:erp_app/features/teacher/screens/syllabus_details_page.dart';
+import 'package:erp_app/features/teacher/screens/syllabus_screens/syllabus_details_page.dart';
 import 'package:erp_app/features/teacher/screens/upload_assignment/upload_resource_for_students.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';

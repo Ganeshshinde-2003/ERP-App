@@ -85,7 +85,7 @@ class WidgetData {
           child: FullMenuWidget(
             deviceHeight,
             deviceWidth,
-            true,
+            false,
             'assets/syllabus.png',
             'Syllabus',
           ),
@@ -98,7 +98,7 @@ class WidgetData {
           child: FullMenuWidget(
             deviceHeight,
             deviceWidth,
-            true,
+            false,
             'assets/salary.png',
             'My Salary',
           ),
@@ -153,7 +153,7 @@ class WidgetData {
             deviceWidth,
             false,
             'assets/folder.png',
-            'Upload Resources',
+            'Resources',
           ),
         ),
         GestureDetector(
@@ -161,7 +161,7 @@ class WidgetData {
           child: FullMenuWidget(
             deviceHeight,
             deviceWidth,
-            true,
+            false,
             'assets/attachements.png',
             'Events',
           ),

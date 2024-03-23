@@ -6,8 +6,10 @@ import 'package:erp_app/constant/widgets/notfound_data.dart';
 import 'package:erp_app/constant/widgets/teacher/notice_bottom_image.dart';
 import 'package:erp_app/features/common/subapp_bar.dart';
 import 'package:erp_app/features/teacher/controller/syllabus_controller.dart';
+import 'package:erp_app/features/teacher/screens/syllabus_screens/chapter_page_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SyallabusDetailsScreen extends ConsumerStatefulWidget {
   final String classID;
@@ -148,7 +150,7 @@ class _SyallabusDetailsScreenState
               child: NoDataFound(
                 deviceHeight,
                 'assets/loading1.json',
-                text: "No Resource Found",
+                text: "No Syllabus Found",
               ),
             ),
           if (syllabusResponseData != null &&
@@ -185,76 +187,92 @@ class _SyallabusDetailsScreenState
                   } else if (syllabus.status == "in_progress") {
                     containerColor = Colors.yellow;
                   }
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: 10),
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.shade200,
-                          blurRadius: 1.0,
-                          spreadRadius: 1.0,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFF4094A8),
-                            shape: BoxShape.circle,
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            syllabus.chapterNo.toString(),
-                            style: AppTextStyles.buttonText,
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          child: ChapterDetailsPageScreen(syllabus: syllabus),
+                          type: PageTransitionType.fade,
+                          alignment: Alignment.lerp(
+                            Alignment.centerLeft,
+                            Alignment.centerLeft,
+                            0.5,
                           ),
                         ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                syllabus.title,
-                                style: AppTextStyles.heading1,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                            ],
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 10),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade200,
+                            blurRadius: 1.0,
+                            spreadRadius: 1.0,
                           ),
-                        ),
-                        const SizedBox(width: 10),
-                        GestureDetector(
-                          onTap: () {
-                            if (widget.editAble) {
-                              _showUpdateDialog(syllabus);
-                            }
-                          },
-                          child: Container(
-                            width: 80,
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 40,
                             height: 40,
-                            decoration: BoxDecoration(
-                              color: containerColor,
-                              borderRadius: BorderRadius.circular(5),
+                            decoration: const BoxDecoration(
+                              color: Color(0xFF4094A8),
+                              shape: BoxShape.circle,
                             ),
                             alignment: Alignment.center,
                             child: Text(
-                              syllabus.status == "in_progress"
-                                  ? "In Progress"
-                                  : syllabus.status == "completed"
-                                      ? "Completed"
-                                      : "Pending",
-                              style: AppTextStyles.buttonText
-                                  .copyWith(fontSize: 12),
+                              syllabus.chapterNo.toString(),
+                              style: AppTextStyles.buttonText,
                             ),
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  syllabus.title,
+                                  style: AppTextStyles.heading1,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          GestureDetector(
+                            onTap: () {
+                              if (widget.editAble) {
+                                _showUpdateDialog(syllabus);
+                              }
+                            },
+                            child: Container(
+                              width: 80,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: containerColor,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                syllabus.status == "in_progress"
+                                    ? "In Progress"
+                                    : syllabus.status == "completed"
+                                        ? "Completed"
+                                        : "Pending",
+                                style: AppTextStyles.buttonText
+                                    .copyWith(fontSize: 12),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },

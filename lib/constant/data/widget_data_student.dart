@@ -91,7 +91,7 @@ class WidgetDataStudent {
           child: FullMenuWidget(
             deviceHeight,
             deviceWidth,
-            true,
+            false,
             'assets/syllabus.png',
             'Syllabus',
           ),
@@ -101,7 +101,7 @@ class WidgetDataStudent {
           child: FullMenuWidget(
             deviceHeight,
             deviceWidth,
-            true,
+            false,
             'assets/folder.png',
             'Resources',
           ),
@@ -111,7 +111,7 @@ class WidgetDataStudent {
           child: FullMenuWidget(
             deviceHeight,
             deviceWidth,
-            true,
+            false,
             'assets/fee-payment.png',
             'Fee Payment',
           ),
