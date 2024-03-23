@@ -9,6 +9,7 @@ import 'package:erp_app/features/common/widgets/class_past_button.dart';
 import 'package:erp_app/features/student/controller/howewoek_controller.dart';
 import 'package:erp_app/features/teacher/screens/past_marks.dart';
 import 'package:erp_app/features/teacher/screens/resources_screen.dart';
+import 'package:erp_app/features/teacher/screens/syllabus_details_page.dart';
 import 'package:erp_app/features/teacher/screens/upload_assignment/view_assignment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -54,7 +55,14 @@ class _HomeWorkSubjectScreenState extends ConsumerState<HomeWorkSubjectScreen> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: SubPageAppBar(context, 'Homework'),
+      appBar: SubPageAppBar(
+        context,
+        widget.who == "res"
+            ? "Resources"
+            : widget.who == "work"
+                ? 'Homework'
+                : "Syllabus",
+      ),
       body: Stack(
         children: [
           BottomImageBar(
@@ -97,15 +105,16 @@ class _HomeWorkSubjectScreenState extends ConsumerState<HomeWorkSubjectScreen> {
                       final subject = subjectData!.data[index];
                       return GestureDetector(
                         onTap: () {
-                          widget.who == 'work'
+                          widget.who == "syl"
                               ? Navigator.push(
                                   context,
                                   PageTransition(
-                                    child: ViewAssignmentScreeb(
-                                      sectionId: sectionId!,
+                                    child: SyallabusDetailsScreen(
+                                      who: 'Student',
+                                      classID: classId!,
                                       subId: subject.id,
-                                      subname: subject.subjectName,
-                                      who: "Student",
+                                      editAble: false,
+                                      subName: subject.subjectName,
                                     ),
                                     type: PageTransitionType.fade,
                                     alignment: Alignment.lerp(
@@ -115,23 +124,41 @@ class _HomeWorkSubjectScreenState extends ConsumerState<HomeWorkSubjectScreen> {
                                     ),
                                   ),
                                 )
-                              : Navigator.push(
-                                  context,
-                                  PageTransition(
-                                    child: ResourceByClassAndSub(
-                                      subName: subject.subjectName,
-                                      classId: classId!,
-                                      subId: subject.id,
-                                      whoIs: "student",
-                                    ),
-                                    type: PageTransitionType.fade,
-                                    alignment: Alignment.lerp(
-                                      Alignment.centerLeft,
-                                      Alignment.centerLeft,
-                                      0.5,
-                                    ),
-                                  ),
-                                );
+                              : widget.who == 'work'
+                                  ? Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        child: ViewAssignmentScreeb(
+                                          sectionId: sectionId!,
+                                          subId: subject.id,
+                                          subname: subject.subjectName,
+                                          who: "Student",
+                                        ),
+                                        type: PageTransitionType.fade,
+                                        alignment: Alignment.lerp(
+                                          Alignment.centerLeft,
+                                          Alignment.centerLeft,
+                                          0.5,
+                                        ),
+                                      ),
+                                    )
+                                  : Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        child: ResourceByClassAndSub(
+                                          subName: subject.subjectName,
+                                          classId: classId!,
+                                          subId: subject.id,
+                                          whoIs: "student",
+                                        ),
+                                        type: PageTransitionType.fade,
+                                        alignment: Alignment.lerp(
+                                          Alignment.centerLeft,
+                                          Alignment.centerLeft,
+                                          0.5,
+                                        ),
+                                      ),
+                                    );
                         },
                         child: Container(
                           decoration: BoxDecoration(

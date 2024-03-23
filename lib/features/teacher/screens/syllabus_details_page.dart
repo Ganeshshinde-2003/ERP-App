@@ -14,12 +14,14 @@ class SyallabusDetailsScreen extends ConsumerStatefulWidget {
   final String subId;
   final bool editAble;
   final String subName;
+  final String who;
   const SyallabusDetailsScreen({
     Key? key,
     required this.classID,
     required this.subId,
     required this.editAble,
     required this.subName,
+    required this.who,
   }) : super(key: key);
 
   @override
@@ -37,7 +39,7 @@ class _SyallabusDetailsScreenState
               context: context,
               classID: widget.classID,
               subID: widget.subId,
-              who: 'teacher',
+              who: widget.who,
             );
     setState(() {});
   }
@@ -77,11 +79,11 @@ class _SyallabusDetailsScreenState
                   alignment: Alignment.center,
                   child: Text(
                     "In Progress",
-                    style: AppTextStyles.buttonText.copyWith(fontSize: 15),
+                    style: AppTextStyles.buttonText.copyWith(fontSize: 12),
                   ),
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 5),
               GestureDetector(
                 onTap: () => updateSyllabusStatus(syllabus.id, "completed"),
                 child: Container(
@@ -90,12 +92,30 @@ class _SyallabusDetailsScreenState
                   height: 40,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: Colors.green,
+                    color: const Color(0xFF03E627),
                   ),
                   alignment: Alignment.center,
                   child: Text(
                     "Completed",
-                    style: AppTextStyles.buttonText.copyWith(fontSize: 15),
+                    style: AppTextStyles.buttonText.copyWith(fontSize: 12),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 5),
+              GestureDetector(
+                onTap: () => updateSyllabusStatus(syllabus.id, "pending"),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: const Color(0xFFFF6651),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Pending",
+                    style: AppTextStyles.buttonText.copyWith(fontSize: 12),
                   ),
                 ),
               ),
@@ -159,9 +179,9 @@ class _SyallabusDetailsScreenState
                 itemCount: syllabusResponseData!.data.syllabus.length,
                 itemBuilder: (context, index) {
                   final syllabus = syllabusResponseData!.data.syllabus[index];
-                  Color containerColor = Colors.red;
+                  Color containerColor = const Color(0xFFFF6651);
                   if (syllabus.status == "completed") {
-                    containerColor = Colors.green;
+                    containerColor = const Color(0xFF03E627);
                   } else if (syllabus.status == "in_progress") {
                     containerColor = Colors.yellow;
                   }
@@ -209,26 +229,31 @@ class _SyallabusDetailsScreenState
                           ),
                         ),
                         const SizedBox(width: 10),
-                        if (widget.editAble)
-                          GestureDetector(
-                            onTap: () {
+                        GestureDetector(
+                          onTap: () {
+                            if (widget.editAble) {
                               _showUpdateDialog(syllabus);
-                            },
-                            child: Container(
-                              width: 80,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: containerColor,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              alignment: Alignment.center,
-                              child: Text(
-                                "Update",
-                                style: AppTextStyles.buttonText
-                                    .copyWith(fontSize: 15),
-                              ),
+                            }
+                          },
+                          child: Container(
+                            width: 80,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: containerColor,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              syllabus.status == "in_progress"
+                                  ? "In Progress"
+                                  : syllabus.status == "completed"
+                                      ? "Completed"
+                                      : "Pending",
+                              style: AppTextStyles.buttonText
+                                  .copyWith(fontSize: 12),
                             ),
                           ),
+                        ),
                       ],
                     ),
                   );

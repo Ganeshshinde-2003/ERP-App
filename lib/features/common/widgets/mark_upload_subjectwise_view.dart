@@ -57,6 +57,7 @@ class MarkUploadSubjectWiseViewWidget extends StatelessWidget {
                               classID: items[index].classId,
                               subId: items[index].id,
                               editAble: true,
+                              who: 'teacher',
                               subName: items[index].subjectName,
                             )
                           : isRes == "yes"
@@ -64,7 +65,7 @@ class MarkUploadSubjectWiseViewWidget extends StatelessWidget {
                                   subName: items[index].subjectName,
                                   classId: items[index].classId,
                                   subId: items[index].id,
-                                  whoIs: "teacher",
+                                  whoIs: "Teacher",
                                 )
                               : whoCalling == "subjects-for-resources"
                                   ? UploadResourceForStudentScreen(
