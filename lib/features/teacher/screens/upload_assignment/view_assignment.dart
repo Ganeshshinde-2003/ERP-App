@@ -139,6 +139,7 @@ class _ViewAssignmentScreebState extends ConsumerState<ViewAssignmentScreeb> {
                 title: Text(
                   assignment.title,
                   style: AppTextStyles.heading1,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 trailing: Text(
                   formattedDueDate,

@@ -192,13 +192,19 @@ class _EventsPageScreenState extends ConsumerState<EventsPageScreen> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 10),
+                          vertical: 15,
+                          horizontal: 10,
+                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              eventItem.eventName,
-                              style: AppTextStyles.heading1,
+                            SizedBox(
+                              width: 200,
+                              child: Text(
+                                eventItem.eventName,
+                                style: AppTextStyles.heading1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                             Text(formattedDate),
                           ],

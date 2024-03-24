@@ -6,6 +6,7 @@ import 'package:erp_app/features/common/subapp_bar.dart';
 import 'package:erp_app/features/student/controller/fee_history_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class FeeHistoryScreen extends ConsumerStatefulWidget {
   const FeeHistoryScreen({super.key});
@@ -85,9 +86,9 @@ class _FeeHistoryScreenState extends ConsumerState<FeeHistoryScreen> {
       itemCount: feeHistory?.data.length ?? 0,
       itemBuilder: (context, index) {
         var feeItem = feeHistory!.data[index];
-        // DateTime dateTime = DateTime.parse(feeItem.month);
+        DateTime dateTime = DateTime.parse(feeItem.month);
 
-        // String formattedDate = DateFormat('MMMM y').format(dateTime);
+        String formattedDate = DateFormat('MMMM y').format(dateTime);
         StatusInfo statusInfo = getStatusInfo(feeItem.status);
 
         return Container(
@@ -107,7 +108,8 @@ class _FeeHistoryScreenState extends ConsumerState<FeeHistoryScreen> {
           child: Stack(
             children: [
               ListTile(
-                title: Text('Month: ${feeItem.month} Year: ${feeItem.year}'),
+                title: Text(
+                    'Month: ${formattedDate.split(' ')[0]} Year: ${formattedDate.split(' ')[1]}'),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

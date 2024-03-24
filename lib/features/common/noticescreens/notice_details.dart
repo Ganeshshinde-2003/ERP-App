@@ -17,7 +17,7 @@ class NoticeDetails extends StatelessWidget {
     var deviceWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        appBar: SubPageAppBar(context, "Notice Details"),
+        appBar: SubPageAppBar(context, title),
         body: Stack(
           children: [
             BottomImageBar(deviceWidth: deviceWidth),

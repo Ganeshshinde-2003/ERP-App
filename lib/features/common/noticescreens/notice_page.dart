@@ -83,7 +83,11 @@ class _NoticePageScreenState extends ConsumerState<NoticePageScreen> {
                           );
                         },
                       )
-                    : NoDataFound(deviceHeight, "assets/loading2.json"),
+                    : NoDataFound(
+                        deviceHeight,
+                        "assets/loading1.json",
+                        text: "No Notice Found",
+                      ),
               ),
             ],
           ),
