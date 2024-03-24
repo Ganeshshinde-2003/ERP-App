@@ -1,3 +1,4 @@
+import 'package:erp_app/constant/models/exam_result_subject_modeld.dart';
 import 'package:erp_app/constant/models/fee_history_model.dart';
 import 'package:erp_app/features/student/service/fee_history_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,5 +17,13 @@ class FeeHistoryController {
 
   Future<FeeHistory?> fetchFeeHistory(BuildContext context) async {
     return await feesHistoryService.fetchFeeHistory(context: context);
+  }
+
+  Future<ExamResultSubject?> fetchExamsResulsBySubject(
+      BuildContext context, String subId) async {
+    return await feesHistoryService.fetchExamsResultsBySubject(
+      context: context,
+      subId: subId,
+    );
   }
 }

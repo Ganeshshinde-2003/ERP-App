@@ -77,7 +77,7 @@ class WidgetDataStudent {
 
   List<Widget> get fullMenuItems => [
         GestureDetector(
-          onTap: () => openPage(const StudentAttendancePageScreen()),
+          onTap: () => openPage(const HomeWorkSubjectScreen(who: "grade")),
           child: FullMenuWidget(
             deviceHeight,
             deviceWidth,

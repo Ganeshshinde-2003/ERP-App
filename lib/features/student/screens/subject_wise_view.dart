@@ -7,6 +7,7 @@ import 'package:erp_app/constant/widgets/teacher/notice_bottom_image.dart';
 import 'package:erp_app/features/common/subapp_bar.dart';
 import 'package:erp_app/features/common/widgets/class_past_button.dart';
 import 'package:erp_app/features/student/controller/howewoek_controller.dart';
+import 'package:erp_app/features/student/screens/students_grades_by_sub.dart';
 import 'package:erp_app/features/teacher/screens/past_marks.dart';
 import 'package:erp_app/features/teacher/screens/resources_screen.dart';
 import 'package:erp_app/features/teacher/screens/syllabus_screens/syllabus_details_page.dart';
@@ -57,11 +58,13 @@ class _HomeWorkSubjectScreenState extends ConsumerState<HomeWorkSubjectScreen> {
       backgroundColor: Colors.white,
       appBar: SubPageAppBar(
         context,
-        widget.who == "res"
-            ? "Resources"
-            : widget.who == "work"
-                ? 'Homework'
-                : "Syllabus",
+        widget.who == "grade"
+            ? "Grades"
+            : widget.who == "res"
+                ? "Resources"
+                : widget.who == "work"
+                    ? 'Homework'
+                    : "Syllabus",
       ),
       body: Stack(
         children: [
@@ -105,15 +108,12 @@ class _HomeWorkSubjectScreenState extends ConsumerState<HomeWorkSubjectScreen> {
                       final subject = subjectData!.data[index];
                       return GestureDetector(
                         onTap: () {
-                          widget.who == "syl"
+                          widget.who == "grade"
                               ? Navigator.push(
                                   context,
                                   PageTransition(
-                                    child: SyallabusDetailsScreen(
-                                      who: 'Student',
-                                      classID: classId!,
+                                    child: GradesBySubjects(
                                       subId: subject.id,
-                                      editAble: false,
                                       subName: subject.subjectName,
                                     ),
                                     type: PageTransitionType.fade,
@@ -124,15 +124,16 @@ class _HomeWorkSubjectScreenState extends ConsumerState<HomeWorkSubjectScreen> {
                                     ),
                                   ),
                                 )
-                              : widget.who == 'work'
+                              : widget.who == "syl"
                                   ? Navigator.push(
                                       context,
                                       PageTransition(
-                                        child: ViewAssignmentScreeb(
-                                          sectionId: sectionId!,
+                                        child: SyallabusDetailsScreen(
+                                          who: 'Student',
+                                          classID: classId!,
                                           subId: subject.id,
-                                          subname: subject.subjectName,
-                                          who: "Student",
+                                          editAble: false,
+                                          subName: subject.subjectName,
                                         ),
                                         type: PageTransitionType.fade,
                                         alignment: Alignment.lerp(
@@ -142,23 +143,41 @@ class _HomeWorkSubjectScreenState extends ConsumerState<HomeWorkSubjectScreen> {
                                         ),
                                       ),
                                     )
-                                  : Navigator.push(
-                                      context,
-                                      PageTransition(
-                                        child: ResourceByClassAndSub(
-                                          subName: subject.subjectName,
-                                          classId: classId!,
-                                          subId: subject.id,
-                                          whoIs: "student",
-                                        ),
-                                        type: PageTransitionType.fade,
-                                        alignment: Alignment.lerp(
-                                          Alignment.centerLeft,
-                                          Alignment.centerLeft,
-                                          0.5,
-                                        ),
-                                      ),
-                                    );
+                                  : widget.who == 'work'
+                                      ? Navigator.push(
+                                          context,
+                                          PageTransition(
+                                            child: ViewAssignmentScreeb(
+                                              sectionId: sectionId!,
+                                              subId: subject.id,
+                                              subname: subject.subjectName,
+                                              who: "Student",
+                                            ),
+                                            type: PageTransitionType.fade,
+                                            alignment: Alignment.lerp(
+                                              Alignment.centerLeft,
+                                              Alignment.centerLeft,
+                                              0.5,
+                                            ),
+                                          ),
+                                        )
+                                      : Navigator.push(
+                                          context,
+                                          PageTransition(
+                                            child: ResourceByClassAndSub(
+                                              subName: subject.subjectName,
+                                              classId: classId!,
+                                              subId: subject.id,
+                                              whoIs: "student",
+                                            ),
+                                            type: PageTransitionType.fade,
+                                            alignment: Alignment.lerp(
+                                              Alignment.centerLeft,
+                                              Alignment.centerLeft,
+                                              0.5,
+                                            ),
+                                          ),
+                                        );
                         },
                         child: Container(
                           decoration: BoxDecoration(
