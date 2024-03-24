@@ -82,7 +82,7 @@ class MarkUploadSubjectWiseViewWidget extends StatelessWidget {
                                       examId: examId!['scheduleId'],
                                       examData: {
                                         'name': examId!['name'],
-                                        'marks': 100
+                                        'marks': examId!['passingMarks']
                                       },
                                     ),
                     ),

@@ -32,14 +32,19 @@ class _ExamsListViewState extends ConsumerState<ExamsListView> {
     examScheduleData = await ref
         .read(getExamsDetailsControllerProvider)
         .getExamsDetails(context);
-
     if (examScheduleData != null) {
       final List<Map<String, dynamic>> allExams =
           examScheduleData!['data'].map<Map<String, dynamic>>((examData) {
         final examCategory = examData['examScheduleID']['examTypeID']
             ['examCatID']['examCategory'] as String?;
         final examScheduleId = examData['examScheduleID']['_id'] as String?;
-        return {'name': examCategory ?? "", 'scheduleId': examScheduleId ?? ""};
+        final passingMarks =
+            examData['examScheduleID']['examTypeID']['passingMarks'] as int?;
+        return {
+          'name': examCategory ?? "",
+          'scheduleId': examScheduleId ?? "",
+          'passingMarks': passingMarks ?? 0,
+        };
       }).toList();
 
       uniqueExamNames = [];
