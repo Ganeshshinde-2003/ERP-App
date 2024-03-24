@@ -13,6 +13,7 @@ class EventsDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var deviceWidth = MediaQuery.of(context).size.width;
+    var deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: SubPageAppBar(context, eventItem.eventName),
@@ -49,22 +50,25 @@ class EventsDetailsPage extends StatelessWidget {
               ],
             ),
             width: deviceWidth,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildEventDetail('Event Name', eventItem.eventName),
-                _buildEventDetail('Event Type', eventItem.eventType),
-                _buildEventDetail('Event Date',
-                    DateFormat('MMMM d, y').format(eventItem.eventDate)),
-                _buildEventDetail('Description', eventItem.description),
-                _buildEventDetail('Organizer', eventItem.organizer),
-                _buildEventDetail('Location', eventItem.location),
-                _buildEventDetail('Status', eventItem.eventStatus),
-                _buildEventDetail(
-                  'Last Updated',
-                  DateFormat('MMMM d, y').format(eventItem.updatedAt),
-                ),
-              ],
+            height: deviceHeight,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildEventDetail('Event Name', eventItem.eventName),
+                  _buildEventDetail('Event Type', eventItem.eventType),
+                  _buildEventDetail('Event Date',
+                      DateFormat('MMMM d, y').format(eventItem.eventDate)),
+                  _buildEventDetail('Description', eventItem.description),
+                  _buildEventDetail('Organizer', eventItem.organizer),
+                  _buildEventDetail('Location', eventItem.location),
+                  _buildEventDetail('Status', eventItem.eventStatus),
+                  _buildEventDetail(
+                    'Last Updated',
+                    DateFormat('MMMM d, y').format(eventItem.updatedAt),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

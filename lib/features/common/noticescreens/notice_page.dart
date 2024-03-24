@@ -20,10 +20,15 @@ class _NoticePageScreenState extends ConsumerState<NoticePageScreen> {
   NoticesModel? noticesData;
 
   void fetchNotices() async {
-    noticesData = await ref
+    final notices = await ref
         .read(noticeControllerProvider)
         .fetchNotices(context, widget.who);
-    setState(() {});
+
+    if (mounted) {
+      setState(() {
+        noticesData = notices;
+      });
+    }
   }
 
   @override

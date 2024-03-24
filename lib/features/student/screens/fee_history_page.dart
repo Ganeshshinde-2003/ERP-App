@@ -1,4 +1,5 @@
 import 'package:erp_app/constant/models/fee_history_model.dart';
+import 'package:erp_app/constant/text_style.dart';
 import 'package:erp_app/constant/widgets/notfound_data.dart';
 import 'package:erp_app/constant/widgets/teacher/notice_bottom_image.dart';
 import 'package:erp_app/features/common/subapp_bar.dart';
@@ -38,8 +39,27 @@ class _FeeHistoryScreenState extends ConsumerState<FeeHistoryScreen> {
       body: Stack(
         children: [
           Positioned.fill(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+            child: Container(
+              margin: const EdgeInsets.only(
+                bottom: 130,
+                top: 30,
+                left: 15,
+                right: 15,
+              ),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                border: Border.all(color: Colors.grey),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 1,
+                    blurRadius: 10,
+                    offset: const Offset(0, 1),
+                  ),
+                ],
+              ),
               child: _buildFeeHistoryListView(deviceWidth),
             ),
           ),
@@ -47,8 +67,14 @@ class _FeeHistoryScreenState extends ConsumerState<FeeHistoryScreen> {
             deviceWidth: deviceWidth,
             color: "Green",
           ),
-          if (feeHistory == null)
-            Center(child: NoDataFound(deviceHeight, "assets/loading2.json")),
+          if (feeHistory == null || feeHistory!.data.isEmpty)
+            Center(
+              child: NoDataFound(
+                deviceHeight,
+                "assets/loading1.json",
+                text: "No History Found",
+              ),
+            ),
         ],
       ),
     );
@@ -59,7 +85,9 @@ class _FeeHistoryScreenState extends ConsumerState<FeeHistoryScreen> {
       itemCount: feeHistory?.data.length ?? 0,
       itemBuilder: (context, index) {
         var feeItem = feeHistory!.data[index];
+        // DateTime dateTime = DateTime.parse(feeItem.month);
 
+        // String formattedDate = DateFormat('MMMM y').format(dateTime);
         StatusInfo statusInfo = getStatusInfo(feeItem.status);
 
         return Container(
@@ -75,7 +103,7 @@ class _FeeHistoryScreenState extends ConsumerState<FeeHistoryScreen> {
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: Colors.grey.shade400),
           ),
-          margin: const EdgeInsets.symmetric(vertical: 8),
+          margin: const EdgeInsets.only(top: 10),
           child: Stack(
             children: [
               ListTile(
@@ -92,13 +120,16 @@ class _FeeHistoryScreenState extends ConsumerState<FeeHistoryScreen> {
               Positioned(
                 bottom: 8.0,
                 right: 8.0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Icon(statusInfo.icon, color: statusInfo.color),
-                    const SizedBox(width: 8),
-                    Text('Status: ${feeItem.status}'),
-                  ],
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: statusInfo.color,
+                  ),
+                  child: Text(
+                    feeItem.status,
+                    style: AppTextStyles.buttonText.copyWith(fontSize: 13),
+                  ),
                 ),
               ),
             ],

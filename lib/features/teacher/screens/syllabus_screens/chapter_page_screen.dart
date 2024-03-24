@@ -53,37 +53,39 @@ class _ChapterDetailsPageScreenState extends State<ChapterDetailsPageScreen> {
                 ),
               ],
             ),
-            child: ListView(
-              children: [
-                Text(
-                  'Chapter Number: ${widget.syllabus.chapterNo}',
-                  style: AppTextStyles.heading1,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  'Title: ${widget.syllabus.title}',
-                  style: AppTextStyles.heading2,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  'Description: ${widget.syllabus.description}',
-                  style: AppTextStyles.heading2,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  'Additional Information: ${widget.syllabus.additionalInformation}',
-                  style: AppTextStyles.heading2,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  widget.syllabus.status == "in_progress"
-                      ? "Status: In Progress"
-                      : widget.syllabus.status == "completed"
-                          ? "Status: Completed"
-                          : "Status: Pending",
-                  style: AppTextStyles.heading2,
-                ),
-              ],
+            child: SizedBox(
+              child: ListView(
+                children: [
+                  Text(
+                    'Chapter Number: ${widget.syllabus.chapterNo}',
+                    style: AppTextStyles.heading1,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Title: ${widget.syllabus.title}',
+                    style: AppTextStyles.heading2,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Description: ${widget.syllabus.description}',
+                    style: AppTextStyles.heading2,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Additional Information: ${widget.syllabus.additionalInformation}',
+                    style: AppTextStyles.heading2,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    widget.syllabus.status == "in_progress"
+                        ? "Status: In Progress"
+                        : widget.syllabus.status == "completed"
+                            ? "Status: Completed"
+                            : "Status: Pending",
+                    style: AppTextStyles.heading2,
+                  ),
+                ],
+              ),
             ),
           ),
         ],

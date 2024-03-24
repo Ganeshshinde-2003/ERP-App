@@ -19,10 +19,21 @@ class LoginPageScreen extends ConsumerStatefulWidget {
 class _LoginPageScreenState extends ConsumerState<LoginPageScreen> {
   TextEditingController idController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  bool isLoading = false;
 
-  void loginWithUserNameandPassword(String userId, String password) {
-    ref.read(loginTeahcerControllerProvider).loginTeacherWithUserNamePassword(
-        context, userId, password, widget.role);
+  void loginWithUserNameandPassword(String userId, String password) async {
+    isLoading = true;
+    setState(() {});
+    await ref
+        .read(loginTeahcerControllerProvider)
+        .loginTeacherWithUserNamePassword(
+          context,
+          userId,
+          password,
+          widget.role,
+        );
+    isLoading = false;
+    setState(() {});
   }
 
   void singupHandle() {
@@ -90,7 +101,7 @@ class _LoginPageScreenState extends ConsumerState<LoginPageScreen> {
               child: CustomButtonWidget(
                 buttonText: "Sign in",
                 onPressed: singupHandle,
-                isLoading: false,
+                isLoading: isLoading,
               ),
             ),
             widget.role == "Student"

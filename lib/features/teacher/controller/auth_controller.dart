@@ -16,13 +16,13 @@ class LoginTeacherController {
     required this.ref,
   });
 
-  void loginTeacherWithUserNamePassword(
+  Future<void> loginTeacherWithUserNamePassword(
     BuildContext context,
     String userId,
     String password,
     String who,
-  ) {
-    loginTeacher.loginTeacherWithUsername(
+  ) async {
+    await loginTeacher.loginTeacherWithUsername(
         userId: userId, password: password, context: context, who: who);
   }
 

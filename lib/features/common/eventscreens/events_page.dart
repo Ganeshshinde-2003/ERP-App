@@ -1,7 +1,6 @@
 import 'package:erp_app/constant/models/events_model.dart';
 import 'package:erp_app/constant/text_style.dart';
 import 'package:erp_app/constant/widgets/notfound_data.dart';
-import 'package:erp_app/constant/widgets/teacher/notice_bottom_image.dart';
 import 'package:erp_app/features/common/eventscreens/events_details_page.dart';
 import 'package:erp_app/features/common/subapp_bar.dart';
 import 'package:erp_app/features/teacher/controller/event_controller.dart';
@@ -47,17 +46,12 @@ class _EventsPageScreenState extends ConsumerState<EventsPageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: SubPageAppBar(context, 'Events'),
       body: Stack(
         children: [
           _buildContent(),
-          BottomImageBar(
-            deviceWidth: deviceWidth,
-            color: "Green",
-          ),
         ],
       ),
     );
