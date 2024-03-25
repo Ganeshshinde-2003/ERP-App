@@ -32,7 +32,7 @@ class _UploadResourceForStudentScreenState
     var deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: SubPageAppBar(context, "Assignment"),
+      appBar: SubPageAppBar(context, widget.subName),
       body: Stack(
         children: [
           BottomImageBar(
@@ -44,9 +44,7 @@ class _UploadResourceForStudentScreenState
             width: deviceWidth,
             child: Column(
               children: [
-                SizedBox(
-                  height: deviceHeight * 0.05,
-                ),
+                SizedBox(height: deviceHeight * 0.05),
                 Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -78,7 +76,7 @@ class _UploadResourceForStudentScreenState
                           decoration: BoxDecoration(
                             color: const Color(0xFF36FF32),
                             border: Border.all(color: const Color(0xFFDADADA)),
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(
                             child: Text(
@@ -116,11 +114,12 @@ class _UploadResourceForStudentScreenState
                           decoration: BoxDecoration(
                             color: const Color(0xFF2A72FF),
                             border: Border.all(color: const Color(0xFFDADADA)),
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(
                             child: Text(
                               "View Submissions",
+                              textAlign: TextAlign.center,
                               style: AppTextStyles.heading1
                                   .copyWith(color: Colors.white),
                             ),

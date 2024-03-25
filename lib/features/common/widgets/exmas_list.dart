@@ -1,3 +1,4 @@
+import 'package:erp_app/constant/widgets/notfound_data.dart';
 import 'package:erp_app/constant/widgets/teacher/notice_bottom_image.dart';
 import 'package:erp_app/features/common/subapp_bar.dart';
 import 'package:erp_app/features/common/widgets/class_past_button.dart';
@@ -103,6 +104,14 @@ class _ExamsListViewState extends ConsumerState<ExamsListView> {
                   width: deviceWidth * 0.8,
                   child: const Divider(thickness: 1),
                 ),
+                if (uniqueExamNames!.isEmpty || uniqueExamNames == null)
+                  Center(
+                    child: NoDataFound(
+                      deviceHeight,
+                      'assets/loading2.json',
+                      text: "Loading...",
+                    ),
+                  ),
                 if (uniqueExamNames!.isNotEmpty)
                   Expanded(
                     child: Padding(
@@ -155,8 +164,9 @@ class _ExamsListViewState extends ConsumerState<ExamsListView> {
                               child: Center(
                                 child: Text(
                                   uniqueExamNames![index]['name'],
+                                  textAlign: TextAlign.center,
                                   style: const TextStyle(
-                                    fontSize: 13,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
