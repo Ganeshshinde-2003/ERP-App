@@ -93,7 +93,6 @@ class UploadAssignmentService {
       User? loadUser = await sharedStoreData.loadUserFromPreferences();
       authToken = loadUser?.data.token;
     }
-    print('$URI/assignments/$sectionId/$subId');
     try {
       http.Response res = await http.get(
         Uri.parse('$URI/assignments/$sectionId/$subId'),
