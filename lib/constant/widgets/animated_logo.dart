@@ -48,6 +48,7 @@ class AnimatedLogoAndContactWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _AnimatedLogoAndContactWidgetState createState() =>
       _AnimatedLogoAndContactWidgetState();
 }
