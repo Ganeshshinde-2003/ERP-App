@@ -95,4 +95,9 @@ class _NoticePageScreenState extends ConsumerState<NoticePageScreen> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 }

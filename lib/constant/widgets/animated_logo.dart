@@ -35,7 +35,7 @@ class AnimatedLogoText extends StatelessWidget {
   }
 }
 
-class AnimatedLogoAndContactWidget extends StatelessWidget {
+class AnimatedLogoAndContactWidget extends StatefulWidget {
   final double deviceHeight;
   final double imageHeight;
   final double fontSize;
@@ -48,13 +48,34 @@ class AnimatedLogoAndContactWidget extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _AnimatedLogoAndContactWidgetState createState() =>
+      _AnimatedLogoAndContactWidgetState();
+}
+
+class _AnimatedLogoAndContactWidgetState
+    extends State<AnimatedLogoAndContactWidget> {
+  @override
+  void initState() {
+    super.initState();
+    // Start animation when the widget is first initialized
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      startAnimation();
+    });
+  }
+
+  void startAnimation() {
+    // Use setState to trigger the animation
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         AnimatedLogoText(
-          deviceHeight: deviceHeight,
-          imageHeight: imageHeight,
-          fontSize: fontSize,
+          deviceHeight: widget.deviceHeight,
+          imageHeight: widget.imageHeight,
+          fontSize: widget.fontSize,
         )
             .animate()
             .moveX(duration: const Duration(seconds: 1))

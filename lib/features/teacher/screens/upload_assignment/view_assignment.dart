@@ -118,6 +118,7 @@ class _ViewAssignmentScreebState extends ConsumerState<ViewAssignmentScreeb> {
         text: "No Assignment Found",
       );
     } else {
+      assignments = assignments.reversed.toList();
       return Container(
         margin: const EdgeInsets.only(bottom: 130),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),

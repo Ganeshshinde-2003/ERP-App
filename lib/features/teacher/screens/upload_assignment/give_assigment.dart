@@ -60,6 +60,7 @@ class _GiveAssignmentScreenState extends ConsumerState<GiveAssignmentScreen> {
   DateTime? _selectedDate;
   Assignment? _assignment;
   File? _pickedFile;
+  bool isLoading = false;
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -89,7 +90,15 @@ class _GiveAssignmentScreenState extends ConsumerState<GiveAssignmentScreen> {
     setState(() {});
   }
 
-  void _submitAssignment() async {
+  void submitAssignment() async {
+    if (_titleController.text.isEmpty ||
+        _descriptionController.text.isEmpty ||
+        _selectedDate == null ||
+        _pickedFile == null) {
+      showSnackBar(
+          context: context, content: "Please fill in all required fields");
+      return;
+    }
     User? user = await sharedStoreData.loadUserFromPreferences();
     var teacherId = user!.data.employee.id;
 
@@ -102,11 +111,18 @@ class _GiveAssignmentScreenState extends ConsumerState<GiveAssignmentScreen> {
       sectionId: widget.sectionId,
       uploadedFile: _pickedFile,
     );
-
+    setState(() {
+      isLoading = true;
+    });
+    await Future.delayed(const Duration(seconds: 2));
     ref.read(uploadAssignmentControllerProvider).uploadAssignment(
           context: context,
           assignment: _assignment!,
         );
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -203,14 +219,18 @@ class _GiveAssignmentScreenState extends ConsumerState<GiveAssignmentScreen> {
                                         ),
                                       ],
                                     ),
-                                    child: const Row(
+                                    child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        Icon(Icons.link, color: Colors.black),
-                                        SizedBox(width: 5),
+                                        _pickedFile != null
+                                            ? const Icon(Icons.check,
+                                                color: Colors.green)
+                                            : const Icon(Icons.link,
+                                                color: Colors.black),
+                                        const SizedBox(width: 5),
                                       ],
                                     ),
                                   ),
@@ -269,8 +289,7 @@ class _GiveAssignmentScreenState extends ConsumerState<GiveAssignmentScreen> {
                           ),
                           const SizedBox(height: 20),
                           GestureDetector(
-                            onTap:
-                                _submitAssignment, // Call submit function on tap
+                            onTap: submitAssignment,
                             child: Container(
                               height: 50,
                               width: double.infinity,
@@ -289,14 +308,18 @@ class _GiveAssignmentScreenState extends ConsumerState<GiveAssignmentScreen> {
                                 ],
                               ),
                               child: Center(
-                                child: Text(
-                                  "Upload",
-                                  style: AppTextStyles.heading1.copyWith(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
+                                child: isLoading
+                                    ? const CircularProgressIndicator(
+                                        color: Colors.white,
+                                      )
+                                    : Text(
+                                        "Upload",
+                                        style: AppTextStyles.heading1.copyWith(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
                               ),
                             ),
                           )

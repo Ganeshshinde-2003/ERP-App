@@ -3,10 +3,11 @@
 import 'package:erp_app/constant/models/view_assignment_model.dart';
 import 'package:erp_app/constant/text_style.dart';
 import 'package:erp_app/constant/widgets/teacher/notice_bottom_image.dart';
+import 'package:erp_app/features/common/pdf_image_viewer_page.dart';
 import 'package:erp_app/features/common/subapp_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:page_transition/page_transition.dart';
 
 class AssignmentDetailsScreen extends StatefulWidget {
   final AssignmentData assignmentData;
@@ -21,8 +22,17 @@ class AssignmentDetailsScreen extends StatefulWidget {
 
 class _AssignmentDetailsScreenState extends State<AssignmentDetailsScreen> {
   Future<void> _downloadFile(String url) async {
-    var urlLink = Uri.parse(url);
-    await launch(urlLink.toString());
+    Navigator.push(
+      context,
+      PageTransition(
+        child: FileViewerPage(
+            appBarName: widget.assignmentData.title,
+            fileUrl: widget.assignmentData.uploadedFileUrl),
+        type: PageTransitionType.fade,
+        alignment:
+            Alignment.lerp(Alignment.centerLeft, Alignment.centerLeft, 0.5),
+      ),
+    );
   }
 
   @override

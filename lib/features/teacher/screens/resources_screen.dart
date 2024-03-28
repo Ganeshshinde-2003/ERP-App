@@ -3,11 +3,12 @@ import 'package:erp_app/constant/models/resources_model.dart';
 import 'package:erp_app/constant/text_style.dart';
 import 'package:erp_app/constant/widgets/notfound_data.dart';
 import 'package:erp_app/constant/widgets/teacher/notice_bottom_image.dart';
+import 'package:erp_app/features/common/pdf_image_viewer_page.dart';
 import 'package:erp_app/features/common/subapp_bar.dart';
 import 'package:erp_app/features/teacher/controller/upload_assigment_conroller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:page_transition/page_transition.dart';
 
 class ResourceByClassAndSub extends ConsumerStatefulWidget {
   final String classId;
@@ -48,9 +49,16 @@ class _ResourceByClassAndSubState extends ConsumerState<ResourceByClassAndSub> {
     super.initState();
   }
 
-  Future<void> _downloadFile(String url) async {
-    var urlLink = Uri.parse(url);
-    await launch(urlLink.toString());
+  Future<void> _downloadFile(String title, String url) async {
+    Navigator.push(
+      context,
+      PageTransition(
+        child: FileViewerPage(appBarName: title, fileUrl: url),
+        type: PageTransitionType.fade,
+        alignment:
+            Alignment.lerp(Alignment.centerLeft, Alignment.centerLeft, 0.5),
+      ),
+    );
   }
 
   @override
@@ -105,7 +113,10 @@ class _ResourceByClassAndSubState extends ConsumerState<ResourceByClassAndSub> {
                       ),
                       trailing: GestureDetector(
                         onTap: () {
-                          _downloadFile(resource.uploadedFileUrl);
+                          _downloadFile(
+                            resource.title,
+                            resource.uploadedFileUrl,
+                          );
                         },
                         child: const Icon(
                           Icons.file_copy_outlined,
